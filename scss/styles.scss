@@ -3,10 +3,39 @@
 }
 
 .header {
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)),
-    url('../images/header-background.jpg') left center no-repeat;
-  background-size: cover;
+  position: relative;
   height: 600px;
+  margin-top: 0px;
+  padding-top: 0px;
+
+  .header-img {
+    object-fit: cover;  // Ensures the image is cropped and doesn't stretch
+    object-position: top center;  // Focus the crop on the top center of the image
+    width: 100%;
+    height: 100%;  // Ensures the height is standardized
+    border-radius: 10px;
+  }
+
+  .carousel-inner {
+    height: 400px;  // Adjust height to make image squarish (optional)
+  }
+
+  .header-content {
+    color: #fff;
+    // background-color: rgba(0, 0, 0, 0.7);  // Black background for the text
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    h1 {
+      font-size: 50px;
+    }
+  }
+
+  .carousel-item img {
+    height: 400px;  // Fixed height for squarish images
+    object-fit: cover;  // Ensures image is cropped correctly
+    object-position: top center;  // Crop image to focus on the top middle
+  }
 }
 
 .vertical-decoration {
@@ -26,10 +55,12 @@
 
 .navbar {
   transition: all 0.5s ease-in-out;
+  margin-bottom: 0;  // Remove margin under navbar
+  padding-bottom: 0; // Remove padding under navbar
 }
 
 .navbar-sticky {
-  opacity: 0.8;
+  // opacity: 0.8;
 }
 
 .details .vertical-decoration {
@@ -129,22 +160,50 @@
 }
 
 @media (max-width: 992px) {
-  .xl-text {
-    font-size: 50px;
-  }
-
   .header {
-    text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
-      url('../images/header-background.jpg') center center no-repeat;
+    .header-content {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .carousel-inner {
+      height: 100%;  // Allow carousel to resize dynamically
+    }
+    .carousel-item img {
+      height: auto;  // Allow the image height to adjust for smaller screens
+      object-fit: cover;
+      object-position: top center;  // Crop to top middle even on smaller screens
+    }
   }
+}
 
-  .video-points {
-    padding: 0 !important;
-    text-align: center;
+@media (min-width: 992px) {
+  .header {
+    display: flex;
+    align-items: center;
+    .header-content {
+      text-align: left;
+    }
+    .carousel-item img {
+      height: 400px;  // Keeps the images squarish on larger screens
+      object-fit: cover;
+      object-position: top center;  // Crop to top middle for larger screens
+    }
   }
+}
 
-  .video-points .col-lg-4 {
-    margin-bottom: 20px;
+@media (max-width: 768px) {
+  #carouselHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;  // Image carousel is behind the text
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 10% ;
+  }
+  .header-content {
+    position: relative;
+    z-index: 1;  /* Ensure the text is above the carousel */
   }
 }

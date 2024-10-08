@@ -3,9 +3,34 @@
 }
 
 .header {
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("../images/header-background.jpg") left center no-repeat;
-  background-size: cover;
+  position: relative;
   height: 600px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.header .header-img {
+  object-fit: cover;
+  object-position: top center;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.header .carousel-inner {
+  height: 400px;
+}
+.header .header-content {
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+.header .header-content h1 {
+  font-size: 50px;
+}
+.header .carousel-item img {
+  height: 400px;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .vertical-decoration {
@@ -25,10 +50,8 @@
 
 .navbar {
   transition: all 0.5s ease-in-out;
-}
-
-.navbar-sticky {
-  opacity: 0.8;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .details .vertical-decoration {
@@ -124,18 +147,46 @@
 }
 
 @media (max-width: 992px) {
-  .xl-text {
-    font-size: 50px;
-  }
-  .header {
+  .header .header-content {
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url("../images/header-background.jpg") center center no-repeat;
-  }
-  .video-points {
-    padding: 0 !important;
-    text-align: center;
-  }
-  .video-points .col-lg-4 {
     margin-bottom: 20px;
+  }
+  .header .carousel-inner {
+    height: 100%;
+  }
+  .header .carousel-item img {
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+@media (min-width: 992px) {
+  .header {
+    display: flex;
+    align-items: center;
+  }
+  .header .header-content {
+    text-align: left;
+  }
+  .header .carousel-item img {
+    height: 400px;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+@media (max-width: 768px) {
+  #carouselHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 10%;
+  }
+  .header-content {
+    position: relative;
+    z-index: 1; /* Ensure the text is above the carousel */
   }
 }
