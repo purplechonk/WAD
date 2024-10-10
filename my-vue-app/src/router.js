@@ -6,7 +6,7 @@ import MyEvents from './components/MyEvents.vue'; // Protected route
 import Profile from './components/Profile.vue'; // Protected route
 import Login from './components/Login.vue'; // Login page
 
-import { isAuthenticated } from './composables/auth'; // Import the auth check function
+import { isAuthenticated, isAuthStateChecked } from './composables/auth'; // Import the auth check function
 
 // Define your routes
 const routes = [
@@ -27,8 +27,19 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth); // Check if the route requires auth
 
-  // Redirect to the login page with the current path as the "redirect" query parameter
-  if (requiresAuth && !isAuthenticated()) {
+  // Wait until auth state is checked before proceeding
+  if (!isAuthStateChecked()) {
+    const unwatch = setInterval(() => {
+      if (isAuthStateChecked()) {
+        clearInterval(unwatch);
+        if (requiresAuth && !isAuthenticated()) {
+          next({ path: '/login', query: { redirect: to.fullPath } });
+        } else {
+          next();
+        }
+      }
+    }, 100); // Poll every 100ms to check auth state
+  } else if (requiresAuth && !isAuthenticated()) {
     next({ path: '/login', query: { redirect: to.fullPath } });
   } else {
     next(); // Allow navigation if no auth is required or the user is authenticated
