@@ -6,13 +6,15 @@ import MyEvents from './components/MyEvents.vue'; // Protected route
 import Profile from './components/Profile.vue'; // Protected route
 import Login from './components/Login.vue'; // Login page
 
+import { isAuthenticated } from './composables/auth'; // Import the auth check function
+
 // Define your routes
 const routes = [
-  { path: '/', component: Home }, // Home page is accessible to everyone
-  { path: '/explore', component: Explore }, // Explore page is accessible to everyone
-  { path: '/my-events', component: MyEvents }, // Protected route
-  { path: '/profile', component: Profile }, // Protected route
-  { path: '/login', component: Login }, // Login page
+  { path: '/', component: Home, name: 'Home' }, // Home page is accessible to everyone
+  { path: '/explore', component: Explore, name: 'Explore' }, // Explore page is accessible to everyone
+  { path: '/my-events', component: MyEvents, name: 'MyEvents', meta: { requiresAuth: true } }, // Protected route
+  { path: '/profile', component: Profile, name: 'Profile', meta: { requiresAuth: true } }, // Protected route
+  { path: '/login', component: Login, name: 'Login' }, // Login page
 ];
 
 // Create the router instance
@@ -21,18 +23,15 @@ const router = createRouter({
   routes,
 });
 
-// Navigation guard to redirect to login if user tries to access protected routes
+// Navigation guard to check authentication and handle redirects
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = false; // Replace with your actual authentication check
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth); // Check if the route requires auth
 
-  if (
-    (to.path === '/my-events' || to.path === '/profile') && 
-    !isAuthenticated
-  ) {
-    // If the user is not authenticated and tries to access a protected route, redirect to login
-    next('/login');
+  // Redirect to the login page with the current path as the "redirect" query parameter
+  if (requiresAuth && !isAuthenticated()) {
+    next({ path: '/login', query: { redirect: to.fullPath } });
   } else {
-    next(); // Allow the navigation
+    next(); // Allow navigation if no auth is required or the user is authenticated
   }
 });
 

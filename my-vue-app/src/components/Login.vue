@@ -1,41 +1,29 @@
-<!-- src/components/Login.vue -->
 <template>
-    <div>
-      <h2>Login with Google</h2>
-      <button @click="handleLogin">Log in with Google</button>
-      <p v-if="error">{{ error }}</p>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import { loginWithGoogle } from '../composables/auth';
-  import { useRouter } from 'vue-router';
-  
-  const error = ref('');
-  const router = useRouter();
-  
-  const handleLogin = async () => {
-    try {
-      await loginWithGoogle();
-      router.push('/'); // Redirect to home after login
-    } catch (err) {
-      error.value = 'Failed to log in. Please try again.';
-    }
-  };
-  </script>
-  
-  <style scoped>
-  button {
-    padding: 10px 20px;
-    background-color: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  <div>
+    <h2>Login Page</h2>
+    <button @click="handleLogin">Login with Google</button>
+    <div v-if="error">{{ error }}</div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { loginWithGoogle } from '../composables/auth';
+
+const error = ref(null);
+const router = useRouter();
+const route = useRoute();
+
+const handleLogin = async () => {
+  try {
+    await loginWithGoogle();
+    // After login, redirect to the page the user was trying to access, or default to home
+    const redirectTo = route.query.redirect || '/';
+    router.push(redirectTo);
+  } catch (err) {
+    error.value = 'Login failed. Please try again.';
+    console.error(err);
   }
-  button:hover {
-    background-color: #357ae8;
-  }
-  </style>
-  
+};
+</script>
