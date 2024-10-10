@@ -1,7 +1,7 @@
 // src/composables/auth.js
 import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Firestore setup
 import { ref } from 'vue';
 
@@ -36,7 +36,7 @@ export const getUserDataFromFirestore = async () => {
   }
 };
 
-// Function to check Firestore for existing user and create record if it doesn't exist
+// Helper function to check Firestore for existing user and create record if it doesn't exist
 const checkAndCreateUserRecord = async (user) => {
   const userDocRef = doc(db, 'user_records', user.uid); // Reference to the user document
   const userDoc = await getDoc(userDocRef); // Try to fetch the user document
@@ -55,7 +55,7 @@ const checkAndCreateUserRecord = async (user) => {
       signed_up_events: [], // Empty list of events initially
       num_events_attended: 0, // Initially 0 events attended
       cca_interest: [], // Empty list of CCAs
-      category_interests: [], // New field: Empty list of category interests
+      category_interests: [], // Empty list of category interests
     });
 
     console.log('User record created successfully.');
@@ -64,7 +64,7 @@ const checkAndCreateUserRecord = async (user) => {
   }
 };
 
-// Helper function to extract matriculation year from email
+// Function to extract matriculation year from email
 const extractMatriculationYear = (email) => {
   const yearMatch = email.match(/(\d{4})@/); // Matches the year part, e.g. "2023"
   return yearMatch ? yearMatch[1] : 'UNKNOWN';
@@ -107,4 +107,20 @@ export const getUser = () => {
 // Helper to check if authentication state has been checked
 export const isAuthStateChecked = () => {
   return isAuthChecked.value;
+};
+
+// Function to save user preferences to Firestore (e.g., category_interests and cca_interest)
+export const saveUserPreferencesToFirestore = async (field, value) => {
+  const currentUser = auth.currentUser;
+  if (!currentUser) return;
+
+  const userDocRef = doc(db, 'user_records', currentUser.uid);
+  try {
+    await updateDoc(userDocRef, {
+      [field]: value,
+    });
+    console.log(`${field} updated successfully.`);
+  } catch (error) {
+    console.error('Error updating preferences:', error);
+  }
 };
