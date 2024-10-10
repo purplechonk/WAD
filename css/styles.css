@@ -23,6 +23,7 @@
   padding: 20px;
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
+  max-width: 90%;
 }
 .header .header-content h1 {
   font-size: 50px;
@@ -188,5 +189,8 @@
   .header-content {
     position: relative;
     z-index: 1; /* Ensure the text is above the carousel */
+  }
+  .header-content h1 {
+    font-size: 40px;
   }
 }

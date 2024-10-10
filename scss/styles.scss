@@ -2,6 +2,10 @@
   font-size: 65px;
 }
 
+// .special-text{
+//   font-size: 50px;
+// }
+
 .header {
   position: relative;
   height: 600px;
@@ -26,6 +30,7 @@
     padding: 20px;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
+    max-width: 90%;
     h1 {
       font-size: 50px;
     }
@@ -59,9 +64,9 @@
   padding-bottom: 0; // Remove padding under navbar
 }
 
-.navbar-sticky {
-  // opacity: 0.8;
-}
+// .navbar-sticky {
+//   opacity: 0.8;
+// }
 
 .details .vertical-decoration {
   top: 0;
@@ -205,5 +210,9 @@
   .header-content {
     position: relative;
     z-index: 1;  /* Ensure the text is above the carousel */
+    h1{
+      font-size: 40px;
+    }
   }
+
 }
