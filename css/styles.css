@@ -24,11 +24,8 @@
 }
 
 .navbar {
-  transition: all 0.5s ease-in-out;
-}
-
-.navbar-sticky {
-  opacity: 0.8;
+  position: sticky;
+  top: 0px;
 }
 
 .details .vertical-decoration {
@@ -138,4 +135,33 @@
   .video-points .col-lg-4 {
     margin-bottom: 20px;
   }
+}
+
+/* Styling for the submenu */
+.subnav {
+  justify-content: center; /* Center the items */
+}
+/* Show the submenu without hover */
+.subnav a.btn {
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Light border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  padding: 8px 10px;
+  margin: 0 8px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+}
+.subnav a.btn:hover {
+  border: 2px solid white; /* Light border */
+  text-decoration: none; /* Remove underline on hover */
+  transform: scale(1.05); /* Enlarge on hover */
+}
+/* Keep the link highlighted after being clicked */
+.subnav a.btn.active {
+  background-color: rgb(140, 82, 255); /* Highlighted color */
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow when active */
+  transform: scale(1.05); /* Slight enlargement when clicked */
+  outline: none; /* Remove focus outline */
 }

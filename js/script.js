@@ -56,3 +56,34 @@ if (videoModal !== null) {
     video.setAttribute('src', videoSrc);
   });
 }
+
+
+// EVENTS SUBNAV
+
+window.addEventListener('scroll', function() {
+  var subnav = document.getElementById('subnav');
+  if (window.scrollY > 0) { // Check if scrolled and "Events" was clicked
+    subnav.style.display = 'flex'; // Set display to flex
+    subnav.style.transform = 'translateY(0)'; // Slide down
+    setTimeout(function() {
+      subnav.style.opacity = '1'; // Slowly show the subnav by changing opacity
+    }, 1000); // Small delay for transition effect
+  } 
+ });
+
+// EVENTS SUBNAV (allow multiple selections)
+
+// Select all buttons in the subnav
+const buttons = document.querySelectorAll('.subnav a.btn');
+
+// Add click event listener to each button
+buttons.forEach(button => {
+  button.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default link behavior
+    this.classList.toggle('active'); // Toggle the 'active' class to allow multiple selections
+  });
+});
+
+
+
+
