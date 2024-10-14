@@ -4,7 +4,7 @@
   </template>
   
   <script setup>
-  import { logoutUser } from '../composables/auth';
+  import { logoutUser } from '../../composables/auth';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   

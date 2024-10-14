@@ -1,6 +1,7 @@
 // src/composables/fetchEvents.js
 import { db } from '../firebase'; // Import your Firestore setup
 import { collection, getDocs, doc, updateDoc, increment, arrayUnion, getDoc } from 'firebase/firestore';
+import { auth } from '../firebase'; // Firebase authentication
 
 // Function to fetch all events from Firestore
 export const fetchAllEvents = async () => {
@@ -85,61 +86,29 @@ export const fetchCCAsFromEvents = async () => {
 };
 
 /**
- * Function to update the number of signups for a given event.
- * @param {string} eventId - The ID of the event to update.
- */
-export const updateEventSignups = async (eventId) => {
-  try {
-    const eventRef = doc(db, 'events', eventId);
-    
-    // Increment the no_of_signups by 1
-    await updateDoc(eventRef, {
-      no_of_signups: increment(1),
-    });
-
- 
-  } catch (error) {
-    console.error('Error updating sign-up count:', error);
-  }
-};
-
-/**
- * Function to add event to user's signed_up_events array.
- * @param {string} userId - The user ID to update.
- * @param {string} eventId - The event ID to add.
- */
-export const updateUserSignedUpEvents = async (userId, eventId) => {
-  try {
-    const userRef = doc(db, 'user_records', userId);
-    
-    // Add the eventId to the signed_up_events array
-    await updateDoc(userRef, {
-      signed_up_events: arrayUnion(eventId), // Add the eventId to the array if it's not already present
-    });
-
- 
-  } catch (error) {
-    console.error('Error updating user signed up events:', error);
-  }
-};
-
-/**
  * Function to check if the user has already signed up for the event.
- * @param {string} userId - The user ID to check.
  * @param {string} eventId - The event ID to check.
  * @returns {Promise<boolean>} - True if the user has already signed up, otherwise false.
  */
-export const hasUserSignedUpForEvent = async (userId, eventId) => {
+export const hasUserSignedUpForEvent = async (eventId) => {
   try {
-    const userRef = doc(db, 'user_records', userId);
-    const userSnapshot = await getDoc(userRef);
+    // Get the currently authenticated user
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      throw new Error('User is not authenticated');
+    }
+
+    const userId = currentUser.uid; // Get the user ID from the authenticated user
+    const userRef = doc(db, 'user_records', userId); // Reference to user's Firestore document
+    const userSnapshot = await getDoc(userRef); // Fetch the user document
 
     if (userSnapshot.exists()) {
       const userData = userSnapshot.data();
-      return userData.signed_up_events && userData.signed_up_events.includes(eventId); // Check if the eventId exists
+      return userData.signed_up_events && userData.signed_up_events.includes(eventId); // Check if eventId exists
     }
-    
-    return false; // User has not signed up if there's no record
+
+    return false; // User has not signed up if there's no document or field
   } catch (error) {
     console.error('Error checking user sign-up status:', error);
     return false;

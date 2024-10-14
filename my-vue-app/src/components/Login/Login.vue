@@ -9,7 +9,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { loginWithGoogle } from '../composables/auth';
+import { loginWithGoogle } from '../../composables/auth';
 
 const error = ref(null);
 const router = useRouter();

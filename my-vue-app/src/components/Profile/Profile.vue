@@ -82,8 +82,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getUserDataFromFirestore, saveUserPreferencesToFirestore } from '../composables/auth';
-import { fetchCategoriesFromEvents, fetchCCAsFromEvents } from '../composables/fetchEvents'; // Import fetch functions
+import { getUserDataFromFirestore, saveUserPreferencesToFirestore } from '../../composables/profile';
+import { fetchCategoriesFromEvents, fetchCCAsFromEvents } from '../../composables/fetchEvents'; // Import fetch functions
 import LogoutButton from './LogoutButton.vue'; // Import the LogoutButton component
 
 const userData = ref(null);

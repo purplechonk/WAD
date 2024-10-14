@@ -62,8 +62,8 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import EventList from './EventList.vue';
-import { fetchAllEvents } from '../composables/fetchEvents';
+import EventList from '../General/EventList.vue';
+import { fetchAllEvents } from '../../composables/fetchEvents';
 
 const events = ref([]); // All events
 const loading = ref(false); // Loading state

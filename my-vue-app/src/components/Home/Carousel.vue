@@ -10,9 +10,9 @@
   
   <script setup>
   const items = [
-    { image: './assets/image1.jpg', altText: 'Image 1' },
-    { image: './assets/image2.jpg', altText: 'Image 2' },
-    { image: './assets/image3.jpg', altText: 'Image 3' },
+    { image: '../../assets/AnimalAssistedTherapy.png', altText: 'Image 1' },
+    { image: '../../assets/AnimalAssistedTherapy.png', altText: 'Image 2' },
+    { image: '../../assets/AnimalAssistedTherapy.png', altText: 'Image 3' },
   ];
   </script>
   

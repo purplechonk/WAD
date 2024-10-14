@@ -8,7 +8,7 @@
 
 <script setup>
 // Import the Navbar component
-import Navbar from './components/Navbar.vue';
+import Navbar from './components/General/Navbar.vue';
 </script>
 
 <style scoped>

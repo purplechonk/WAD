@@ -1,5 +1,5 @@
 // src/seedEvents.js
-import { db } from './firebase';  // Firestore setup from your firebase.js
+import { db } from '../firebase';  // Firestore setup from your firebase.js
 import { collection, setDoc, doc } from 'firebase/firestore';
 
 // Function to fetch and seed events data

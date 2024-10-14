@@ -37,7 +37,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import SignUpFormModal from './SignUpFormModal.vue';
-import { hasUserSignedUpForEvent } from '../composables/fetchEvents'; // Check if user has already signed up
+import { hasUserSignedUpForEvent } from '../../composables/fetchEvents'; // Check if user has already signed up
 
 const props = defineProps({
   event: Object,
@@ -72,7 +72,7 @@ const onSignUpSubmitted = () => {
 
 // On mounted, check if the user has already signed up for this event
 onMounted(async () => {
-  hasSignedUp.value = await hasUserSignedUpForEvent(props.userId, props.event.id);
+  hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
 });
 </script>
 

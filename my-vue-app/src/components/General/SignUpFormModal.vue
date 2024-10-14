@@ -26,12 +26,13 @@
 
 <script setup>
 import { ref } from 'vue';
-import { updateEventSignups, updateUserSignedUpEvents } from '../composables/fetchEvents'; // Firestore update
+import { updateEventSignups, updateUserSignedUpEvents } from '../../composables/onSignUp'; // Firestore update
 
 const props = defineProps({
   eventId: String, // The event ID
-  userId: String // The user ID
 });
+
+console.log("Event ID:", props.eventId);
 
 const emit = defineEmits(['close', 'submitted']);
 
@@ -50,7 +51,7 @@ const confirmSignup = async () => {
   await updateEventSignups(props.eventId);
 
   // Add the event to the user's signed_up_events array
-  await updateUserSignedUpEvents(props.userId, props.eventId);
+  await updateUserSignedUpEvents(props.eventId);
 
   emit('submitted'); // Notify parent that sign-up is confirmed
   closeForm(); // Close the form after confirmation
