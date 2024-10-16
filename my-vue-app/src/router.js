@@ -33,14 +33,14 @@ router.beforeEach((to, from, next) => {
       if (isAuthStateChecked()) {
         clearInterval(unwatch);
         if (requiresAuth && !isAuthenticated()) {
-          next({ path: '/login', query: { redirect: to.fullPath } });
+          next({ path: '/login', query: { redirect: to.fullPath, previousPath: from.fullPath } });
         } else {
           next();
         }
       }
     }, 100);  // Poll every 100ms to check auth state
   } else if (requiresAuth && !isAuthenticated()) {
-    next({ path: '/login', query: { redirect: to.fullPath } });
+    next({ path: '/login', query: { redirect: to.fullPath, previousPath: from.fullPath } });
   } else {
     next();  // Allow navigation if no auth is required or the user is authenticated
   }

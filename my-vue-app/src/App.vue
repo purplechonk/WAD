@@ -14,7 +14,7 @@ import Navbar from './components/General/Navbar.vue';
 <style scoped>
 #app {
   text-align: center;
-  color: #2c3e50;
+  color: #a1b0be;
   margin-top: 60px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }

@@ -1,3 +1,4 @@
+<!-- EventDetailModal.vue -->
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
@@ -13,15 +14,26 @@
         <p><strong>Description:</strong> {{ event.description }}</p>
         <p><strong>Participants:</strong> {{ event.no_of_signups }} / {{ event.max_participants }}</p>
 
-        <!-- Show Sign Up button if not signed up -->
-        <div v-if="!hasSignedUp">
-          <button class="btn btn-primary mt-3" @click="openSignUpForm">Sign Up</button>
+        <!-- Loading state to prevent jitter -->
+        <div v-if="loading" class="loading-placeholder"></div>
+
+        <!-- Prevent content shift by setting fixed height for the sign-up area -->
+        <div v-if="!loading" style="min-height: 50px;">
+          <!-- Show "You Have Signed Up" message if user has signed up -->
+          <p v-if="hasSignedUp" class="signed-up-message">You Have Signed Up</p>
+
+          <!-- If user is authenticated and not signed up, show Sign Up button -->
+          <div v-if="isAuthenticated && !hasSignedUp">
+            <button class="btn btn-primary mt-3" @click="openSignUpForm">Sign Up</button>
+          </div>
+
+          <!-- If user is not authenticated, show Login to Proceed button -->
+          <div v-else-if="!isAuthenticated">
+            <button class="btn btn-secondary mt-3" @click="openLoginModal">Login to Proceed</button>
+          </div>
         </div>
 
-        <!-- Show "You Have Signed Up" message if user has signed up -->
-        <p v-if="hasSignedUp" class="signed-up-message">You Have Signed Up</p>
-
-        <!-- Smaller Sign-Up Form Modal -->
+        <!-- Sign-Up Form Modal -->
         <SignUpFormModal 
           v-if="showSignUpForm" 
           @close="closeSignUpForm" 
@@ -29,6 +41,9 @@
           :eventId="event.id"
           :userId="userId"
         />
+
+        <!-- Login Modal -->
+        <Login v-if="showLoginModal" @close="closeLoginModal" @login-success="handleLoginSuccess" />
       </div>
     </div>
   </div>
@@ -36,18 +51,28 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase'; // Firebase Auth instance
 import SignUpFormModal from './SignUpFormModal.vue';
-import { hasUserSignedUpForEvent } from '../../composables/fetchEvents'; // Check if user has already signed up
+import Login from '../Login/Login.vue';
+import { hasUserSignedUpForEvent } from '../../composables/fetchEvents'; // Function to check sign-up status
 
+// Props
 const props = defineProps({
   event: Object,
-  userId: String
 });
 
+// Emits
 const emit = defineEmits(['close']);
 
+// Local state
 const showSignUpForm = ref(false);
+const showLoginModal = ref(false);
 const hasSignedUp = ref(false);
+const isAuthenticated = ref(false);
+const userId = ref(null); // Keep track of authenticated user
+const loading = ref(true); // Add loading state
+
 
 // Close the modal
 const closeModal = () => {
@@ -64,15 +89,40 @@ const closeSignUpForm = () => {
   showSignUpForm.value = false;
 };
 
-// Once the sign-up form is submitted, mark the user as signed up and update Firestore
-const onSignUpSubmitted = () => {
-  hasSignedUp.value = true;
-  props.event.no_of_signups += 1;
+// Open the login modal
+const openLoginModal = () => {
+  showLoginModal.value = true;
 };
 
-// On mounted, check if the user has already signed up for this event
-onMounted(async () => {
+// Close the login modal
+const closeLoginModal = () => {
+  showLoginModal.value = false;
+};
+
+
+// After the sign-up form is submitted
+const onSignUpSubmitted = () => {
+  hasSignedUp.value = true; // Update the local state
+  props.event.no_of_signups += 1; // Increment participants count in UI
+};
+
+// Listen to auth state changes
+onMounted(async() => {
   hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
+  loading.value = false; // Stop loading once the check is complete
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      isAuthenticated.value = true;
+      showLoginModal.value = false; 
+      // Check if the user has already signed up for this event
+      hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
+    } else {
+      isAuthenticated.value = false;
+      userId.value = null;
+      hasSignedUp.value = false;
+    }
+  });
 });
 </script>
 
@@ -83,20 +133,24 @@ onMounted(async () => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* Ensure it's on top */
+  z-index: 999;
 }
 
 .modal-content {
   background-color: #fff;
   border-radius: 10px;
   width: 90%;
+  height: 80vh;
   max-width: 900px;
   padding: 30px;
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  max-height: 90vh; /* Adjust height for bottom-up display */
+  overflow-y: auto; /* Make the modal scrollable */
 }
 
 .close-button {
@@ -111,12 +165,17 @@ onMounted(async () => {
 }
 
 .close-button:hover {
-  color: #ff0000; /* Red on hover */
+  color: #ff0000;
 }
 
 .signed-up-message {
   color: red;
   font-weight: bold;
   margin-top: 20px;
+}
+
+/* Loading placeholder */
+.loading-placeholder {
+  height: 50px; /* Reserve space for button */
 }
 </style>
