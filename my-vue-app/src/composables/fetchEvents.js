@@ -3,6 +3,9 @@ import { db } from '../firebase'; // Import your Firestore setup
 import { collection, getDocs, doc, updateDoc, increment, arrayUnion, getDoc } from 'firebase/firestore';
 import { auth } from '../firebase'; // Firebase authentication
 
+import { query, where } from 'firebase/firestore';
+import { getUserDataFromFirestore } from './profile';
+
 // Function to fetch all events from Firestore
 export const fetchAllEvents = async () => {
   try {
@@ -112,5 +115,71 @@ export const hasUserSignedUpForEvent = async (eventId) => {
   } catch (error) {
     console.error('Error checking user sign-up status:', error);
     return false;
+  }
+};
+
+
+
+
+
+
+// Helper to fetch events by CCA interest
+const fetchEventsByCCA = async (ccaInterest) => {
+  try {
+    console.log(`Fetching events for CCA: ${ccaInterest}`);
+    const ccaQuery = query(collection(db, 'events'), where('cca', '==', ccaInterest));
+    const snapshot = await getDocs(ccaQuery);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error(`Error fetching events for CCA: ${ccaInterest}`, error);
+    return [];
+  }
+};
+
+// Fetch recommended events based on user interests
+export const fetchRecommendedEvents = async () => {
+  try {
+    const userData = await getUserDataFromFirestore();
+    if (!userData) throw new Error('No user data found.');
+
+    const { category_interests = [], cca_interest = [] } = userData;
+
+    // Initialize empty arrays to store results
+    let categoryEvents = [];
+    let ccaEvents = [];
+
+    console.log('User Data:', userData);
+
+    // Query for events based on category interests if they exist
+    if (category_interests.length > 0) {
+      const categoryQuery = query(
+        collection(db, 'events'),
+        where('category', 'array-contains-any', category_interests)
+      );
+      const categorySnapshot = await getDocs(categoryQuery);
+      categoryEvents = categorySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      console.log('Category Events:', categoryEvents);
+    }
+
+    // Query for events based on CCA interests if they exist
+    if (cca_interest.length > 0) {
+      const ccaEventsPromises = cca_interest.map(cca => fetchEventsByCCA(cca));
+      const ccaEventsResults = await Promise.all(ccaEventsPromises);
+      ccaEvents = ccaEventsResults.flat(); // Flatten the array of arrays
+      console.log('CCA Events:', ccaEvents);
+    }
+
+    // Merge category and CCA events, avoiding duplicates using a Map
+    const eventMap = new Map();
+    categoryEvents.forEach(event => eventMap.set(event.id, event));
+    ccaEvents.forEach(event => eventMap.set(event.id, event));
+
+    const mergedEvents = Array.from(eventMap.values());
+    console.log('Merged Recommended Events:', mergedEvents);
+
+    return mergedEvents;
+  } catch (error) {
+    console.error('Error fetching recommended events:', error);
+    return [];
   }
 };

@@ -1,4 +1,3 @@
-<!-- src/components/Home.vue -->
 <template>
   <div>
     <nav>
@@ -9,61 +8,95 @@
         <router-link to="/profile">Profile</router-link>
       </div>
     </nav>
-    
+
     <section class="hero">
-      <Carousel /> <!-- Carousel component -->
+      <Carousel />
       <div class="hero-text">
         <h1>Welcome to the Events App</h1>
         <p>Discover and join exciting events happening near you!</p>
       </div>
     </section>
-    
-  <section class="event-cards">
-    <h2>Featured Events</h2>
-    <div class="card-area">
-      <!-- Loop over featured events and display each one -->
-      <EventCard v-for="event in featuredEvents" :key="event.id" :event="event" @show-details="openEventDetails" />
 
-      <!-- Event detail modal, shown only when showModal is true -->
-      <EventDetailModal v-if="showModal" :event="selectedEvent" @close="closeModal" />
-    </div>
-  </section>
+    <section class="event-cards">
+      <h2>For You</h2>
+      <div class="card-area" v-if="recommendedEvents.length > 0">
+        <EventCard
+          v-for="event in recommendedEvents"
+          :key="event.id"
+          :event="event"
+          @show-details="openEventDetails"
+        />
+      </div>
+      <p v-else>No recommended events available.</p>
+    </section>
+
+    <section class="event-cards">
+      <h2>Featured Events</h2>
+      <div class="card-area">
+        <EventCard
+          v-for="event in featuredEvents"
+          :key="event.id"
+          :event="event"
+          @show-details="openEventDetails"
+        />
+        <EventDetailModal v-if="showModal" :event="selectedEvent" @close="closeModal" />
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchFeaturedEvents } from '../../composables/fetchEvents'; // Import function to fetch featured events
-import Carousel from './Carousel.vue'; // Import the Carousel component
-import EventCard from '../General/EventCard.vue'; // Assuming you have an EventCard component
-import EventDetailModal from '../General/EventDetailModal.vue'
+import { fetchRecommendedEvents, fetchFeaturedEvents } from '../../composables/fetchEvents';
+import Carousel from './Carousel.vue';
+import EventCard from '../General/EventCard.vue';
+import EventDetailModal from '../General/EventDetailModal.vue';
 
-const featuredEvents = ref([]); // Reactive variable to store featured events
+const recommendedEvents = ref([]);
+const featuredEvents = ref([]);
 
-const loadFeaturedEvents = async () => {
-  featuredEvents.value = await fetchFeaturedEvents(); // Fetch only featured events
-  console.log('Fetched featured events:', featuredEvents.value); // Check what is fetched
+const loadRecommendedEvents = async () => {
+  recommendedEvents.value = await fetchRecommendedEvents();
+  console.log('Recommended Events:', recommendedEvents.value);
 };
 
-// State for modal visibility and the selected event
-const showModal = ref(false);
-const selectedEvent = ref(null); // Store the event clicked on
+const loadFeaturedEvents = async () => {
+  featuredEvents.value = await fetchFeaturedEvents();
+};
 
-// Open modal when an event is clicked
+const showModal = ref(false);
+const selectedEvent = ref(null);
+
 const openEventDetails = (event) => {
   selectedEvent.value = event;
   showModal.value = true;
 };
 
-// Close modal
 const closeModal = () => {
   showModal.value = false;
   selectedEvent.value = null;
 };
 
-onMounted(loadFeaturedEvents); // Call the load function when component is mounted
+onMounted(() => {
+  loadRecommendedEvents();
+  loadFeaturedEvents();
+});
 </script>
 
 <style scoped>
-/* Your styles here */
+/* Navbar styling */
+.navbar img {
+  height: 40px;
+}
+
+/* Event Cards */
+.event-cards {
+  margin-top: 20px;
+}
+
+.card-area {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 20px; /* Space between cards */
+}
 </style>
