@@ -1,24 +1,42 @@
 <template>
-  <div class="modal-overlay" @click.self="closeForm">
-    <div class="modal-dialog">
-      <div class="modal-content p-4">
-        <!-- Close Button (X) -->
-        <button class="close-button" @click="closeForm">&times;</button>
+  <div>
+    <!-- Sign-Up Form Modal -->
+    <div class="modal-overlay" v-if="!showSuccessModal" @click.self="closeForm">
+      <div class="modal-dialog">
+        <div class="modal-content p-4">
+          <!-- Close Button (X) -->
+          <button class="close-button" @click="closeForm">&times;</button>
 
-        <h3>Sign-Up Form</h3>
+          <h3>Sign-Up Form</h3>
 
-        <!-- Input fields for sign-up questions -->
-        <div class="form-group">
-          <label for="friendsNames">Did you sign up with any friends? If yes, list down their full names.</label>
-          <input type="text" v-model="friendsNames" class="form-control" placeholder="Enter friends' names" />
+          <!-- Input fields for sign-up questions -->
+          <div class="form-group">
+            <label for="friendsNames">Did you sign up with any friends? If yes, list down their full names.</label>
+            <input type="text" v-model="friendsNames" class="form-control" placeholder="Enter friends' names" />
+          </div>
+          <div class="form-group mt-2">
+            <label for="availability">If you will not be staying for the whole duration of the event, list the timing that you are available.</label>
+            <input type="text" v-model="availability" class="form-control" placeholder="Enter availability timing" />
+          </div>
+
+          <!-- Confirm Signup Button -->
+          <button class="btn btn-primary mt-3" @click="confirmSignup">Confirm Signup</button>
         </div>
-        <div class="form-group mt-2">
-          <label for="availability">If you will not be staying for the whole duration of the event, list the timing that you are available.</label>
-          <input type="text" v-model="availability" class="form-control" placeholder="Enter availability timing" />
-        </div>
+      </div>
+    </div>
 
-        <!-- Confirm Signup Button -->
-        <button class="btn btn-primary mt-3" @click="confirmSignup">Confirm Signup</button>
+    <!-- Success Modal -->
+    <div class="modal-overlay" v-if="showSuccessModal" @click.self="closeSuccessModal">
+      <div class="modal-dialog">
+        <div class="modal-content p-4 text-center">
+          <!-- Close Button (X) -->
+          <button class="close-button" @click="closeSuccessModal">&times;</button>
+
+          <h3>Signed Up Successfully!</h3>
+          <p>You have successfully signed up for the event.</p>
+          <!-- View My Events Button -->
+          <button class="btn btn-success mt-3" @click="viewMyEvents">View My Events</button>
+        </div>
       </div>
     </div>
   </div>
@@ -26,26 +44,33 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // Import Vue Router for navigation
 import { updateEventSignups, updateUserSignedUpEvents } from '../../composables/onSignUp'; // Firestore update
 
 const props = defineProps({
   eventId: String, // The event ID
 });
 
-console.log("Event ID:", props.eventId);
-
 const emit = defineEmits(['close', 'submitted']);
+const router = useRouter(); // Initialize router
 
 // Form data
 const friendsNames = ref('');
 const availability = ref('');
+const showSuccessModal = ref(false); // State for success modal visibility
 
-// Function to close the form
+// Function to close the sign-up form
 const closeForm = () => {
   emit('close');
 };
 
-// Function to handle signup confirmation
+// Function to close the success modal and the sign-up form
+const closeSuccessModal = () => {
+  showSuccessModal.value = false;
+  emit('close'); // Emit the close event to close the sign-up form modal as well
+};
+
+// Function to handle sign-up confirmation
 const confirmSignup = async () => {
   // Update signups in Firestore
   await updateEventSignups(props.eventId);
@@ -54,7 +79,13 @@ const confirmSignup = async () => {
   await updateUserSignedUpEvents(props.eventId);
 
   emit('submitted'); // Notify parent that sign-up is confirmed
-  closeForm(); // Close the form after confirmation
+  showSuccessModal.value = true; // Show success modal after sign-up
+};
+
+// Function to navigate to My Events page
+const viewMyEvents = () => {
+  closeSuccessModal(); // Close both modals
+  router.push('/my-events'); // Navigate to "My Events" page
 };
 </script>
 
