@@ -11,11 +11,11 @@
 import Navbar from './components/General/Navbar.vue';
 </script>
 
-<style scoped>
+<!-- <style scoped>
 #app {
   text-align: center;
   color: #a1b0be;
   margin-top: 60px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-</style>
+</style> -->
