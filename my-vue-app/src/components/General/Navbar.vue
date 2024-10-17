@@ -2,9 +2,9 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">
+        <router-link to="/" class="nav-link">
           <img src="./assets/logo.png" alt="Logo" class="logo" />
-        </a>
+        </router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -50,32 +50,34 @@
     </nav>
   </template>
   
-  <script setup>
-  // No additional JavaScript is needed for basic routing
-  </script>
+  <script >
+    import "../../assets/js/replaceme.min.js"
+    import "../../assets/js/bootstrap.bundle.min.js"
+    import "../../assets/js/script.js"
+</script>
   
-  <!-- <style scoped>
-  .navbar {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    background-color: #f8f9fa; /* Light background for the navbar */
-    border-bottom: 1px solid #dee2e6; /* Border for separation */
-  }
+  // <!-- <style scoped>
+  // .navbar {
+  //   list-style-type: none;
+  //   display: flex;
+  //   justify-content: space-around;
+  //   padding: 10px;
+  //   background-color: #f8f9fa; /* Light background for the navbar */
+  //   border-bottom: 1px solid #dee2e6; /* Border for separation */
+  // }
   
-  .navbar li {
-    display: inline;
-  }
+  // .navbar li {
+  //   display: inline;
+  // }
   
-  .navbar a {
-    text-decoration: none;
-    color: #007bff; /* Bootstrap primary color */
-    font-weight: bold;
-  }
+  // .navbar a {
+  //   text-decoration: none;
+  //   color: #007bff; /* Bootstrap primary color */
+  //   font-weight: bold;
+  // }
   
-  .navbar a:hover {
-    text-decoration: underline; /* Underline on hover */
-  }
-  </style> -->
+  // .navbar a:hover {
+  //   text-decoration: underline; /* Underline on hover */
+  // }
+  // </style> -->
   
