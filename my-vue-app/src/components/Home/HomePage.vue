@@ -1,64 +1,52 @@
 <template>
   <div>
-    <!-- <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="./assets/logo.png" alt="Logo" class="logo" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">
-                <router-link to="/explore">Explore</router-link>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#solutions">
-                <router-link to="/my-events">My Events</router-link>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#details">
-                <router-link to="/profile">Profile</router-link>
-              </a>
-            </li>
-          </ul>
-          <span class="nav-item">
-            <span class="fa-stack">
-              <a href="https://facebook.com" target="_blank">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-user fa-stack-1x text-white"></i>
-              </a>
-            </span>
-          </span>
-
+    <section class="hero">
+      <header class="header position-relative">
+      <img
+      src="../../assets/images/sloop-vertical-decoration-left.svg"
+      alt=""
+      class="vertical-decoration position-absolute d-none d-md-block"
+      />
+      <div class="container header-content position-relative ">
+        <div class="row align-items-center">
+          <!-- Text Content -->
+          <div class="col-md-6">
+            <div class="header-content">
+              <h1 class="xl-text">Never miss an event for <span class="special-text text-primary fw-bold replace-me">Networking, Workshops, Entertainment</span></h1>
+              <p class="lead">Stay in the loop with sLoop — never miss an SMU event again!</p>
+              <a href="#" class="btn btn-primary text-white">Learn More</a>
+            </div>
+          </div>
 
           
-          
-          
+          <!-- Image Carousel -->
+          <div class="col-md-6">
+            <div id="carouselHeader" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="../../assets/images/event_1.jpg" class="d-block w-100 header-img" alt="Header Image 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="../../assets/images/event_2.jpg" class="d-block w-100 header-img" alt="Header Image 2">
+                </div>
+                <div class="carousel-item">
+                  <img src="../../assets/images/event_3.jpg" class="d-block w-100 header-img" alt="Header Image 3">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselHeader" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselHeader" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      
 
-    </nav> -->
-
-    <section class="hero">
-      <Carousel />
-      <div class="hero-text">
-        <h1>Welcome to the Events App</h1>
-        <p>Discover and join exciting events happening near you!</p>
-      </div>
+    </header>
     </section>
 
     <section class="event-cards">
@@ -102,6 +90,7 @@ import { fetchRecommendedEvents, fetchFeaturedEvents } from '../../composables/f
 import Carousel from './Carousel.vue';
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
+import ReplaceMe from '../../utils/replaceMe';
 
 const recommendedEvents = ref([]);
 const featuredEvents = ref([]);
@@ -141,6 +130,18 @@ const handleLoginSuccess = async () => {
 };
 
 onMounted(() => {
+  // Initialize ReplaceMe on the "replace-me" element
+  const replaceElement = document.querySelector('.replace-me');
+  if (replaceElement) {
+    new ReplaceMe(replaceElement, {
+      animation: 'animated fadeIn',
+      speed: 2000,
+      separator: ',',
+      loopCount: 'infinite',
+      autoRun: true,
+    });
+  }
+  
   loadRecommendedEvents();
   loadFeaturedEvents();
 
