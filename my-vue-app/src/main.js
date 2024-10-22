@@ -5,6 +5,7 @@ import router from './router'; // Import the router
 // Import Bootstrap, Font Awesome, and Custom Styles
 import './assets/css/bootstrap.css';
 import './assets/css/font-awesome.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
 
 // // Import Bootstrap JS (for interactive components like navbar)

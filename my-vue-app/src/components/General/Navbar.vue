@@ -2,7 +2,7 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
       <div class="container">
-        <router-link to="/" class="nav-link navbar-brand">
+        <router-link to="/" class="navbar-brand">
           <img src="../../assets/images/sLoop.svg" alt="Logo" class="logo" width="100"/>
         </router-link>
         <button
@@ -24,27 +24,17 @@
             <li class="nav-item">
               <router-link to="/my-events" class="nav-link">My Events</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/profile" class="nav-link">Profile</router-link>
-            </li>
           </ul>
           <span class="nav-item">
             <span class="fa-stack">
-              <a href="https://facebook.com" target="_blank">
+              <router-link to="/profile">
                 <i class="fas fa-circle fa-stack-2x"></i>
                 <i class="fa-solid fa-user fa-stack-1x text-white"></i>
-              </a>
+              </router-link>
             </span>
           </span>
-
-
-          
-          
-          
         </div>
       </div>
-      
-
     </nav>
   </template>
   
