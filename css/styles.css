@@ -50,8 +50,6 @@
 }
 
 .navbar {
-  position: sticky;
-  top: 0px;
   transition: all 0.5s ease-in-out;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -196,32 +194,60 @@
     font-size: 40px;
   }
 }
-
 /* Styling for the submenu */
-.subnav {
-  justify-content: center; /* Center the items */
+.tag-buttons-container {
+  justify-content: center;
+  position: sticky;
+  top: 65px;
+  width: 100%;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
 }
+
+#subnavfilter {
+  display: block;
+}
+
+.tag-buttons {
+  gap: 10px;
+  padding: 0 20px;
+  align-items: center;
+}
+
 /* Show the submenu without hover */
-.subnav a.btn {
+.tag-buttons .btn {
   color: white;
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Light border */
+  border: solid rgba(0, 0, 0, 0.1); /* Light border */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-  padding: 8px 10px;
+  padding: 10px 10px;
   margin: 0 8px;
   text-align: center;
   text-decoration: none;
   transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
 }
-.subnav a.btn:hover {
-  border: 2px solid white; /* Light border */
+
+.tag-buttons .btn:hover {
+  border: solid white; /* Light border */
   text-decoration: none; /* Remove underline on hover */
-  transform: scale(1.05); /* Enlarge on hover */
 }
+
 /* Keep the link highlighted after being clicked */
-.subnav a.btn.active {
+.tag-buttons .btn.active {
   background-color: rgb(140, 82, 255); /* Highlighted color */
   color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow when active */
-  transform: scale(1.05); /* Slight enlargement when clicked */
   outline: none; /* Remove focus outline */
+}
+
+.search-btn img {
+  transition: transform 0.2s ease;
+}
+
+.search-btn:hover img {
+  transform: rotate(90deg); /* Rotate search icon on hover */
+}
+
+.hiddensubnav {
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction */
 }

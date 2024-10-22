@@ -216,3 +216,61 @@
   }
 
 }
+
+/* Styling for the submenu */
+.tag-buttons-container {
+  justify-content: center;
+  position: sticky; 
+  top: 65px; 
+  width: 100%; 
+  z-index: 9999; 
+  // opacity: 0; 
+  transition: opacity 0.5s ease;
+}
+
+#subnavfilter {
+  display: block;
+}
+
+.tag-buttons {
+  gap: 10px;
+  padding: 0 20px;
+  align-items: center; 
+}
+
+/* Show the submenu without hover */
+.tag-buttons .btn {
+  color: white;
+  border: solid rgba(0, 0, 0, 0.1); /* Light border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  padding: 10px 10px;
+  margin: 0 8px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition */
+}
+.tag-buttons .btn:hover {
+  border: solid white; /* Light border */
+  text-decoration: none; /* Remove underline on hover */
+}
+/* Keep the link highlighted after being clicked */
+.tag-buttons .btn.active {
+  background-color: rgb(140, 82, 255); /* Highlighted color */
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow when active */
+  outline: none; /* Remove focus outline */
+}
+
+.search-btn img {
+  transition: transform 0.2s ease;
+}
+
+.search-btn:hover img {
+  transform: rotate(90deg); /* Rotate search icon on hover */
+}
+
+.hiddensubnav {
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction */
+}
+

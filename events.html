@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="icon" href="images/favicon.png" />
+    <!-- <link rel="stylesheet" href="scss/styles.scss"> -->
     <title>SMU sLoop!</title>
   </head>
   <body>
@@ -49,171 +50,332 @@
       </div>
     </nav>
 
-    <div class="subnav bg-secondary justify-content-center" id="subnav" style="display: none; position: sticky; top: 80px; width: 100%; z-index: 9999; opacity: 0; transition: opacity 0.5s ease;">
-        <div class="row">
-            <div class="col justify-content-center">
-                <a class="btn" href="#link1" role="button">Academic</a>
-                <a class="btn" href="#link2" role="button">Sports</a>
-                <a class="btn" href="#link3" role="button">Arts</a>
-                <a class="btn" href="#link4" role="button">Special Interest</a>
-                <a class="btn" href="#link5" role="button">Cultural</a>
-                <a class="btn" href="#link6" role="button">Finance</a>
-                <a class="btn" href="#link7" role="button">Business</a>
-            </div>
-            <div class="col justify-content-center">
-                <a class="btn" href="#link8" role="button">Technology</a>
-                <a class="btn" href="#link9" role="button">Religion</a>
-                <a class="btn" href="#link10" role="button">Career</a>
-                <a class="btn" href="#link11" role="button">Psychology</a>
-                <a class="btn" href="#link12" role="button">Entertainment</a>
-                <a class="btn" href="#link13" role="button">Environment</a>
-            </div>
-            <div class="col justify-content-center">
-                <nav class="navbar bg-body-tertiary">
-                    <div class="container-fluid">
-                      <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        
-        
+    <nav id="really" class="navbar navbar-expand-lg sticky-top navbar-dark pt-2">
+      <div class="container-fluid justify-content-center" id="containerFilter">
+        <div class="btn-group" id="btngroup" role="group" aria-label="Basic example">
+          <a type="button" id="catbtn" class="btn btn-primary px-auto filter-btn">All Categories</a>     
+          <a id="searchbtn" class="btn btn-primary px-3 search-btn">
+            <img src="images/search_button.svg" alt="Search" class="search-img" width="20" />
+          </a>
+        </div>  
+      </div>
+    </nav>  
 
+
+    <div class="tag-buttons-container container bg-dark py-3 mx-5" id="subnavfilter">
+      <div class="row">
+        <div class="col-8 justify-content-center">
+          <div class="tag-buttons">
+              <button class="btn tagbtn active" data-tag="all"> All </button>
+              <button class="btn tagbtn" data-tag="Academic"> Academic </button>
+              <button class="btn tagbtn" data-tag="Sports"> Sports </button>
+              <button class="btn tagbtn" data-tag="Arts"> Arts </button>
+              <button class="btn tagbtn" data-tag="Special Interest"> Special Interest </button>
+              <button class="btn tagbtn" data-tag="Cultural"> Cultural </button>
+              <button class="btn tagbtn" data-tag="Finance"> Finance </button>
+              <button class="btn tagbtn" data-tag="Business"> Business </button>
+              <button class="btn tagbtn" data-tag="Technology"> Technology </button>
+              <button class="btn tagbtn" data-tag="Business"> Business </button>
+              <button class="btn tagbtn" data-tag="Religion"> Religion </button>
+              <button class="btn tagbtn" data-tag="Career"> Career </button>
+              <button class="btn tagbtn" data-tag="Psychology"> Psychology </button>
+              <button class="btn tagbtn" data-tag="Entertainment"> Entertainment </button>
+              <button class="btn tagbtn" data-tag="Environment"> Environment </button>
+          </div>
+        </div>
+        <div class="col-4 justify-content-center">
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
     </div>
+    <!-- <div class="posts-container">
+        <div class="post" data-tags="category-1,category-4">
+          <h1>Post 1 (Categories: 1, 4)</h1>
+        </div>
+        <div class="post" data-tags="category-3,category-4">
+          <h1>Post 2 (Categories: 3, 4)</h1>
+        </div>
+        <div class="post" data-tags="category-1,category-2">
+          <h1>Post 3 (Categories: 1, 2)</h1>
+        </div>
+        <div class="post" data-tags="category-2,category-3">
+          <h1>Post 4 (Categories: 2, 3)</h1>
+        </div>
+        <div class="post" data-tags="category-1,category-2">
+          <h1>Post 5 (Categories: 1, 2)</h1>
+        </div>
+        <div class="post" data-tags="category-3,category-6">
+          <h1>Post 6 (Categories: 3, 6)</h1>
+        </div>
+        <div class="post" data-tags="category-3,category-5">
+          <h1>Post 7 (Categories: 3, 5)</h1>
+        </div>
+        <div class="post" data-tags="category-1,category-4">
+          <h1>Post 8 (Categories: 1, 4)</h1>
+        </div>
+        <div class="post" data-tags="category-1,category-7">
+          <h1>Post 9 (Categories: 1, 7)</h1>
+        </div>
+        <div class="post" data-tags="category-4,category-6">
+          <h1>Post 10 (Categories: 4, 6)</h1>
+        </div>
+      </div> -->
+      
 
-
-
-    <!-- Solutions -->
-    <section id="events" class="solutions my-5">
+  <!-- Solutions -->
+  <section id="events" class="solutions my-5 mx-6">
         
-      <div class="container">
-        <div class="row mb-4">
-          <div class="col-md-6 offset-md-3 d-flex flex-column align-items-center text-center">
-            <h5><span class="badge bg-primary rounded-0 text-uppercase">
-              Events
-            </span></h5>
-            <h2 class="fw-bold">
-              Vera Provides Software Solutions For Business Acceleration
-            </h2>
-          </div>
+    <div class="posts-container container">
+      <div class="row mb-4">
+        <div class="col-md-6 offset-md-3 d-flex flex-column align-items-center text-center">
+          <h5><span class="badge bg-primary rounded-0 text-uppercase">
+            Events
+          </span></h5>
+          <h2 class="fw-bold">
+            Vera Provides Software Solutions For Business Acceleration
+          </h2>
         </div>
-        <!-- Solutions Row 1 -->
-        <div class="row">
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy1.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">ERP Software Solutions</h5>
-                <p class="card-text">
-                  Our ERP software solution streamlines your business processes and
-                  enhances operational efficiency. With integrated modules for
-                  finance, human resources, and more, you can make data-driven
-                  decisions.
-                </p>
-                <div class="badge bg-primary p-2 text-uppercase">
-                  Management
-                </div>
+      </div>
+      <!-- Solutions Row 1 -->
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Academic,Arts">
+            <img src="timmy_images/timmy1.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">ERP Software Solutions</h5>
+              <p class="card-text">
+                Our ERP software solution streamlines your business processes and
+                enhances operational efficiency. With integrated modules for
+                finance, human resources, and more, you can make data-driven
+                decisions.
+              </p>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Academic
               </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy2.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">ERP Software Solutions</h5>
-                <p class="card-text">
-                  Our ERP software solution streamlines your business processes and
-                  enhances operational efficiency. With integrated modules for
-                  finance, human resources, and more, you can make data-driven
-                  decisions.
-                </p>
-                <div class="badge bg-primary p-2 text-uppercase">
-                  Management
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy3.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">CRM Software Solutions</h5>
-                <p class="card-text">
-                  Our CRM software solution helps you build stronger customer
-                  relationships and drive sales growth. Manage leads, track
-                  interactions, and deliver personalized experiences to maximize
-                  customer satisfaction and loyalty.
-                </p>
-                <div class="badge bg-dark p-2 text-uppercase">
-                  Marketing
-                </div>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Arts
               </div>
             </div>
           </div>
         </div>
 
-         <!-- Solutions Row 2 -->
-         <div class="row">
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy1.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">SFA Software Solutions</h5>
-                <p class="card-text">
-                  Our SFA software solution empowers your sales team with the tools
-              they need to drive revenue growth. Streamline sales processes,
-              track performance, and enhance collaboration to close deals
-              faster.
-                </p>
-                <div class="badge bg-primary p-2 text-uppercase">
-                  Management
-                </div>
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Sports">
+            <img src="timmy_images/timmy2.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">ERP Software Solutions</h5>
+              <p class="card-text">
+                Our ERP software solution streamlines your business processes and
+                enhances operational efficiency. With integrated modules for
+                finance, human resources, and more, you can make data-driven
+                decisions.
+              </p>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Sports
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy5.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">SFA Software Solutions</h5>
-                <p class="card-text">
-                  Our SFA software solution empowers your sales team with the tools
-              they need to drive revenue growth. Streamline sales processes,
-              track performance, and enhance collaboration to close deals
-              faster.
-                </p>
-                <div class="badge bg-primary p-2 text-uppercase">
-                  Management
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4 mb-4">
-            <div class="card bg-secondary">
-              <img src="timmy_images/timmy3.jpg" alt="" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title fw-bold">WMS Software Solutions</h5>
-                <p class="card-text">
-                  Our WMS software solution optimizes your warehouse operations and
-              improves inventory management. Gain real-time visibility, automate
-              processes, and reduce costs to ensure efficient logistics.
-                </p>
-                <div class="badge bg-dark p-2 text-uppercase">
-                  Marketing
-                </div>
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Arts">
+            <img src="timmy_images/timmy3.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">CRM Software Solutions</h5>
+              <p class="card-text">
+                Our CRM software solution helps you build stronger customer
+                relationships and drive sales growth. Manage leads, track
+                interactions, and deliver personalized experiences to maximize
+                customer satisfaction and loyalty.
+              </p>
+              <div class="badge bg-dark p-2 text-uppercase">
+                Arts
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+       <!-- Solutions Row 2 -->
+       <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Technology,Cultural">
+            <img src="timmy_images/timmy1.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">SFA Software Solutions</h5>
+              <p class="card-text">
+                Our SFA software solution empowers your sales team with the tools
+            they need to drive revenue growth. Streamline sales processes,
+            track performance, and enhance collaboration to close deals
+            faster.
+              </p>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Technology
+              </div>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Cultural
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Technology,Arts">
+            <img src="timmy_images/timmy5.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">SFA Software Solutions</h5>
+              <p class="card-text">
+                Our SFA software solution empowers your sales team with the tools
+            they need to drive revenue growth. Streamline sales processes,
+            track performance, and enhance collaboration to close deals
+            faster.
+              </p>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Technology
+              </div>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Arts
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card post bg-secondary" data-tags="Technology,Cultural">
+            <img src="timmy_images/timmy3.jpg" alt="" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">WMS Software Solutions</h5>
+              <p class="card-text">
+                Our WMS software solution optimizes your warehouse operations and
+            improves inventory management. Gain real-time visibility, automate
+            processes, and reduce costs to ensure efficient logistics.
+              </p>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Technology
+              </div>
+              <div class="badge bg-primary p-2 text-uppercase">
+                Cultural
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button id="loadMoreButton">Load More</button>
+  </section>
+
+    
+  <!-- <div class="subnav bg-dark" >
+    <div class="row">
+        <div class="col-8 justify-content-center">
+            <a class="btn" href="#link1" role="button">Academic</a>
+            <a class="btn" href="#link2" role="button">Sports</a>
+            <a class="btn" href="#link3" role="button">Arts</a>
+            <a class="btn" href="#link4" role="button">Special Interest</a>
+            <a class="btn" href="#link5" role="button">Cultural</a>
+            <a class="btn" href="#link6" role="button">Finance</a>
+            <a class="btn" href="#link7" role="button">Business</a>
+            <a class="btn" href="#link8" role="button">Technology</a>
+            <a class="btn" href="#link9" role="button">Religion</a>
+            <a class="btn" href="#link10" role="button">Career</a>
+            <a class="btn" href="#link11" role="button">Psychology</a>
+            <a class="btn" href="#link12" role="button">Entertainment</a>
+            <a class="btn" href="#link13" role="button">Environment</a>
+        </div>
+        <div class="col-4 justify-content-center">
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                  <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+  </div> -->
+
+      <!-- <div class="subnav" id="containerFilter">
+        <div class="row-12 justify-content-center d-flex">
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+
+
+            <div class="col-3">
+              <div class="dropdown">
+                <div class="btn-group me-2"  role="group" aria-label="First group">
+                  <button class="btn dropdown-toggle" type="button" id="locationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Anywhere
+                  </button>
+                </div>
+                
+                <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                  <li><a class="dropdown-item" href="#">Anywhere</a></li>
+                  <li><a class="dropdown-item" href="#">Singapore</a></li>
+                  <li><a class="dropdown-item" href="#">Japan</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <div class="col-3">
+              <div class="dropdown">
+                <div class="btn-group me-2"  role="group" aria-label="Second group">
+                  <button class="btn dropdown-toggle" type="button" id="locationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Anywhere
+                  </button>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                  <li><a class="dropdown-item" href="#">Anywhere</a></li>
+                  <li><a class="dropdown-item" href="#">Singapore</a></li>
+                  <li><a class="dropdown-item" href="#">Japan</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-3">
+              <div class="dropdown">
+                <div class="btn-group me-2"  role="group" aria-label="Third group">
+                  <button class="btn dropdown-toggle" type="button" id="locationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Anywhere
+                  </button>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                  <li><a class="dropdown-item" href="#">Anywhere</a></li>
+                  <li><a class="dropdown-item" href="#">Singapore</a></li>
+                  <li><a class="dropdown-item" href="#">Japan</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <div class="col-3">
+              <div class="dropdown">
+                <div class="btn-group me-2"  role="group" aria-label="First group">
+                  <button class="btn dropdown-toggle" type="button" id="locationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Anywhere
+                  </button>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                  <li><a class="dropdown-item" href="#">Anywhere</a></li>
+                  <li><a class="dropdown-item" href="#">Singapore</a></li>
+                  <li><a class="dropdown-item" href="#">Japan</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    
+    
+      
+  
+
+    
+    
 
     <!-- Details 1 -->
     <section id="myevents" class="details my-5 position-relative">
