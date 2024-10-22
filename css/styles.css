@@ -53,6 +53,11 @@
   transition: all 0.5s ease-in-out;
   margin-bottom: 0;
   padding-bottom: 0;
+  background-color: black;
+}
+
+.navbar-sticky {
+  opacity: 1;
 }
 
 .details .vertical-decoration {
