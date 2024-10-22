@@ -2,8 +2,13 @@
 <template>
   <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
       <div class="container">
+<<<<<<< Updated upstream
         <router-link to="/" class="nav-link">
           <img src="./assets/logo.png" alt="Logo" class="logo" />
+=======
+        <router-link class="navbar-brand" href="/">
+          <img src="../../assets/images/sLoop.svg" alt="Logo" class="logo" width="100"/>
+>>>>>>> Stashed changes
         </router-link>
         <button
           class="navbar-toggler"
@@ -25,9 +30,7 @@
               <router-link to="/my-events" class="nav-link">My Events</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#details">
-                <router-link to="/profile" class="nav-link">Profile</router-link>
-              </a>
+              <router-link to="/profile" class="nav-link">Profile</router-link>
             </li>
           </ul>
           <span class="nav-item">
@@ -76,8 +79,19 @@
   //   font-weight: bold;
   // }
   
+<<<<<<< Updated upstream
   // .navbar a:hover {
   //   text-decoration: underline; /* Underline on hover */
   // }
   // </style> -->
   
+=======
+  .navbar a:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+  </style> -->
+  <style>
+    /* Optional: import your CSS here */
+    @import '../../assets/css/styles.css';
+  </style>
+>>>>>>> Stashed changes
