@@ -32,7 +32,7 @@ export default {
           minWidth: 100,
           padding: 40,
           textColor: 'white', // White text for Categories
-          fontWeight: '600',   // Semi Bold
+          fontWeight: '700',   // Semi Bold
         },
         cca: {
           height: 50,
@@ -40,7 +40,7 @@ export default {
           minWidth: 100,
           padding: 40,
           textColor: 'black', // Black text for CCAs
-          fontWeight: '700',   // Bold
+          fontWeight: '700',   // 
         }
       },
       canvasWidth: 0,
@@ -137,7 +137,7 @@ export default {
         }
       }
     },
-    measureText(text, fontSize = '600 16px Poppins') {
+    measureText(text, fontSize = '16px Poppins') {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       context.font = fontSize;
@@ -504,8 +504,8 @@ export default {
 
 .matter-container {
   width: 100%;
-  max-height: 800px;
-  height: 60vh;
+  max-height: 600px;
+  height: 50vh;
   overflow: hidden;
   position: relative;
   background-color: #693EFE;
