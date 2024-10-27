@@ -81,119 +81,112 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase'; // Firebase Auth instance
+import { auth } from '../../firebase';
 import SignUpFormModal from './SignUpFormModal.vue';
 import Login from '../Login/Login.vue';
-import { hasUserSignedUpForEvent } from '../../composables/fetchEvents'; // Function to check sign-up status
-import { cancelRSVPInDatabase } from '../../composables/eventActions'; // Function to cancel RSVP
+import { hasUserSignedUpForEvent } from '../../composables/fetchEvents';
+import { cancelRSVPInDatabase } from '../../composables/eventActions';
 
-// Props
+// Props and Emits
 const props = defineProps({
   event: Object,
 });
 
-// Emits
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'rsvp-cancelled']);
 
-// Local state
+// State
 const showSignUpForm = ref(false);
 const showLoginModal = ref(false);
-const showCancelRSVPModal = ref(false); // Cancel RSVP modal state
-const showSuccessModal = ref(false); // Success modal state
+const showCancelRSVPModal = ref(false);
+const showSuccessModal = ref(false);
 const hasSignedUp = ref(false);
 const isAuthenticated = ref(false);
-const userId = ref(null); // Keep track of authenticated user
-const loading = ref(true); // Add loading state
-const progress = ref(100); // Progress for the success modal countdown
-
-// Close the modal
-const closeModal = () => {
-  emit('close');
-};
-
-// Open the sign-up form modal
-const openSignUpForm = () => {
-  showSignUpForm.value = true;
-};
-
-// Close the sign-up form modal
-const closeSignUpForm = () => {
-  showSignUpForm.value = false;
-};
-
-// Open the login modal
-const openLoginModal = () => {
-  showLoginModal.value = true;
-};
-
-// Close the login modal
-const closeLoginModal = () => {
-  showLoginModal.value = false;
-};
-
-// Open the cancel RSVP confirmation modal
-const openCancelRSVPModal = () => {
-  showCancelRSVPModal.value = true;
-};
-
-// Close the cancel RSVP modal
-const closeCancelRSVPModal = () => {
-  showCancelRSVPModal.value = false;
-};
-
-// After the sign-up form is submitted
-const onSignUpSubmitted = () => {
-  hasSignedUp.value = true; // Update the local state
-  props.event.no_of_signups += 1; // Increment participants count in UI
-};
-
-// Confirm Cancel RSVP
-const confirmCancelRSVP = async () => {
-  await cancelRSVP(); // Call the cancel RSVP function
-  closeCancelRSVPModal(); // Close the cancel modal
-  showSuccessModal.value = true; // Show the success modal
-  startCountdown(); // Start countdown to auto-close the success modal
-};
+const userId = ref(null);
+const loading = ref(true);
+const progress = ref(100);
 
 // Cancel RSVP process
 const cancelRSVP = async () => {
   try {
-    await cancelRSVPInDatabase(props.event.id, userId.value); // Call the function to cancel RSVP in Firestore
-    props.event.no_of_signups -= 1; // Decrease participants count in UI
-    hasSignedUp.value = false; // Update local state to reflect cancellation
+    await cancelRSVPInDatabase(props.event.id, userId.value);
+    props.event.no_of_signups -= 1;
+    hasSignedUp.value = false;
+    emit('rsvp-cancelled', props.event.id);
   } catch (error) {
     console.error("Error canceling RSVP:", error);
   }
 };
 
-// Close the success modal
-const closeSuccessModal = () => {
-  showSuccessModal.value = false;
+// Modal handlers
+const closeModal = () => {
+  emit('close');
 };
 
-// Countdown timer to close the success modal
+const openSignUpForm = () => {
+  showSignUpForm.value = true;
+};
+
+const closeSignUpForm = () => {
+  showSignUpForm.value = false;
+};
+
+const openLoginModal = () => {
+  showLoginModal.value = true;
+};
+
+const closeLoginModal = () => {
+  showLoginModal.value = false;
+};
+
+const openCancelRSVPModal = () => {
+  showCancelRSVPModal.value = true;
+};
+
+const closeCancelRSVPModal = () => {
+  showCancelRSVPModal.value = false;
+};
+
+const closeSuccessModal = () => {
+  showSuccessModal.value = false;
+  emit('rsvp-cancelled', props.event.id);
+  closeModal();
+};
+
+const onSignUpSubmitted = () => {
+  hasSignedUp.value = true;
+  props.event.no_of_signups += 1;
+};
+
+// Confirm Cancel RSVP
+const confirmCancelRSVP = async () => {
+  await cancelRSVP();
+  closeCancelRSVPModal();
+  showSuccessModal.value = true;
+  startCountdown();
+};
+
+// Countdown timer
 const startCountdown = () => {
   progress.value = 100;
   const interval = setInterval(() => {
     progress.value -= 10;
     if (progress.value <= 0) {
       clearInterval(interval);
-      closeSuccessModal(); // Automatically close the modal after 3 seconds
+      closeSuccessModal();
     }
-  }, 300); // Update the progress bar every 300ms
+  }, 300);
 };
 
-// Listen to auth state changes
+// Initialize
 onMounted(async () => {
   hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
-  loading.value = false; // Stop loading once the check is complete
+  loading.value = false;
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       isAuthenticated.value = true;
-      userId.value = user.uid; // Set the user ID
+      userId.value = user.uid;
       showLoginModal.value = false;
-      // Check if the user has already signed up for this event
       hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
     } else {
       isAuthenticated.value = false;
@@ -203,6 +196,8 @@ onMounted(async () => {
   });
 });
 </script>
+
+
 
 <style scoped>
 /* Main Event Modal */
