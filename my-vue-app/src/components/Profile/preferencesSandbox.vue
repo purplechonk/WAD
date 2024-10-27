@@ -509,5 +509,6 @@ export default {
   overflow: hidden;
   position: relative;
   background-color: #693EFE;
+  cursor: grab;
 }
 </style>

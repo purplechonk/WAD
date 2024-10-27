@@ -107,6 +107,7 @@ export default {
 /* Optional: Add a subtle shadow effect when hovering */
 .card:hover {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  cursor: all-scroll;
 }
 
 /* Optional: Make inner elements preserve 3D effect */
