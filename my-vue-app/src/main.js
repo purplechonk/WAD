@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router'; // Import the router
 
 // Import Bootstrap, Font Awesome, and Custom Styles
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import './assets/css/bootstrap.css';
 import './assets/css/font-awesome.css';
 import '@fortawesome/fontawesome-free/css/all.css';

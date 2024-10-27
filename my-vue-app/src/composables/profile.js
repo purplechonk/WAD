@@ -1,5 +1,5 @@
 // src/composables/profile.js
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, onSnapshot} from 'firebase/firestore';
 import { db } from '../firebase';
 import { auth } from '../firebase'; // For accessing the current user
 
@@ -66,5 +66,42 @@ export const saveUserPreferencesToFirestore = async (field, value) => {
     console.log(`${field} updated successfully.`);
   } catch (error) {
     console.error('Error updating preferences:', error);
+  }
+};
+
+export const listenForUserPreferenceUpdates = (callback) => {
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) return;
+
+  const userDocRef = doc(db, 'user_records', currentUser.uid);
+
+  // Firestore onSnapshot for real-time updates
+  return onSnapshot(userDocRef, (docSnapshot) => {
+    if (docSnapshot.exists()) {
+      const userData = docSnapshot.data();
+      callback(userData); // Pass the updated data to the callback function
+    }
+  }, (error) => {
+    console.error('Error fetching real-time updates:', error);
+  });
+};
+
+export const saveScheduleToFirestore = async (scheduleData) => {
+  const currentUser = auth.currentUser
+  try {
+    if (!currentUser) {
+      throw new Error('User ID not found');
+    }
+
+    const docRef = doc(db, 'user_records', currentUser.uid);
+    await updateDoc(docRef, {
+      weekly_timetable: scheduleData
+    });
+    
+    return true;
+  } catch (error) {
+    console.error('Error saving schedule:', error);
+    throw error;
   }
 };
