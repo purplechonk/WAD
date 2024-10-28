@@ -294,8 +294,8 @@ export default {
       const pixelRatio = window.devicePixelRatio || 1;
 
       this.engine = Matter.Engine.create();
-      this.engine.world.gravity.y = 0.5;
-      this.engine.world.gravity.scale = 0.0005;
+      this.engine.world.gravity.y = 0.8;
+      this.engine.world.gravity.scale = 0.00025;
 
       this.render = Matter.Render.create({
         element: container,

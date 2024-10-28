@@ -1,10 +1,13 @@
 <template>
   <div class="container">
     <div class="d-flex justify-content-between align-items-center my-3">
-      <h2>My Weekly Timetable</h2>
-      <i @click="openAddModal" 
-         class="bi bi-calendar-plus text-primary ms-4"
-         style="cursor: pointer; font-size: 24px;">
+      <h2>
+        My Weekly Timetable
+        <i class="bi bi-info-circle text-primary fs-5 align-text-top" data-bs-toggle="tooltip" data-bs-placement="right"
+          title="Events are curated to match your schedule & academic focus.">
+        </i>
+      </h2>
+      <i @click="openAddModal" class="bi bi-calendar-plus text-primary ms-4" style="cursor: pointer; font-size: 24px;">
       </i>
     </div>
 
@@ -49,9 +52,8 @@
                     {{ calculateDuration(classItem.start_time, classItem.end_time) }} minutes
                   </span>
                 </div>
-                <i @click="openEditModal(classItem)" 
-                   class="bi bi-pencil ms-3 text-primary"
-                   style="cursor: pointer; font-size: 16px;">
+                <i @click="openEditModal(classItem)" class="bi bi-pencil ms-3 text-primary"
+                  style="cursor: pointer; font-size: 16px;">
                 </i>
               </div>
               <div class="module-name"><u>{{ classItem.class_name }}</u></div>
@@ -142,6 +144,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { getUserDataFromFirestore, saveScheduleToFirestore } from '../../composables/profile';
+import { Tooltip } from 'bootstrap';
 
 export default {
   name: 'Timetable',
@@ -308,6 +311,8 @@ export default {
 
     // Lifecycle Hooks
     onMounted(() => {
+      const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltips.forEach(tooltip => new Tooltip(tooltip));
       modal.value = new Modal(classModal.value);
       initializeSchedule();
     });
@@ -380,15 +385,17 @@ export default {
   color: #3EFEC9;
 }
 
-.time-badge, .duration-badge {
-  white-space: nowrap;  /* Prevents breaking within badges */
+.time-badge,
+.duration-badge {
+  white-space: nowrap;
+  /* Prevents breaking within badges */
 }
 
 .badges-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-width: 0; 
+  min-width: 0;
 }
 
 /* Pagination styles */
@@ -406,7 +413,6 @@ export default {
 }
 
 .nav-link.active {
-  background-color: #3EFEC9;
   color: #000;
 }
 </style>
