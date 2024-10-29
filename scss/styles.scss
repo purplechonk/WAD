@@ -218,15 +218,25 @@
 
 }
 
+.changebottom {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  // --bs-btn-border-radius: 0px; /* Only top corners rounded */
+}
+
 /* Styling for the submenu */
 .tag-buttons-container {
-  justify-content: center;
+  background-color: var(--bs-link-color);
+  display: block;
+  justify-content: center; 
   position: sticky; 
   top: 65px; 
-  width: 100%; 
+  height: 100px;
+  width: 90%;
   z-index: 9999; 
   // opacity: 0; 
   transition: opacity 0.5s ease;
+  border-radius: 20px;
 }
 
 #subnavfilter {
@@ -256,7 +266,7 @@
 }
 /* Keep the link highlighted after being clicked */
 .tag-buttons .btn.active {
-  background-color: rgb(140, 82, 255); /* Highlighted color */
+  background-color: var(--bs-primary-border-subtle); /* Highlighted color */
   color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow when active */
   outline: none; /* Remove focus outline */
@@ -275,3 +285,504 @@
   pointer-events: none; /* Prevent interaction */
 }
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*down navbar section */
+
+.multisearchbar{
+  background: none;
+  width: 100%;
+  display: flex;
+  // justify-content: center;
+  // align-items: center;
+  flex-direction: column; /* Change to column layout */
+    justify-content: flex-start; /* Align to top */
+    align-items: center;
+    position: relative; /* Add this */
+    height: 80px; /* Or adjust as needed */
+}
+
+.filter-expanded{
+  background-color: black;
+  width: 500px;
+  height: 66px;
+  border: 0.5px solid #d4cfcf;
+  border-radius: 40px;
+  box-shadow: 0px 0px 13px 1px #e3dada;
+  display: flex;
+  align-items: center;
+}
+
+.sbdivider {
+  background-color: #d4cfcf;
+  height: 18px;
+  width: 0.5px;
+}
+
+.sbpart0{
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.sbpart0 p{
+  width: 160px;
+  /* Add these new styles to match input appearance */
+  margin: 0;
+  height: 20px;
+  color: #757575; /* This matches placeholder color */
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* maintain the text appearance exactly like a placeholder */
+.category-display {
+  color: #757575;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.sbpart1{
+  width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sbpart1 input{
+  width: 160px;
+  font-weight: 500;
+  border: none;
+  height: 20px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+}
+
+.sbpart0 :hover, .sbpart1 input:hover, .sbpart1 :hover{
+  // background-color: #f2f1f1;
+  box-shadow: 0px 0px 10px 0px #00000033;
+}
+
+input:focus{
+  border: none;
+  outline: none;
+}
+
+
+
+.categories, .events{
+  font-size: 14px;
+  font-weight: 500;
+  // height: 10px;
+  height: 23px; /* Remove fixed height */
+    // margin-bottom: 5px; /* Add space between button and input */
+    background: none;
+    border: none;
+    padding: 0;
+    // color: white;
+    // text-align: left;
+    width: 100%;
+    font: inherit; 
+    color: inherit; 
+    text-align: inherit;
+}
+
+// align the header with placeholder
+
+.categories {
+  margin-left: 28px;
+}
+.events {
+  margin-left: 13px;
+}
+
+
+.sbpart0, .sbpart1{
+  padding: 10px 20px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px; /* Add consistent spacing between elements */
+}
+.sbpart0:hover, .sbpart1:hover{
+  box-shadow: 0px 0px 3px 1px #e3dada;
+  border-radius: 50px;
+  height: 65px;
+  cursor: pointer;
+}
+
+
+.search-button1{
+  width: 48px;
+  height: 48px;
+  background-color: #8c52ff;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease-in;
+}
+.search-button1:hover {
+  background-color: rgb(112, 65.6, 204);
+  cursor: pointer;
+  transform: rotate(90deg);
+}
+
+.filter-collapsed{
+  background-color: black;
+  width: 301px;
+  height: 46px;
+  border: 0.5px solid #d4cfcf;
+  border-radius: 40px;
+  box-shadow: 0px 0px 13px 1px #e3dada;
+  display: flex;
+  align-items: center;
+}
+
+.sbpart3, .sbpart4 {
+  padding: 11px 15px;
+  display: flex;
+  align-items: center;
+  height: 45px;
+}
+
+.sbpart3:hover, .sbpart4:hover {
+  box-shadow: 0px 0px 3px 1px #e3dada;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.sbpart3 {
+  width: 140px;  /* Width for "Any Category" */
+}
+
+.sbpart4 {
+  width: 120px;  /* Width for "Any Event" */
+}
+
+.sbpart3 .btn, .sbpart4 .btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Update focus styles */
+.sbpart3 .btn:focus, .sbpart4 .btn:focus {
+  outline: none;
+}
+
+/* Adjust the search button position in collapsed view */
+.filter-collapsed .search-button2 {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.search-button2{
+  width: 30px;
+  height: 30px;
+  background-color: #8c52ff;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease-in;
+}
+.search-button2:hover {
+  background-color: rgb(112, 65.6, 204);
+  cursor: pointer;
+  transform: rotate(90deg);
+}
+
+/* Transitions */
+.multisearchbar.scrolled .filter-expanded {
+  display: none;
+}
+
+.multisearchbar.scrolled .filter-collapsed {
+  display: flex;
+}
+
+.multisearchbar.scrolled {
+  padding: 10px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+// .myObserver {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 1px;
+//   background: transparent;
+//   pointer-events: none;
+// }
+
+// DECIDED TO USE VISBILITY & OPACITY MTD instead and
+// adjusted the positioning for filter
+
+.filter-expanded, .filter-collapsed {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: visibility 0.2s, opacity 0.2s;
+}
+
+/* Specific positioning for expanded filter */
+.filter-expanded {
+  top: 80px;
+}
+
+/* Specific positioning for collapsed filter */
+.filter-collapsed {
+  top: 10px;
+}
+
+// DROPDOWN STYLINGGGGGGGGGGG
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/* Position container for dropdown */
+.sbpart0 {
+  position: relative;
+}
+
+/* Dropdown container */
+.categories-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  background-color: black;
+  border: 0.5px solid #d4cfcf;
+  border-radius: 20px;
+  margin-top: 12px;
+  box-shadow: 0px 0px 13px 1px #e3dada;
+  display: none;
+  z-index: 1000;
+}
+
+/* Show dropdown when active */
+.categories-dropdown.active {
+  display: block;
+  box-shadow: 0px 0px 25px 5px #e3dada;
+}
+
+/* Dropdown content wrapper */
+.dropdown-content {
+  padding: 15px;
+}
+
+/* Grid layout for category options */
+.category-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* Two columns */
+  gap: 8px;
+}
+
+/* Individual category option button */
+.category-option {
+  background: none;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Hover effect for category options */
+.category-option:hover {
+  background-color: rgba(134, 74, 255, 0.347);
+}
+
+/* Selected state styling */
+.category-option.selected {
+  background-color: rgba(140, 82, 255, 0.15);
+  color: #8c52ff;
+  font-weight: 500;
+}
+
+/* Remove (X) button styling */
+.remove-tag {
+  display: none;
+  color: #8c52ff;
+  font-size: 14px;
+  padding: 2px;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+/* Show remove button only for selected options */
+.category-option.selected .remove-tag {
+  display: inline-block;
+}
+
+/* Hover effect for remove button */
+.remove-tag:hover {
+  background-color: rgba(140, 82, 255, 0.2);
+}
+
+/* Section header styling */
+.category-options::before {
+  content: 'All Categories';
+  display: block;
+  color: #757575;
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Make "All" option span full width */
+.category-option[data-value="all"] {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+}
+
+/* Scrollbar styling for overflow */
+.category-options {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8c52ff #1a1a1a;
+}
+
+.category-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-options::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 3px;
+}
+
+.category-options::-webkit-scrollbar-thumb {
+  background-color: #8c52ff;
+  border-radius: 3px;
+}
+
+/* Category display text styling */
+.category-display {
+  margin: 0;
+  height: 20px;
+  color: #757575;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+
+  // Ensure typing animation is triggered when clicking anywhere on the search area
+.typing {
+  animation: typing-animation 1s ease-in-out forwards;
+}
+
+@keyframes typing-animation {
+  0% {
+      border-bottom: 2px solid transparent;
+  }
+  50% {
+      border-bottom: 2px solid #8c52ff;
+  }
+  100% {
+      border-bottom: 2px solid transparent;
+  }
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+// /* Dropdown styling */
+// .categories-dropdown {
+//   position: absolute;
+//   top: 100%;
+//   left: 0;
+//   width: 250px;
+//   background-color: black;
+//   border: 1px solid #d4cfcf;
+//   border-radius: 12px;
+//   margin-top: 8px;
+//   box-shadow: 0 2px 10px rgba(227, 218, 218, 0.3);
+//   display: none;
+//   z-index: 1000;
+// }
+
+// /* Show dropdown when active */
+// .categories-dropdown.active {
+//   display: block;
+// }
+
+// .dropdown-content {
+//   padding: 8px 0;
+// }
+
+// .dropdown-item {
+//   padding: 10px 20px;
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   transition: background-color 0.2s ease;
+// }
+
+// .dropdown-item:hover {
+//   background-color: rgba(140, 82, 255, 0.1);
+// }
+
+// /* Checkbox styling */
+// .category-checkbox {
+//   appearance: none;
+//   width: 20px;
+//   height: 20px;
+//   border: 2px solid #8c52ff;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   position: relative;
+// }
+
+// .category-checkbox:checked {
+//   background-color: #8c52ff;
+// }
+
+// .category-checkbox:checked::after {
+//   content: '✓';
+//   position: absolute;
+//   color: white;
+//   font-size: 14px;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }
+
+// /* Label styling */
+// .dropdown-item label {
+//   color: white;
+//   font-size: 14px;
+//   cursor: pointer;
+//   margin: 0;
+// }
+
+
+
+ 

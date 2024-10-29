@@ -50,47 +50,124 @@
       </div>
     </nav>
 
-    <nav id="really" class="navbar navbar-expand-lg sticky-top navbar-dark pt-2">
-      <div class="container-fluid justify-content-center" id="containerFilter">
-        <div class="btn-group" id="btngroup" role="group" aria-label="Basic example">
-          <a type="button" id="catbtn" class="btn btn-primary px-auto filter-btn">All Categories</a>     
-          <a id="searchbtn" class="btn btn-primary px-3 search-btn">
-            <img src="images/search_button.svg" alt="Search" class="search-img" width="20" />
-          </a>
-        </div>  
-      </div>
-    </nav>  
+    <div class="navbar navbar-expand-lg sticky-top navbar-dark multisearchbar">
+      <div class="filter-expanded order-1" id="filter-expanded">
 
+          <div class="sbpart0">
 
-    <div class="tag-buttons-container container bg-dark py-3 mx-5" id="subnavfilter">
-      <div class="row">
-        <div class="col-8 justify-content-center">
-          <div class="tag-buttons">
-              <button class="btn tagbtn active" data-tag="all"> All </button>
-              <button class="btn tagbtn" data-tag="Academic"> Academic </button>
-              <button class="btn tagbtn" data-tag="Sports"> Sports </button>
-              <button class="btn tagbtn" data-tag="Arts"> Arts </button>
-              <button class="btn tagbtn" data-tag="Special Interest"> Special Interest </button>
-              <button class="btn tagbtn" data-tag="Cultural"> Cultural </button>
-              <button class="btn tagbtn" data-tag="Finance"> Finance </button>
-              <button class="btn tagbtn" data-tag="Business"> Business </button>
-              <button class="btn tagbtn" data-tag="Technology"> Technology </button>
-              <button class="btn tagbtn" data-tag="Business"> Business </button>
-              <button class="btn tagbtn" data-tag="Religion"> Religion </button>
-              <button class="btn tagbtn" data-tag="Career"> Career </button>
-              <button class="btn tagbtn" data-tag="Psychology"> Psychology </button>
-              <button class="btn tagbtn" data-tag="Entertainment"> Entertainment </button>
-              <button class="btn tagbtn" data-tag="Environment"> Environment </button>
+              <button class="categories" id="categories-btn">Categories</button>
+              <p class="category-display">All categories</p>
+    
+            <!-- Categories dropdown -->
+            <div class="categories-dropdown" id="categories-dropdown">
+                <div class="dropdown-content">
+                    <!-- Category options -->
+                    <div class="category-options">
+                        <button class="category-option selected" data-value="all">All</button>
+                        <button class="category-option" data-value="academic">Academic</button>
+                        <button class="category-option" data-value="sports">Sports</button>
+                        <button class="category-option" data-value="arts">Arts</button>
+                        <button class="category-option" data-value="special-interest">Special Interest</button>
+                        <button class="category-option" data-value="cultural">Cultural</button>
+                        <button class="category-option" data-value="finance">Finance</button>
+                        <button class="category-option" data-value="business">Business</button>
+                        <button class="category-option" data-value="technology">Technology</button>
+                        <button class="category-option" data-value="religion">Religion</button>
+                        <button class="category-option" data-value="career">Career</button>
+                        <button class="category-option" data-value="psychology">Psychology</button>
+                        <button class="category-option" data-value="entertainment">Entertainment</button>
+                        <button class="category-option" data-value="environment">Environment</button>
+                    </div>
+                </div>
+            </div>
+
           </div>
+
+          <div class="sbdivider"></div>
+
+          <div class="sbpart1">
+              <!-- <p class="events">Events</p> -->
+              <button class="events">Events</button>
+              <input type="text" name="" id="search-events" placeholder="Search events">
+          </div>
+
+          <!-- <div class="sbpart2"> -->
+              <!-- <p class="when">When</p> -->
+              <!-- <button class="when">When</button>
+              <p class="date-display" placeholder="Add dates">Add dates</p> 
+          </div> -->
+
+          <div class="search-button1">
+              <svg class="searchicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill:none ; height: 16px; width: 16px; stroke:white ; stroke-width: 4; overflow: visible;"><path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path></svg>
+          </div>
+
+      </div>
+      <div class="filter-collapsed order-2" id="filter-collapsed">
+        <div class="sbpart3">
+            <button class="btn category-button">All Categories</button>
         </div>
-        <div class="col-4 justify-content-center">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+        <div class="sbdivider"></div>
+        <div class="sbpart4">
+            <button class="btn event-button">All Events</button>
+        </div>
+        <div class="search-button2">
+            <svg class="searchicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill:none ; height: 13px; width: 13px; stroke:white ; stroke-width: 4; overflow: visible;"><path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path></svg>
+        </div>
+      </div>
+      
+    </div>
+
+    
+
+   <!-- <nav id="filterBar" class="navbar navbar-expand-lg sticky-top navbar-dark pt-3">
+   <div class="container-fluid justify-content-center" id="containerFilter">
+      <div class="btn-group" id="btngroup" role="group" aria-label="Basic example">
+        <a id="catbtn" class="btn catbtn btn-primary px-auto">All Categories</a>  
+        <a id="catbtn" class="btn catbtn btn-primary px-auto">Any Date</a>   
+        <a id="searchbtn" class="btn searchbtn btn-primary px-3">
+          <img src="images/search_button.svg" alt="Search" class="search-img" width="20" />
+        </a>
+      </div>  
+
+      <tr>
+
+      <div class="tag-buttons-container container-fluid justify-content-center ml-10 mr-5" id="subnavfilter" >
+        <div class="row">
+          <div class="col-lg-8 d-flex flex-column align-items-center text-center">
+            <div class="tag-buttons">
+                <button class="badge btn tagbtn active" data-tag="all"> All </button>
+                <button class="badge btn tagbtn" data-tag="Academic"> Academic </button>
+                <button class="badge btn tagbtn" data-tag="Sports"> Sports </button>
+                <button class="badge btn tagbtn" data-tag="Arts"> Arts </button>
+                <button class="badge btn tagbtn" data-tag="Special Interest"> Special Interest </button>
+                <button class="badge btn tagbtn" data-tag="Cultural"> Cultural </button>
+                <button class="badge btn tagbtn" data-tag="Finance"> Finance </button>
+                <button class="badge btn tagbtn" data-tag="Business"> Business </button>
+                <button class="badge btn tagbtn" data-tag="Technology"> Technology </button>
+                <button class="badge btn tagbtn" data-tag="Business"> Business </button>
+                <button class="badge btn tagbtn" data-tag="Religion"> Religion </button>
+                <button class="badge btn tagbtn" data-tag="Career"> Career </button>
+                <button class="badge btn tagbtn" data-tag="Psychology"> Psychology </button>
+                <button class="badge btn tagbtn" data-tag="Entertainment"> Entertainment </button>
+                <button class="badge btn tagbtn" data-tag="Environment"> Environment </button>
+            </div>  
+          </div>
+          <div class="col-lg-3 flex-column align-items-center text-center">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+  </nav>   -->
+
+
+  
+
+  
+
     <!-- <div class="posts-container">
         <div class="post" data-tags="category-1,category-4">
           <h1>Post 1 (Categories: 1, 4)</h1>
