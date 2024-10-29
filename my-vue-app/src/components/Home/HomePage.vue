@@ -152,21 +152,3 @@ onMounted(() => {
 });
 
 </script>
-
-<!-- <style scoped>
-/* Navbar styling */
-.navbar img {
-  height: 40px;
-}
-
-/* Event Cards */
-.event-cards {
-  margin-top: 20px;
-}
-
-.card-area {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-  gap: 20px; /* Space between cards */
-}
-</style> -->

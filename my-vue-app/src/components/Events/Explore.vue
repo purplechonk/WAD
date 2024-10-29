@@ -63,7 +63,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import EventList from '../General/EventList.vue';
-import { fetchAllEvents } from '../../composables/fetchEvents';
+import { fetchLiveEvents } from '../../composables/fetchEvents';
 
 const events = ref([]); // All events
 const loading = ref(false); // Loading state
@@ -77,7 +77,7 @@ const availableCategories = ref([]); // All available categories from events
 const fetchEvents = async () => {
   loading.value = true;
   try {
-    const fetchedEvents = await fetchAllEvents();
+    const fetchedEvents = await fetchLiveEvents();
     events.value = fetchedEvents;
 
     // Extract unique categories from events
