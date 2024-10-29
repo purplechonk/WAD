@@ -98,7 +98,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase'; // Firebase Auth instance
-import { fetchRecommendedEvents, fetchFeaturedEvents } from '../../composables/fetchEvents';
+import { fetchRecommendedEvents } from '../../composables/fetchEvents';
 import Carousel from './Carousel.vue';
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
@@ -110,10 +110,6 @@ const isAuthenticated = ref(false); // Track user authentication state
 const loadRecommendedEvents = async () => {
   recommendedEvents.value = await fetchRecommendedEvents();
   console.log('Recommended Events:', recommendedEvents.value);
-};
-
-const loadFeaturedEvents = async () => {
-  featuredEvents.value = await fetchFeaturedEvents();
 };
 
 const showModal = ref(false);
@@ -142,7 +138,6 @@ const handleLoginSuccess = async () => {
 
 onMounted(() => {
   loadRecommendedEvents();
-  loadFeaturedEvents();
 
   // Listen for auth state changes
   onAuthStateChanged(auth, (user) => {

@@ -24,6 +24,10 @@
             <li class="nav-item">
               <router-link to="/my-events" class="nav-link">My Events</router-link>
             </li>
+            <li>
+              <router-link to="/analytics" class="nav-link">Analytics</router-link>
+            </li>
+
           </ul>
           <span class="nav-item">
             <span class="fa-stack">

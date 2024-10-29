@@ -137,7 +137,7 @@ export default {
         }
       }
     },
-    measureText(text, fontSize = '16px Poppins') {
+    measureText(text, fontSize = `${style.fontWeight} 16px Poppins`) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       context.font = fontSize;

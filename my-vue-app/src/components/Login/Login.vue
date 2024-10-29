@@ -39,9 +39,9 @@ const handleClose = () => {
   const redirectTarget = route.query.redirect;
   const previousPage = route.query.previousPath
 
-  if (redirectTarget === '/profile' || redirectTarget === '/my-events') {
+  if (redirectTarget === '/profile' || redirectTarget === '/my-events' || redirectTarget === '/analytics' ) {
     // If the redirect target is restricted, route back to it or default to home
-    router.push(previousPage); // Redirect to home
+    router.push("/"); // Redirect to home
   } else {
     // Emit the 'close' event to close the modal for non-restricted pages
     emit('close');

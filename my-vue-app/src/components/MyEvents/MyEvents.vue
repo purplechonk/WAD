@@ -73,9 +73,6 @@ const selectedEvent = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-// Constants
-const CURRENT_DATE = new Date('2024-02-01T00:00:00');
-
 // Helper function to parse date strings from DD/MM/YYYY format
 const parseDate = (dateStr) => {
   try {
@@ -146,11 +143,11 @@ const fetchUserEvents = async () => {
 
     // Split events into upcoming and past
     upcomingEvents.value = events
-      .filter(event => event.parsed_end_date >= CURRENT_DATE)
+      .filter(event => event.parsed_end_date >= window.CURRENT_DATE)
       .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
 
     pastEvents.value = events
-      .filter(event => event.parsed_end_date < CURRENT_DATE)
+      .filter(event => event.parsed_end_date < window.CURRENT_DATE)
       .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
 
     console.log('Upcoming events:', upcomingEvents.value);

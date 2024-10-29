@@ -5,6 +5,7 @@ import Explore from './components/Events/Explore.vue';  // Updated path
 import MyEvents from './components/MyEvents/MyEvents.vue';  // Updated path
 import Profile from './components/Profile/Profile.vue';  // Updated path
 import Login from './components/Login/Login.vue';  // Updated path
+import Analytics from './components/Analytics/Analytics.vue';  // Import the new component
 
 import { isAuthenticated, isAuthStateChecked } from './composables/auth';  // Import the auth check function
 
@@ -13,6 +14,7 @@ const routes = [
   { path: '/', component: Home, name: 'Home' },  // Home page is accessible to everyone
   { path: '/explore', component: Explore, name: 'Explore' },  // Explore page is accessible to everyone
   { path: '/my-events', component: MyEvents, name: 'MyEvents', meta: { requiresAuth: true } },  // Protected route
+  { path: '/analytics', component: Analytics, name: 'Analytics', meta: { requiresAuth: true } }, //Protected route
   { path: '/profile', component: Profile, name: 'Profile', meta: { requiresAuth: true } },  // Protected route
   { path: '/login', component: Login, name: 'Login' },  // Login page
 ];
@@ -33,14 +35,14 @@ router.beforeEach((to, from, next) => {
       if (isAuthStateChecked()) {
         clearInterval(unwatch);
         if (requiresAuth && !isAuthenticated()) {
-          next({ path: '/login', query: { redirect: to.fullPath, previousPath: from.fullPath } });
+          next({ path: '/login', query: { redirect: to.fullPath} });
         } else {
           next();
         }
       }
     }, 100);  // Poll every 100ms to check auth state
   } else if (requiresAuth && !isAuthenticated()) {
-    next({ path: '/login', query: { redirect: to.fullPath, previousPath: from.fullPath } });
+    next({ path: '/login', query: { redirect: to.fullPath} });
   } else {
     next();  // Allow navigation if no auth is required or the user is authenticated
   }
