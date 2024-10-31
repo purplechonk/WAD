@@ -16,7 +16,7 @@
     <!-- Content when loaded -->
     <div v-if="!loading && !error">
       <!-- Upcoming Events Section -->
-      <div class="upcoming-events mb-12">
+      <div class="upcoming-events mb-12" id="upcoming_events">
         <h2 class="text-blue-400 text-3xl mb-6">Upcoming Events</h2>
         <div v-if="upcomingEvents.length > 0" class="event-grid">
           <EventCard

@@ -13,8 +13,8 @@
         <p><strong>Description:</strong> {{ event.description }}</p>
         <p><strong>Participants:</strong> {{ event.no_of_signups }} / {{ event.max_participants }}</p>
 
-        <!-- SAVE BUTTOn -->
-        <saveButton  :eventId="event.id" :eventName="event.event_name"/>
+        <!-- SAVE BUTTON -->
+        <SaveButton :eventId="event.id" :eventName="event.event_name" />
 
         <!-- Loading state to prevent jitter -->
         <div v-if="loading" class="loading-placeholder"></div>
@@ -23,10 +23,17 @@
         <div v-if="!loading" style="min-height: 50px;">
           <!-- Show "You Have Signed Up" message if user has signed up -->
           <p v-if="hasSignedUp" class="signed-up-message">You Have Signed Up</p>
-          <!-- Cancel RSVP button -->
-          <button v-if="hasSignedUp" class="btn btn-danger mt-2" @click="openCancelRSVPModal">Cancel RSVP</button>
           
-          
+          <!-- Cancel RSVP button or Event Ended badge -->
+          <div v-if="hasSignedUp">
+            <button v-if="!isEventEnded" class="btn btn-danger mt-2" @click="openCancelRSVPModal">
+              Cancel RSVP
+            </button>
+            <span v-else class="badge bg-secondary mt-2" style="font-size: 1rem;">
+              Event Ended
+            </span>
+          </div>
+
           <!-- If user is authenticated and not signed up, show Sign Up button -->
           <div v-if="isAuthenticated && !hasSignedUp">
             <button class="btn btn-primary mt-3" @click="openSignUpForm">Sign Up</button>
@@ -39,10 +46,11 @@
         </div>
 
         <!-- Sign-Up Form Modal -->
-        <SignUpFormModal 
-          v-if="showSignUpForm" 
-          @close="closeSignUpForm" 
-          @submitted="onSignUpSubmitted" 
+        <SignUpFormModal
+          v-if="showSignUpForm"
+          @close="closeSignUpForm"
+          @submitted="onSignUpSubmitted"
+          @view-my-events="handleViewMyEvents"
           :eventId="event.id"
           :userId="userId"
         />
@@ -76,14 +84,13 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick, computed } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import SignUpFormModal from './SignUpFormModal.vue';
@@ -91,6 +98,40 @@ import Login from '../Login/Login.vue';
 import SaveButton from './SaveButton.vue';
 import { hasUserSignedUpForEvent } from '../../composables/fetchEvents';
 import { cancelRSVPInDatabase } from '../../composables/eventActions';
+import { useRouter } from 'vue-router'; // Import Vue Router for navigation
+
+// Helper function to parse date string
+const parseDateTime = (dateTimeStr) => {
+  // Expected format: "13/01/2024 16:30:00"
+  const [datePart, timePart] = dateTimeStr.split(' ');
+  
+  if (!datePart || !timePart) {
+    console.error('Invalid dateTimeStr format:', dateTimeStr);
+    return null;
+  }
+  
+  const [day, month, year] = datePart.split('/');
+  const [hours, minutes, seconds] = timePart.split(':');
+  
+  // Convert all parts to integers
+  const dayInt = parseInt(day, 10);
+  const monthInt = parseInt(month, 10) - 1; // Months are 0-indexed in JS
+  const yearInt = parseInt(year, 10);
+  const hoursInt = parseInt(hours, 10);
+  const minutesInt = parseInt(minutes, 10);
+  const secondsInt = parseInt(seconds, 10);
+  
+  // Validate all parts
+  if (
+    isNaN(dayInt) || isNaN(monthInt) || isNaN(yearInt) ||
+    isNaN(hoursInt) || isNaN(minutesInt) || isNaN(secondsInt)
+  ) {
+    console.error('Invalid numerical values in dateTimeStr:', dateTimeStr);
+    return null;
+  }
+  
+  return new Date(yearInt, monthInt, dayInt, hoursInt, minutesInt, secondsInt);
+};
 
 // Props and Emits
 const props = defineProps({
@@ -98,6 +139,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'rsvp-cancelled']);
+
+// Initialize router
+const router = useRouter();
 
 // State
 const showSignUpForm = ref(false);
@@ -110,6 +154,27 @@ const userId = ref(null);
 const loading = ref(true);
 const progress = ref(100);
 
+// Computed Property to Check if the Event has Ended
+const isEventEnded = computed(() => {
+  // Ensure window.CURRENT_DATE is defined
+  if (!window.CURRENT_DATE) {
+    console.warn('window.CURRENT_DATE is not defined. Using current system date.');
+    window.CURRENT_DATE = new Date().toISOString();
+  }
+
+  // Parse the current date and event end date
+  const currentDate = new Date(window.CURRENT_DATE);
+  const eventEndDate = parseDateTime(props.event.end_date_time);
+  
+  if (!eventEndDate) {
+    // If parsing failed, assume the event has not ended
+    return false;
+  }
+
+  // Return true if the event has ended
+  return eventEndDate < currentDate;
+});
+
 // Cancel RSVP process
 const cancelRSVP = async () => {
   try {
@@ -118,7 +183,8 @@ const cancelRSVP = async () => {
     hasSignedUp.value = false;
     emit('rsvp-cancelled', props.event.id);
   } catch (error) {
-    console.error("Error canceling RSVP:", error);
+    console.error('Error canceling RSVP:', error);
+    // Optionally, notify the user of the error
   }
 };
 
@@ -182,6 +248,40 @@ const startCountdown = () => {
   }, 300);
 };
 
+// Scroll to Upcoming Events Section
+const scrollToUpcomingEventsSection = async () => {
+  const maxAttempts = 5;
+  const attemptScroll = async (attempt = 0) => {
+    if (attempt >= maxAttempts) return;
+
+    await nextTick();
+    const upcomingEventsSection = document.getElementById('upcoming_events');
+
+    if (upcomingEventsSection) {
+      setTimeout(() => {
+        upcomingEventsSection.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      setTimeout(() => attemptScroll(attempt + 1), 200 * (attempt + 1));
+    }
+  };
+
+  await attemptScroll();
+};
+
+// Handle the 'view-my-events' event from SignUpFormModal
+const handleViewMyEvents = async () => {
+  // Close the EventDetailModal
+  emit('close');
+
+  if (router.currentRoute.value.path !== '/my-events') {
+    await router.push('/my-events');
+    await scrollToUpcomingEventsSection();
+  } else {
+    await scrollToUpcomingEventsSection();
+  }
+};
+
 // Initialize
 onMounted(async () => {
   hasSignedUp.value = await hasUserSignedUpForEvent(props.event.id);
@@ -201,8 +301,6 @@ onMounted(async () => {
   });
 });
 </script>
-
-
 
 <style scoped>
 /* Main Event Modal */
@@ -243,7 +341,7 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1000; /* Ensure it's above the main modal */
 }
 
 .small-modal-dialog {
@@ -287,5 +385,24 @@ onMounted(async () => {
   height: 5px;
   background-color: #28a745;
   transition: width 0.3s linear;
+}
+
+/* Style for the "Event Ended" badge */
+.badge {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d; /* Bootstrap's secondary color */
+}
+
+/* If using a custom class */
+.event-ended-badge {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 0.25rem;
+  font-size: 1rem;
 }
 </style>

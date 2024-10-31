@@ -51,8 +51,7 @@ const props = defineProps({
   eventId: String, // The event ID
 });
 
-const emit = defineEmits(['close', 'submitted']);
-const router = useRouter(); // Initialize router
+const emit = defineEmits(['close', 'submitted', 'view-my-events']);
 
 // Form data
 const friendsNames = ref('');
@@ -72,20 +71,24 @@ const closeSuccessModal = () => {
 
 // Function to handle sign-up confirmation
 const confirmSignup = async () => {
-  // Update signups in Firestore
-  await updateEventSignups(props.eventId);
+  try {
+    // Update signups in Firestore
+    await updateEventSignups(props.eventId);
 
-  // Add the event to the user's signed_up_events array
-  await updateUserSignedUpEvents(props.eventId);
+    // Add the event to the user's signed_up_events array
+    await updateUserSignedUpEvents(props.eventId);
 
-  emit('submitted'); // Notify parent that sign-up is confirmed
-  showSuccessModal.value = true; // Show success modal after sign-up
+    emit('submitted'); // Notify parent that sign-up is confirmed
+    showSuccessModal.value = true; // Show success modal after sign-up
+  } catch (error) {
+    console.error('Error during signup:', error);
+    // Handle error (e.g., show an error message to the user)
+  }
 };
 
-// Function to navigate to My Events page
+// Function to emit 'view-my-events' event
 const viewMyEvents = () => {
-  closeSuccessModal(); // Close both modals
-  router.push('/my-events'); // Navigate to "My Events" page
+  emit('view-my-events');
 };
 </script>
 
