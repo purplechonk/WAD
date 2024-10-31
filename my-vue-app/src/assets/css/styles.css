@@ -2,6 +2,21 @@
   font-size: 65px;
 }
 
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #ffeb0e;
+  bottom: 50px;
+  transform: scaleX(0);
+}
+
 .header {
   position: relative;
   height: 600px;
@@ -83,6 +98,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* Image container styles */

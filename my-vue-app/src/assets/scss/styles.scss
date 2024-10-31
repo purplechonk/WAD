@@ -5,6 +5,24 @@
 // .special-text{
 //   font-size: 50px;
 // }
+section{
+  height: 100vh;
+  scroll-snap-align: start;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // position: relative;
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #ffeb0e;
+  bottom: 50px;
+  transform: scaleX(0);
+}
 
 .header {
   position: relative;
@@ -79,8 +97,6 @@
   width: 100%;
 }
 
-
-
 .bento-grid {
   display: grid;
   gap: 1rem;
@@ -95,6 +111,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* Image container styles */
