@@ -9,7 +9,7 @@ import './assets/css/font-awesome.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
 
-// // Import Bootstrap JS (for interactive components like navbar)
+// // Import Bootstrap JS
 import './assets/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);

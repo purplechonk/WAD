@@ -1,60 +1,7 @@
 <template>
   <div>
-    <!-- <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="./assets/logo.png" alt="Logo" class="logo" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">
-                <router-link to="/explore">Explore</router-link>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#solutions">
-                <router-link to="/my-events">My Events</router-link>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#details">
-                <router-link to="/profile">Profile</router-link>
-              </a>
-            </li>
-          </ul>
-          <span class="nav-item">
-            <span class="fa-stack">
-              <a href="https://facebook.com" target="_blank">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fa-solid fa-user fa-stack-1x text-white"></i>
-              </a>
-            </span>
-          </span>
-
-
-          
-          
-          
-        </div>
-      </div>
-      
-
-    </nav> -->
 
     <section class="hero">
-      <Carousel />
       <div class="hero-text">
         <h1>Welcome to the Events App</h1>
         <p>Discover and join exciting events happening near you!</p>
@@ -99,7 +46,6 @@ import { ref, onMounted, watch } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase'; // Firebase Auth instance
 import { fetchRecommendedEvents } from '../../composables/fetchEvents';
-import Carousel from './Carousel.vue';
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 

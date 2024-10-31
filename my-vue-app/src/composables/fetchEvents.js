@@ -437,3 +437,30 @@ export const fetchRecommendedEvents = async () => {
     return [];
   }
 };
+export const fetchUserEvents = async () => {
+  try {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error('User is not authenticated');
+    }
+
+    // Reference to the user's Firestore document
+    const userDocRef = doc(db, 'user_records', currentUser.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      throw new Error('User document does not exist');
+    }
+
+    const userData = userDoc.data();
+
+    // Extract saved and signed-up events
+    const savedEvents = userData.saved_events || [];     // Array of saved event IDs
+    const signedUpEvents = userData.signed_up_events || []; // Array of signed-up event IDs
+
+    return { savedEvents, signedUpEvents };
+  } catch (error) {
+    console.error('Error fetching user events:', error);
+    return { savedEvents: [], signedUpEvents: [] };
+  }
+};

@@ -23,6 +23,7 @@ export const checkAndCreateUserRecord = async (user) => {
       num_events_attended: 0, // Initially 0 events attended
       cca_interest: [], // Empty list of CCAs
       category_interests: [], // Empty list of category interests
+      saved_events: [],
     });
 
     console.log('User record created successfully.');

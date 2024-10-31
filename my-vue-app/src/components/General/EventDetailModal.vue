@@ -13,6 +13,9 @@
         <p><strong>Description:</strong> {{ event.description }}</p>
         <p><strong>Participants:</strong> {{ event.no_of_signups }} / {{ event.max_participants }}</p>
 
+        <!-- SAVE BUTTOn -->
+        <saveButton  :eventId="event.id" :eventName="event.event_name"/>
+
         <!-- Loading state to prevent jitter -->
         <div v-if="loading" class="loading-placeholder"></div>
 
@@ -22,7 +25,8 @@
           <p v-if="hasSignedUp" class="signed-up-message">You Have Signed Up</p>
           <!-- Cancel RSVP button -->
           <button v-if="hasSignedUp" class="btn btn-danger mt-2" @click="openCancelRSVPModal">Cancel RSVP</button>
-
+          
+          
           <!-- If user is authenticated and not signed up, show Sign Up button -->
           <div v-if="isAuthenticated && !hasSignedUp">
             <button class="btn btn-primary mt-3" @click="openSignUpForm">Sign Up</button>
@@ -84,6 +88,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import SignUpFormModal from './SignUpFormModal.vue';
 import Login from '../Login/Login.vue';
+import SaveButton from './SaveButton.vue';
 import { hasUserSignedUpForEvent } from '../../composables/fetchEvents';
 import { cancelRSVPInDatabase } from '../../composables/eventActions';
 
@@ -215,7 +220,7 @@ onMounted(async () => {
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: blueviolet;
   border-radius: 10px;
   width: 90%;
   height: 80vh;

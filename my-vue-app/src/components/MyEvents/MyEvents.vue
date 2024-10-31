@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div>
     <!-- Title -->
@@ -12,7 +11,7 @@
     <!-- Error State -->
     <div v-if="error" class="text-center py-8 text-red-500">
       {{ error }}
-    </div>
+    </div> 
 
     <!-- Content when loaded -->
     <div v-if="!loading && !error">
@@ -47,6 +46,22 @@
           You have no past events.
         </div>
       </div>
+
+      <!-- Saved Events Section -->
+      <div class="saved-events mb-12" id="saved_events">
+        <h2 class="text-blue-400 text-3xl mb-6">Saved Events</h2>
+        <div v-if="savedEvents.length > 0" class="event-grid">
+          <EventCard
+            v-for="event in savedEvents"
+            :key="event.id"
+            :event="event"
+            @show-details="showEventDetails"
+          />
+        </div>
+        <div v-else class="bg-gray-800 rounded-lg p-6 text-center text-gray-300">
+          You have no saved events.
+        </div>
+      </div>
     </div>
 
     <!-- Event Detail Modal -->
@@ -62,13 +77,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { db, auth } from '../../firebase';
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 
 // State
 const upcomingEvents = ref([]);
 const pastEvents = ref([]);
+const savedEvents = ref([]); // New state for saved events
 const selectedEvent = ref(null);
 const loading = ref(true);
 const error = ref(null);
@@ -93,7 +109,7 @@ const fetchUserEvents = async () => {
   try {
     const user = auth.currentUser;
     if (!user) {
-      console.log('No user signed in');
+      console.log('No user signed in for MyEvents');
       error.value = 'Please sign in to view your events';
       return;
     }
@@ -114,44 +130,59 @@ const fetchUserEvents = async () => {
     console.log('User data:', userData);
 
     const signedUpEventIds = Object.values(userData.signed_up_events || {});
+    const savedEventIds = Object.values(userData.saved_events || {}); // Fetch saved_events
+
     console.log('Signed up event IDs:', signedUpEventIds);
+    console.log('Saved event IDs:', savedEventIds);
 
-    if (signedUpEventIds.length === 0) {
-      console.log('No signed up events');
-      upcomingEvents.value = [];
-      pastEvents.value = [];
-      return;
-    }
-
-    // Fetch each event individually
-    const events = [];
-    for (const eventId of signedUpEventIds) {
-      const eventDoc = await getDoc(doc(db, 'events', eventId));
-      if (eventDoc.exists()) {
-        const eventData = eventDoc.data();
-        console.log(`Event ${eventId} data:`, eventData);
-        events.push({
-          id: eventDoc.id,
-          ...eventData,
-          parsed_end_date: parseDate(eventData.end_date_time),
-          parsed_start_date: parseDate(eventData.start_date_time)
-        });
+    // Function to fetch event details
+    const fetchEvents = async (eventIds) => {
+      const events = [];
+      for (const eventId of eventIds) {
+        const eventDoc = await getDoc(doc(db, 'events', eventId));
+        if (eventDoc.exists()) {
+          const eventData = eventDoc.data();
+          console.log(`Event ${eventId} data:`, eventData);
+          events.push({
+            id: eventDoc.id,
+            ...eventData,
+            parsed_end_date: parseDate(eventData.end_date_time),
+            parsed_start_date: parseDate(eventData.start_date_time)
+          });
+        }
       }
-    }
+      return events;
+    };
 
-    console.log('All fetched events:', events);
+    // Fetch signed up events
+    let events = [];
+    if (signedUpEventIds.length > 0) {
+      events = await fetchEvents(signedUpEventIds);
+    }
 
     // Split events into upcoming and past
     upcomingEvents.value = events
-      .filter(event => event.parsed_end_date >= window.CURRENT_DATE)
+      .filter(event => event.parsed_end_date >= window.CURRENT_DATE) // Use window.CURRENT_DATE
       .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
 
     pastEvents.value = events
-      .filter(event => event.parsed_end_date < window.CURRENT_DATE)
+      .filter(event => event.parsed_end_date < window.CURRENT_DATE) // Use window.CURRENT_DATE
       .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
 
     console.log('Upcoming events:', upcomingEvents.value);
     console.log('Past events:', pastEvents.value);
+
+    // Fetch saved events
+    let savedEventsList = [];
+    if (savedEventIds.length > 0) {
+      savedEventsList = await fetchEvents(savedEventIds);
+    }
+
+    // Sort saved events by start date
+    savedEvents.value = savedEventsList
+      .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
+
+    console.log('Saved events:', savedEvents.value);
 
   } catch (err) {
     console.error('Error fetching events:', err);
@@ -193,7 +224,8 @@ onMounted(() => {
 }
 
 .upcoming-events,
-.past-events {
+.past-events,
+.saved-events { /* Added saved-events */
   margin-bottom: 2rem;
 }
 

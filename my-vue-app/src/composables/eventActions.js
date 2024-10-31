@@ -1,4 +1,4 @@
-import { doc, updateDoc, arrayRemove, increment } from 'firebase/firestore';
+import { doc, updateDoc, arrayRemove, increment, arrayUnion } from 'firebase/firestore';
 import { db } from '../firebase';
 
 // Function to cancel RSVP
@@ -23,3 +23,21 @@ export const cancelRSVPInDatabase = async (eventId, userId) => {
     console.error('Error canceling RSVP:', error);
   }
 };
+
+export async function updateSaveEvents(field, userId, value, action) {
+  const userDoc = doc(db, 'user_records', userId);
+
+  try {
+    if (action === 'add') {
+      await updateDoc(userDoc, {
+        [field]: arrayUnion(value),
+      });
+    } else if (action === 'remove') {
+      await updateDoc(userDoc, {
+        [field]: arrayRemove(value),
+      });
+    }
+  } catch (error) {
+    console.error('Error updating user field:', error);
+  }
+}
