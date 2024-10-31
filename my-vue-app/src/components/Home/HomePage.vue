@@ -219,7 +219,7 @@ onMounted(() => {
   )
 
   //progress bar
-  const container = document.querySelector('.gallery-container');
+  const container = document.querySelector('.scroll-container');
   const progress = document.querySelector('.progress');
 
   const updateProgress = () => {
@@ -249,15 +249,6 @@ onMounted(() => {
   onBeforeUnmount(() => {
     container.removeEventListener('scroll', updateProgress);
   });
-
-  scroll(
-    animate(".gallery-track", {
-      transform: ["none", `translateX(-${items.length - 1}00vw)`]
-    }),
-    {
-      target: document.querySelector(".scroll-section")
-    }
-  );
 
 });
 
