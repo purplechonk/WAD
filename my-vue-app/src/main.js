@@ -3,16 +3,17 @@ import App from './App.vue';
 import router from './router'; // Import the router
 
 // Import Bootstrap, Font Awesome, and Custom Styles
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import './assets/css/bootstrap.css';
 import './assets/css/font-awesome.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
 
-// // Import Bootstrap JS (for interactive components like navbar)
+// // Import Bootstrap JS
 import './assets/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
-
+window.CURRENT_DATE = new Date('2024-02-01T00:00:00');
 
 // Import Google Fonts via JavaScript
 const link = document.createElement('link');

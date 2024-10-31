@@ -40,6 +40,17 @@
       </button>
     </div>
 
+    <!-- Search Input -->
+    <div class="search-area">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search events..."
+        class="search-input"
+        aria-label="Search events"
+      />
+    </div>
+
     <!-- Loading Indicator -->
     <div v-if="loading" class="loading">
       Loading events...
@@ -51,25 +62,44 @@
     </div>
 
     <!-- Display Filtered Events -->
-    <EventList v-if="!loading && !error && filteredEvents.length > 0" :events="filteredEvents" />
+    <EventList
+      v-if="!loading && !error && filteredEvents.length > 0"
+      :events="filteredEvents"
+      @show-details="openEventDetails"
+    />
 
     <!-- No Events Found Message -->
-    <div v-if="!loading && !error && filteredEvents.length === 0" class="no-events">
-      No events found for the selected categories.
+    <div
+      v-if="!loading && !error && filteredEvents.length === 0"
+      class="no-events"
+    >
+      No events found for your search criteria.
     </div>
+
+    <!-- Event Detail Modal -->
+    <EventDetailModal
+      v-if="showEventModal"
+      :event="selectedEvent"
+      @close="closeEventDetails"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import EventList from '../General/EventList.vue';
-import { fetchAllEvents } from '../../composables/fetchEvents';
+import EventDetailModal from '../General/EventDetailModal.vue';
+import { fetchLiveEvents } from '../../composables/fetchEvents';
 
 const events = ref([]); // All events
 const loading = ref(false); // Loading state
 const error = ref(null); // Error state
 const selectedCategories = ref([]); // Selected categories for filtering
 const availableCategories = ref([]); // All available categories from events
+const searchQuery = ref(''); // Reactive variable for search input
+
+const showEventModal = ref(false); // Control the visibility of EventDetailModal
+const selectedEvent = ref(null); // The event selected to display in the modal
 
 /**
  * Fetch all events and extract available categories.
@@ -77,7 +107,7 @@ const availableCategories = ref([]); // All available categories from events
 const fetchEvents = async () => {
   loading.value = true;
   try {
-    const fetchedEvents = await fetchAllEvents();
+    const fetchedEvents = await fetchLiveEvents();
     events.value = fetchedEvents;
 
     // Extract unique categories from events
@@ -121,17 +151,47 @@ const selectAll = () => {
 };
 
 /**
- * Filter events based on selected categories.
+ * Filter events based on selected categories and search query.
  */
 const filteredEvents = computed(() => {
-  if (selectedCategories.value.length === 0) {
-    return events.value; // If no category selected, show all events
+  // Start with all events
+  let eventsToFilter = events.value;
+
+  // Filter by selected categories
+  if (selectedCategories.value.length > 0) {
+    eventsToFilter = eventsToFilter.filter(event =>
+      event.category.some(cat => selectedCategories.value.includes(cat))
+    );
   }
 
-  return events.value.filter(event =>
-    event.category.some(cat => selectedCategories.value.includes(cat))
-  );
+  // Filter by search query
+  if (searchQuery.value.trim() !== '') {
+    const query = searchQuery.value.toLowerCase().trim();
+    eventsToFilter = eventsToFilter.filter(event => {
+      // Convert the event object to a string
+      const eventString = JSON.stringify(event).toLowerCase();
+      return eventString.includes(query);
+    });
+  }
+
+  return eventsToFilter;
 });
+
+/**
+ * Open Event Details Modal
+ */
+const openEventDetails = (event) => {
+  selectedEvent.value = event;
+  showEventModal.value = true;
+};
+
+/**
+ * Close Event Details Modal
+ */
+const closeEventDetails = () => {
+  showEventModal.value = false;
+  selectedEvent.value = null;
+};
 
 /**
  * Fetch events on component mount.
@@ -188,6 +248,18 @@ onMounted(() => {
 
 .clear-filters:hover {
   background-color: #c82333;
+}
+
+.search-area {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .loading,

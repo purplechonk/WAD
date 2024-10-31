@@ -7,6 +7,9 @@ $secondary: #35353a;
 $dark: #000;
 $body-bg: #0c0c0e;
 $body-color: #fff;
+$pink: #FE3E73;
+$neon-green: #D3FE3E;
+$turqoise: #3EFEC9;
 
 // Spacing
 $spacer: 1rem !default;
@@ -55,5 +58,18 @@ $input-border-radius: $input-radius;
 $input-border-radius-sm: $input-radius;
 $input-border-radius-lg: $input-radius;
 $input-border-color: #666;
+
+$tooltip-font-size:                 0.7rem;
+// $tooltip-max-width:                 190px;
+$tooltip-color:                     $body-color;
+$tooltip-bg:                        $secondary;
+$tooltip-opacity:                   .9;
+$tooltip-padding-y:                 $spacer * .25;
+$tooltip-padding-x:                 $spacer * .5;
+$tooltip-margin:                    null; // TODO: remove this in v6
+
+$tooltip-arrow-width:               .8rem;
+$tooltip-arrow-height:              .4rem;
+// fusv-disable
 
 @import '../../../node_modules/bootstrap/scss/bootstrap';

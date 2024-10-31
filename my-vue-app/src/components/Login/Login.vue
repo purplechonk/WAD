@@ -1,12 +1,37 @@
 <template>
-  <div class="modal">
-    <div class="modal-content">
-      <!-- Close button -->
-      <button class="close-modal" @click="handleClose">&times;</button>
-      <h2>Sign In to Proceed</h2>
-      <button @click="login">Login with Google</button>
+  <teleport to="body">
+    <!-- Bootstrap Modal -->
+    <div
+      class="modal fade show"
+      tabindex="-1"
+      style="display: block;"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title">Sign In to Proceed</h5>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              @click="handleClose"
+            ></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body text-center">
+            <button class="btn btn-primary" @click="login">
+              Login with Google
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    <!-- Modal Backdrop -->
+    <div class="modal-backdrop fade show"></div>
+  </teleport>
 </template>
 
 <script setup>
@@ -14,20 +39,20 @@ import { loginWithGoogle } from '../../composables/auth';
 import { useRouter, useRoute } from 'vue-router';
 
 // Define emits
-const emit = defineEmits(['close', 'login-success']); // Define emits for the 'close' and 'login-success' events
+const emit = defineEmits(['close', 'login-success']);
 
 const router = useRouter();
-const route = useRoute(); // Get the current route
+const route = useRoute();
 
 const login = async () => {
   try {
     await loginWithGoogle();
 
     // After successful login, redirect to the current page (or another page if needed)
-    const redirectTo = route.query.redirect || route.fullPath; // Use redirect query or current route
+    const redirectTo = route.query.redirect || route.fullPath;
     router.push(redirectTo);
 
-    emit('login-success'); // Emit 'login-success' to inform the parent component
+    emit('login-success');
   } catch (error) {
     console.error('Login failed:', error);
   }
@@ -35,68 +60,14 @@ const login = async () => {
 
 // Handle close button logic
 const handleClose = () => {
-  // Check if the redirect query exists and if it's pointing to a restricted page
   const redirectTarget = route.query.redirect;
-  const previousPage = route.query.previousPath
 
-  if (redirectTarget === '/profile' || redirectTarget === '/my-events') {
-    // If the redirect target is restricted, route back to it or default to home
-    router.push(previousPage); // Redirect to home
+  if (['/profile', '/my-events', '/analytics'].includes(redirectTarget)) {
+    // If the redirect target is restricted, route back to home
+    router.push('/');
   } else {
     // Emit the 'close' event to close the modal for non-restricted pages
     emit('close');
   }
 };
 </script>
-
-<style scoped>
-/* Fullscreen modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  position: relative;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  text-align: center;
-}
-
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #000;
-  padding: 0;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-</style>

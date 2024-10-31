@@ -1,6 +1,7 @@
 <template>
   <div class="event-card" @click="openEventDetails">
     <h3>{{ event.event_name }}</h3>
+    <saveButton :eventId="event.id" :eventName="event.event_name"/>
     <p><strong>Categories:</strong> {{ event.category.join(', ') }}</p>
     <p><strong>Start:</strong> {{ event.start_date_time }}</p>
     <p><strong>End:</strong> {{ event.end_date_time }}</p>
@@ -17,6 +18,8 @@
 </template>
 
 <script setup>
+import SaveButton from './SaveButton.vue';
+
 const props = defineProps({
   event: {
     type: Object,
