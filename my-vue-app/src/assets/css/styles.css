@@ -9,16 +9,6 @@ html, body {
   font-size: 65px;
 }
 
-.progress {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: #ffeb0e;
-  bottom: 50px;
-  transform: scaleX(0);
-}
-
 .header {
   position: relative;
   height: 600px;

@@ -57,8 +57,30 @@
       </div>
     </section>
 
-    <section ref="sections">
-      hihi
+    <section class="scroll-section event-cards" ref="sections">
+      <ul class="gallery-track">
+        <li>
+          <img src="../../assets/images/test_img.jpg" />
+          <h2>#001</h2>
+        </li>
+        <li>
+          <img src="../../assets/images/test_img.jpg" />
+          <h2>#002</h2>
+        </li>
+        <li>
+          <img src="../../assets/images/test_img.jpg" />
+          <h2>#003</h2>
+        </li>
+        <li>
+          <img src="../../assets/images/test_img.jpg" />
+          <h2>#004</h2>
+        </li>
+        <li>
+          <img src="../../assets/images/test_img.jpg" />
+          <h2>#005</h2>
+        </li>
+      </ul>
+
     </section>
 
     <section ref="sections">
@@ -145,7 +167,7 @@ const shuffleArray = (array) => {
 //snap scrolling
 const sections = ref([])
 const galleryContainer = ref(null);
-  
+
 
 onMounted(() => {
   console.log("Component mounted!");
@@ -202,6 +224,7 @@ onMounted(() => {
     }
   )
 
+  //progress bar
   const container = document.querySelector('.gallery-container');
   const progress = document.querySelector('.progress');
 
@@ -209,13 +232,13 @@ onMounted(() => {
     const totalHeight = container.scrollHeight - container.clientHeight;
     const currentScroll = container.scrollTop;
     const scrollPercent = currentScroll / totalHeight;
-    
+
     animate(
       progress,
-      { 
-        scaleX: scrollPercent 
+      {
+        scaleX: scrollPercent
       },
-      { 
+      {
         duration: 0.1,
         easing: 'ease-out'
       }
@@ -232,6 +255,15 @@ onMounted(() => {
   onBeforeUnmount(() => {
     container.removeEventListener('scroll', updateProgress);
   });
+
+  scroll(
+    animate(".gallery-track", {
+      transform: ["none", `translateX(-${items.length - 1}00vw)`]
+    }),
+    {
+      target: document.querySelector(".scroll-section")
+    }
+  );
 
 });
 
@@ -264,8 +296,8 @@ section {
   min-height: 100vh;
 }
 
-.bento-section-1{
-  height:100%;
+.bento-section-1 {
+  height: 100%;
 }
 
 .flip-card {
@@ -314,8 +346,32 @@ section {
   right: 0;
   height: 5px;
   background: #8c52ff;
-  top:78px;
+  top: 78px;
   transform: scaleX(0);
   z-index: 9999;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul {
+  display: flex;
+  position: sticky;
+  top: 0;
+}
+
+li {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
 }
 </style>
