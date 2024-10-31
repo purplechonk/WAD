@@ -1,95 +1,88 @@
 <template>
-  <section>
-    <div class="page-wrapper">
-      <div class="container-fluid py-1">
-        <div class="bento-grid">
-          <!-- Tall box spanning 2 rows -->
-          <div class="bento-box span-2-rows image-box flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img src="../../assets/images/homepage-1.jpg" alt="">
-              </div>
-              <div class="flip-card-back">
-                Hello Hello Test
+  <div class="gallery-container" ref="galleryContainer">
+    <section ref="sections">
+      <div class="page-wrapper">
+        <div class="container-fluid py-1 bento-section-1">
+          <div class="bento-grid">
+            <!-- Tall box spanning 2 rows -->
+            <div class="bento-box span-2-rows image-box flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="../../assets/images/homepage-1.jpg" alt="">
+                </div>
+                <div class="flip-card-back">
+                  Hello Hello Test
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Regular box -->
-          <div class="bento-box span-2-cols image-box bg-primary">
-            <h3>
-              Never Miss An Event For
-            </h3>
-            <h1 class="text-dark fw-bold">
-              <span class="" ref="typedElement"></span>
-            </h1>
-            Stay in the LOOP with sLOOP
-          </div>
+            <!-- Regular box -->
+            <div class="bento-box span-2-cols image-box bg-primary">
+              <h3>
+                Never Miss An Event For
+              </h3>
+              <h1 class="text-dark fw-bold">
+                <span class="" ref="typedElement"></span>
+              </h1>
+              Stay in the LOOP with sLOOP
+            </div>
 
-          <!-- Regular box -->
-          <div class="bento-box image-box">
-            <img src="../../assets/images/homepage-3.jpg" alt="">
-          </div>
+            <!-- Regular box -->
+            <div class="bento-box image-box">
+              <img src="../../assets/images/homepage-3.jpg" alt="">
+            </div>
 
-          <!-- Regular box -->
-          <div class="bento-box image-box">
-            <img src="../../assets/images/homepage-4.jpg" alt="">
-          </div>
+            <!-- Regular box -->
+            <div class="bento-box image-box">
+              <img src="../../assets/images/homepage-4.jpg" alt="">
+            </div>
 
-          <!-- Wide box spanning 2 columns -->
-          <div class="bento-box span-2-cols bg-secondary">
-            <h3>Project Overview</h3>
-            <p>Another wide box that spans multiple columns.</p>
-          </div>
+            <!-- Wide box spanning 2 columns -->
+            <div class="bento-box span-2-cols bg-secondary">
+              <h3>Project Overview</h3>
+              <p>Another wide box that spans multiple columns.</p>
+            </div>
 
-          <!-- Regular box -->
-          <div class="bento-box image-box">
-            <h1>Hi</h1>
-          </div>
+            <!-- Regular box -->
+            <div class="bento-box image-box">
+              <h1>Hi</h1>
+            </div>
 
-          <!-- Full width box -->
-          <div class="bento-box span-3-cols image-box">
-            <img src="../../assets/images/homepage-5.jpg" alt="">
+            <!-- Full width box -->
+            <div class="bento-box span-3-cols image-box">
+              <img src="../../assets/images/homepage-5.jpg" alt="">
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Rest of your sections... -->
-  <section class="bg-primary">
-    <ul>
-      <div class="event-cards">
-        <h2>For You</h2>
-        <li class="card-area" v-if="recommendedEvents.length > 0">
-          <EventCard v-for="event in recommendedEvents" :key="event.id" :event="event"
-            @show-details="openEventDetails" />
-        </li>
-        <p v-else>No recommended events available.</p>
-      </div>
-    </ul>
-  </section>
+    <section ref="sections">
+      hihi
+    </section>
 
-  <section>
-    <h2> Featured Events</h2>
-    <ul class="event-cards">
-      <li v-for="event in featuredEvents" :key="event.id" class="card-area">
-        <EventCard :event="event" @show-details="openEventDetails" />
-      </li>
-    </ul>
+    <section ref="sections">
+      testing testing
+    </section>
 
-    <!-- Event Detail Modal -->
-    <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
-      @login-success="handleLoginSuccess" />
-  </section>
+    <div class="progress"></div>
 
- 
+  </div>
 
-  <div class="progress"></div>
 </template>
 
+<!-- <section class="event-cards">
+    <h2>Featured Events</h2>
+    <div class="card-area">
+      <EventCard v-for="event in featuredEvents" :key="event.id" :event="event" @show-details="openEventDetails" />
+      <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
+        @login-success="handleLoginSuccess" />
+    </div>
+  </section> -->
+
+
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase'; // Firebase Auth instance
 import { fetchRecommendedEvents, fetchFeaturedEvents } from '../../composables/fetchEvents';
@@ -104,10 +97,6 @@ import Typed from 'typed.js';
 const recommendedEvents = ref([]);
 const featuredEvents = ref([]);
 const isAuthenticated = ref(false); // Track user authentication state
-
-const flipContainer = ref(null);
-const isFlipped = ref(false);
-
 
 const loadRecommendedEvents = async () => {
   recommendedEvents.value = await fetchRecommendedEvents();
@@ -153,6 +142,10 @@ const shuffleArray = (array) => {
   return array
 }
 
+//snap scrolling
+const sections = ref([])
+const galleryContainer = ref(null);
+  
 
 onMounted(() => {
   console.log("Component mounted!");
@@ -209,35 +202,36 @@ onMounted(() => {
     }
   )
 
-  const items = document.querySelectorAll("li");
+  const container = document.querySelector('.gallery-container');
+  const progress = document.querySelector('.progress');
 
-  // Animate gallery horizontally during vertical scroll
-  scroll(
-    animate("ul", {
-      transform: ["none", `translateX(-${items.length - 1}00vw)`]
-    }),
-    { target: document.querySelector("section") }
-  );
+  const updateProgress = () => {
+    const totalHeight = container.scrollHeight - container.clientHeight;
+    const currentScroll = container.scrollTop;
+    const scrollPercent = currentScroll / totalHeight;
+    
+    animate(
+      progress,
+      { 
+        scaleX: scrollPercent 
+      },
+      { 
+        duration: 0.1,
+        easing: 'ease-out'
+      }
+    );
+  };
 
-  // Progress bar representing gallery scroll
-  scroll(animate(".progress", { scaleX: [0, 1] }), {
-    target: document.querySelector("section")
+  // Initialize progress
+  updateProgress();
+
+  // Update on scroll
+  container.addEventListener('scroll', updateProgress);
+
+  // Cleanup
+  onBeforeUnmount(() => {
+    container.removeEventListener('scroll', updateProgress);
   });
-
-  // Image title parallax
-  const segmentLength = 1 / items.length;
-  items.forEach((item, i) => {
-    const header = item.querySelector("h2");
-
-    scroll(animate(header, { x: [200, -200] }), {
-      target: document.querySelector("section"),
-      offset: [
-        [i * segmentLength, 1],
-        [(i + 1) * segmentLength, 0]
-      ]
-    });
-  });
-
 
 });
 
@@ -250,8 +244,28 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-html {
+.gallery-container {
   scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+  position: relative;
+  max-height: 100vh;
+}
+
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.bento-section-1{
+  height:100%;
 }
 
 .flip-card {
@@ -292,5 +306,16 @@ html {
   background-color: #2980b9;
   color: white;
   transform: rotateY(180deg);
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #8c52ff;
+  top:78px;
+  transform: scaleX(0);
+  z-index: 9999;
 }
 </style>
