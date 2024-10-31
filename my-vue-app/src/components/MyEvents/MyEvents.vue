@@ -96,6 +96,10 @@ let unsubscribe = null;
  * Helper function to parse date strings from DD/MM/YYYY format
  * Converts to JavaScript Date objects
  */
+// Constants
+const CURRENT_DATE = new Date('2024-02-01T00:00:00');
+
+// Helper function to parse date strings from DD/MM/YYYY format
 const parseDate = (dateStr) => {
   try {
     const [datePart, timePart] = dateStr.split(' ');
@@ -110,7 +114,7 @@ const parseDate = (dateStr) => {
 /**
  * Sets up a real-time listener on the user's document to fetch events dynamically
  */
-const fetchUserEvents = () => {
+ const fetchUserEvents = () => {
   const user = auth.currentUser;
   if (!user) {
     console.log('No user signed in for MyEvents');
@@ -126,76 +130,81 @@ const fetchUserEvents = () => {
 
   // Set up real-time listener
   unsubscribe = onSnapshot(userDocRef, async (docSnap) => {
-    if (docSnap.exists()) {
-      const userData = docSnap.data();
-      console.log('User data:', userData);
+    try {
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        console.log('User data:', userData);
 
-      const signedUpEventIds = Object.values(userData.signed_up_events || {});
-      const savedEventIds = Object.values(userData.saved_events || {});
+        const signedUpEventIds = Object.values(userData.signed_up_events || {});
+        const savedEventIds = Object.values(userData.saved_events || {});
 
-      console.log('Signed up event IDs:', signedUpEventIds);
-      console.log('Saved event IDs:', savedEventIds);
+        console.log('Signed up event IDs:', signedUpEventIds);
+        console.log('Saved event IDs:', savedEventIds);
 
-      // Function to fetch event details using Promise.all for efficiency
-      const fetchEvents = async (eventIds) => {
-        if (eventIds.length === 0) return [];
-        const eventPromises = eventIds.map(eventId => getDoc(doc(db, 'events', eventId)));
-        const eventDocs = await Promise.all(eventPromises);
-        const events = eventDocs
-          .filter(doc => doc.exists())
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-            parsed_end_date: parseDate(doc.data().end_date_time),
-            parsed_start_date: parseDate(doc.data().start_date_time)
-          }));
-        return events;
-      };
+        // Function to fetch event details using Promise.all for efficiency
+        const fetchEvents = async (eventIds) => {
+          if (eventIds.length === 0) return [];
+          const eventPromises = eventIds.map(eventId => getDoc(doc(db, 'events', eventId)));
+          const eventDocs = await Promise.all(eventPromises);
+          return eventDocs
+            .filter(doc => doc.exists())
+            .map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+              parsed_end_date: parseDate(doc.data().end_date_time),
+              parsed_start_date: parseDate(doc.data().start_date_time)
+            }));
+        };
 
-      // Fetch signed up events
-      let events = [];
-      if (signedUpEventIds.length > 0) {
-        events = await fetchEvents(signedUpEventIds);
+        // Fetch signed up events
+        let events = [];
+        if (signedUpEventIds.length > 0) {
+          events = await fetchEvents(signedUpEventIds);
+        }
+
+        // Split events into upcoming and past
+        upcomingEvents.value = events
+          .filter(event => event.parsed_end_date >= CURRENT_DATE)
+          .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
+
+        pastEvents.value = events
+          .filter(event => event.parsed_end_date < CURRENT_DATE)
+          .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
+
+        console.log('Upcoming events:', upcomingEvents.value);
+        console.log('Past events:', pastEvents.value);
+
+        // Fetch saved events
+        let savedEventsList = [];
+        if (savedEventIds.length > 0) {
+          savedEventsList = await fetchEvents(savedEventIds);
+        }
+
+        // Sort saved events by start date
+        savedEvents.value = savedEventsList.sort((a, b) => a.parsed_start_date - b.parsed_start_date);
+
+        console.log('Saved events:', savedEvents.value);
+
+      } else {
+        console.log('No user document found');
+        error.value = 'User record not found';
+        upcomingEvents.value = [];
+        pastEvents.value = [];
+        savedEvents.value = [];
       }
-
-      // Split events into upcoming and past
-      upcomingEvents.value = events
-        .filter(event => event.parsed_end_date >= window.CURRENT_DATE)
-        .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
-
-      pastEvents.value = events
-        .filter(event => event.parsed_end_date < window.CURRENT_DATE)
-        .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
-
-      console.log('Upcoming events:', upcomingEvents.value);
-      console.log('Past events:', pastEvents.value);
-
-      // Fetch saved events
-      let savedEventsList = [];
-      if (savedEventIds.length > 0) {
-        savedEventsList = await fetchEvents(savedEventIds);
-      }
-
-      // Sort saved events by start date
-      savedEvents.value = savedEventsList
-        .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
-
-      console.log('Saved events:', savedEvents.value);
-    } else {
-      console.log('No user document found');
-      error.value = 'User record not found';
-      upcomingEvents.value = [];
-      pastEvents.value = [];
-      savedEvents.value = [];
+    } catch (err) {
+      console.error('Error fetching events:', err);
+      error.value = 'Failed to load events. Please try again later.';
+    } finally {
+      loading.value = false;
     }
-
-    loading.value = false;
   }, (err) => {
     console.error('Error fetching user events:', err);
     error.value = 'Failed to load events. Please try again later.';
     loading.value = false;
   });
 };
+
 
 /**
  * Handler for RSVP cancellation
