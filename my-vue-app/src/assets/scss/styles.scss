@@ -5,6 +5,14 @@ html, body {
   overflow: hidden; /* Prevents double scrollbars */
 }
 
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+  position: relative;
+  max-height: 100vh;
+}
+
 .xl-text {
   font-size: 65px;
 }

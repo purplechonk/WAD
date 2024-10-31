@@ -1,5 +1,5 @@
 <template>
-  <div class="explore-container">
+  <div class="scroll-container">
     <h1>Explore Events</h1>
     <p>Discover the latest events happening around you!</p>
 
@@ -204,6 +204,13 @@ onMounted(() => {
 <style scoped>
 .explore-container {
   padding: 20px;
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+  position: relative;
+  max-height: 100vh;
+
 }
 
 .filter-area {

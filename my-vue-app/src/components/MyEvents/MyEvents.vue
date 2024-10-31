@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="scroll-container">
     <!-- Title -->
     <h1 class="text-blue-400 text-4xl">Your Events</h1>
 

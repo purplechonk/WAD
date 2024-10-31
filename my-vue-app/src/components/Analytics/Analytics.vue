@@ -1,118 +1,103 @@
 <template>
-  <div class="container mt-5">
-    <div class="row gy-4 row-cols-1 row-cols-md-3 mb-5">
-      <!-- Total Events -->
-      <div class="col">
-        <div class="bento-card animate__animated animate__zoomIn">
-          <div class="bento-content text-center">
-            <i class="fas fa-calendar-check icon-primary mb-3"></i>
-            <h4>Total Events</h4>
-            <h2 class="display-5 fw-bold">{{ userStats.totalEvents }}</h2>
-          </div>
-        </div>
-      </div>
-
-      <!-- Total Hours -->
-      <div class="col">
-        <div class="bento-card animate__animated animate__zoomIn animate__delay-1s">
-          <div class="bento-content text-center">
-            <i class="fas fa-clock icon-accent mb-3"></i>
-            <h4>Total Hours Participated</h4>
-            <h2 class="display-5 fw-bold">{{ userStats.totalHours }} hrs</h2>
-          </div>
-        </div>
-      </div>
-
-      <!-- Most Active CCA -->
-      <div class="col">
-        <div class="bento-card animate__animated animate__zoomIn animate__delay-2s">
-          <div class="bento-content text-center">
-            <i class="fas fa-trophy icon-green mb-3"></i>
-            <h4>Most Active CCA</h4>
-            <h3>{{ userStats.topCCA.name }}</h3>
-            <span class="badge bg-primary mt-2">{{ userStats.topCCA.count }} events</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- User CCA Chart -->
-      <div class="col-12">
-        <div class="bento-card animate__animated animate__fadeInUp animate__delay-3s">
-          <h4 class="text-center">Your Top CCAs</h4>
-          <div ref="userCCAChart" style="width: 100%; height: 300px;"></div>
-        </div>
-      </div>
-
-      <!-- User Category Chart -->
-      <div class="col-12">
-        <div class="bento-card animate__animated animate__fadeInUp animate__delay-4s">
-          <h4 class="text-center">Your Favorite Categories</h4>
-          <div ref="userCategoryChart" style="width: 100%; height: 300px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Original Analytics Content -->
-    <div class="row">
-      <div class="col-md-8">
-        <h2>Overall Event Analytics</h2>
-
-        <!-- Category Filter Dropdown -->
-        <label for="category" class="form-label">Filter by Category:</label>
-        <select
-          id="category"
-          class="form-select mb-4"
-          v-model="selectedCategory"
-          @change="filterEventsByCategory"
-        >
-          <option value="">All Categories</option>
-          <option v-for="category in categories" :key="category" :value="category">
-            {{ category }}
-          </option>
-        </select>
-
-        <!-- Time Series Bar Chart -->
-        <h3>Events per Month</h3>
-        <div ref="eventChart" style="width: 100%; height: 400px;"></div>
-      </div>
-
-      <!-- Leaderboard: Top 5 CCAs -->
-      <div class="col-md-4">
-        <h2>Top 5 CCAs with Most Events</h2>
-        <ul class="list-group">
-          <li
-            v-for="(cca, index) in topCCAs"
-            :key="cca.name"
-            class="list-group-item"
-          >
-            <div
-              class="d-flex justify-content-between align-items-center"
-              @click="toggleCCA(index)"
-              style="cursor: pointer;"
-              data-bs-toggle="collapse"
-              :data-bs-target="'#collapse-' + index"
-            >
-              <span>{{ index + 1 }}. {{ cca.name }}</span>
-              <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
+  <div class="scroll-container">
+    <div class="container mt-5">
+      <div class="row gy-4 row-cols-1 row-cols-md-3 mb-5">
+        <!-- Total Events -->
+        <div class="col">
+          <div class="bento-card animate__animated animate__zoomIn">
+            <div class="bento-content text-center">
+              <i class="fas fa-calendar-check icon-primary mb-3"></i>
+              <h4>Total Events</h4>
+              <h2 class="display-5 fw-bold">{{ userStats.totalEvents }}</h2>
             </div>
+          </div>
+        </div>
 
-            <!-- Collapsible List of Events -->
-            <div :id="'collapse-' + index" class="collapse mt-2">
-              <ul class="list-group">
-                <li
-                  v-for="event in getEventsByCCA(cca.name)"
-                  :key="event.id"
-                  class="list-group-item"
-                >
-                  {{ event.event_name }}
-                </li>
-              </ul>
+        <!-- Total Hours -->
+        <div class="col">
+          <div class="bento-card animate__animated animate__zoomIn animate__delay-1s">
+            <div class="bento-content text-center">
+              <i class="fas fa-clock icon-accent mb-3"></i>
+              <h4>Total Hours Participated</h4>
+              <h2 class="display-5 fw-bold">{{ userStats.totalHours }} hrs</h2>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
+
+        <!-- Most Active CCA -->
+        <div class="col">
+          <div class="bento-card animate__animated animate__zoomIn animate__delay-2s">
+            <div class="bento-content text-center">
+              <i class="fas fa-trophy icon-green mb-3"></i>
+              <h4>Most Active CCA</h4>
+              <h3>{{ userStats.topCCA.name }}</h3>
+              <span class="badge bg-primary mt-2">{{ userStats.topCCA.count }} events</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- User CCA Chart -->
+        <div class="col-12">
+          <div class="bento-card animate__animated animate__fadeInUp animate__delay-3s">
+            <h4 class="text-center">Your Top CCAs</h4>
+            <div ref="userCCAChart" style="width: 100%; height: 300px;"></div>
+          </div>
+        </div>
+
+        <!-- User Category Chart -->
+        <div class="col-12">
+          <div class="bento-card animate__animated animate__fadeInUp animate__delay-4s">
+            <h4 class="text-center">Your Favorite Categories</h4>
+            <div ref="userCategoryChart" style="width: 100%; height: 300px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Original Analytics Content -->
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Overall Event Analytics</h2>
+
+          <!-- Category Filter Dropdown -->
+          <label for="category" class="form-label">Filter by Category:</label>
+          <select id="category" class="form-select mb-4" v-model="selectedCategory" @change="filterEventsByCategory">
+            <option value="">All Categories</option>
+            <option v-for="category in categories" :key="category" :value="category">
+              {{ category }}
+            </option>
+          </select>
+
+          <!-- Time Series Bar Chart -->
+          <h3>Events per Month</h3>
+          <div ref="eventChart" style="width: 100%; height: 400px;"></div>
+        </div>
+
+        <!-- Leaderboard: Top 5 CCAs -->
+        <div class="col-md-4">
+          <h2>Top 5 CCAs with Most Events</h2>
+          <ul class="list-group">
+            <li v-for="(cca, index) in topCCAs" :key="cca.name" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center" @click="toggleCCA(index)"
+                style="cursor: pointer;" data-bs-toggle="collapse" :data-bs-target="'#collapse-' + index">
+                <span>{{ index + 1 }}. {{ cca.name }}</span>
+                <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
+              </div>
+
+              <!-- Collapsible List of Events -->
+              <div :id="'collapse-' + index" class="collapse mt-2">
+                <ul class="list-group">
+                  <li v-for="event in getEventsByCCA(cca.name)" :key="event.id" class="list-group-item">
+                    {{ event.event_name }}
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -194,7 +179,8 @@ export default {
     color: #fff;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
     color: #fff;
     margin-top: 0.5rem;
   }
@@ -225,6 +211,7 @@ export default {
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -246,7 +233,9 @@ export default {
     font-size: 1.25rem;
   }
 
-  .icon-primary, .icon-accent, .icon-green {
+  .icon-primary,
+  .icon-accent,
+  .icon-green {
     font-size: 2.5rem;
   }
 }

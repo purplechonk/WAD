@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery-container" ref="galleryContainer">
+  <div class="scroll-container" ref="galleryContainer">
     <section ref="sections">
       <div class="page-wrapper">
         <div class="container-fluid py-1 bento-section-1">
@@ -270,7 +270,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.gallery-container {
+.scroll-container {
   scroll-snap-type: y mandatory;
   height: 100vh;
   overflow-y: scroll;
