@@ -75,21 +75,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { db, auth } from '../../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot, getDoc } from 'firebase/firestore';
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 
-// State
+// Reactive state variables
 const upcomingEvents = ref([]);
 const pastEvents = ref([]);
-const savedEvents = ref([]); // New state for saved events
+const savedEvents = ref([]);
 const selectedEvent = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-// Helper function to parse date strings from DD/MM/YYYY format
+// Firestore Real-Time Listener
+let unsubscribe = null;
+
+/**
+ * Helper function to parse date strings from DD/MM/YYYY format
+ * Converts to JavaScript Date objects
+ */
 const parseDate = (dateStr) => {
   try {
     const [datePart, timePart] = dateStr.split(' ');
@@ -101,104 +107,108 @@ const parseDate = (dateStr) => {
   }
 };
 
-// Fetch user's events
-const fetchUserEvents = async () => {
-  loading.value = true;
-  error.value = null;
+/**
+ * Sets up a real-time listener on the user's document to fetch events dynamically
+ */
+const fetchUserEvents = () => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.log('No user signed in for MyEvents');
+    error.value = 'Please sign in to view your events';
+    loading.value = false;
+    return;
+  }
 
-  try {
-    const user = auth.currentUser;
-    if (!user) {
-      console.log('No user signed in for MyEvents');
-      error.value = 'Please sign in to view your events';
-      return;
-    }
+  console.log('Current user:', user.uid);
 
-    console.log('Current user:', user.uid);
+  // Get user document reference
+  const userDocRef = doc(db, 'user_records', user.uid);
 
-    // Get user document
-    const userDocRef = doc(db, 'user_records', user.uid);
-    const userDoc = await getDoc(userDocRef);
+  // Set up real-time listener
+  unsubscribe = onSnapshot(userDocRef, async (docSnap) => {
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
+      console.log('User data:', userData);
 
-    if (!userDoc.exists()) {
+      const signedUpEventIds = Object.values(userData.signed_up_events || {});
+      const savedEventIds = Object.values(userData.saved_events || {});
+
+      console.log('Signed up event IDs:', signedUpEventIds);
+      console.log('Saved event IDs:', savedEventIds);
+
+      // Function to fetch event details using Promise.all for efficiency
+      const fetchEvents = async (eventIds) => {
+        if (eventIds.length === 0) return [];
+        const eventPromises = eventIds.map(eventId => getDoc(doc(db, 'events', eventId)));
+        const eventDocs = await Promise.all(eventPromises);
+        const events = eventDocs
+          .filter(doc => doc.exists())
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            parsed_end_date: parseDate(doc.data().end_date_time),
+            parsed_start_date: parseDate(doc.data().start_date_time)
+          }));
+        return events;
+      };
+
+      // Fetch signed up events
+      let events = [];
+      if (signedUpEventIds.length > 0) {
+        events = await fetchEvents(signedUpEventIds);
+      }
+
+      // Split events into upcoming and past
+      upcomingEvents.value = events
+        .filter(event => event.parsed_end_date >= window.CURRENT_DATE)
+        .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
+
+      pastEvents.value = events
+        .filter(event => event.parsed_end_date < window.CURRENT_DATE)
+        .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
+
+      console.log('Upcoming events:', upcomingEvents.value);
+      console.log('Past events:', pastEvents.value);
+
+      // Fetch saved events
+      let savedEventsList = [];
+      if (savedEventIds.length > 0) {
+        savedEventsList = await fetchEvents(savedEventIds);
+      }
+
+      // Sort saved events by start date
+      savedEvents.value = savedEventsList
+        .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
+
+      console.log('Saved events:', savedEvents.value);
+    } else {
       console.log('No user document found');
       error.value = 'User record not found';
-      return;
+      upcomingEvents.value = [];
+      pastEvents.value = [];
+      savedEvents.value = [];
     }
 
-    const userData = userDoc.data();
-    console.log('User data:', userData);
-
-    const signedUpEventIds = Object.values(userData.signed_up_events || {});
-    const savedEventIds = Object.values(userData.saved_events || {}); // Fetch saved_events
-
-    console.log('Signed up event IDs:', signedUpEventIds);
-    console.log('Saved event IDs:', savedEventIds);
-
-    // Function to fetch event details
-    const fetchEvents = async (eventIds) => {
-      const events = [];
-      for (const eventId of eventIds) {
-        const eventDoc = await getDoc(doc(db, 'events', eventId));
-        if (eventDoc.exists()) {
-          const eventData = eventDoc.data();
-          console.log(`Event ${eventId} data:`, eventData);
-          events.push({
-            id: eventDoc.id,
-            ...eventData,
-            parsed_end_date: parseDate(eventData.end_date_time),
-            parsed_start_date: parseDate(eventData.start_date_time)
-          });
-        }
-      }
-      return events;
-    };
-
-    // Fetch signed up events
-    let events = [];
-    if (signedUpEventIds.length > 0) {
-      events = await fetchEvents(signedUpEventIds);
-    }
-
-    // Split events into upcoming and past
-    upcomingEvents.value = events
-      .filter(event => event.parsed_end_date >= window.CURRENT_DATE) // Use window.CURRENT_DATE
-      .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
-
-    pastEvents.value = events
-      .filter(event => event.parsed_end_date < window.CURRENT_DATE) // Use window.CURRENT_DATE
-      .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
-
-    console.log('Upcoming events:', upcomingEvents.value);
-    console.log('Past events:', pastEvents.value);
-
-    // Fetch saved events
-    let savedEventsList = [];
-    if (savedEventIds.length > 0) {
-      savedEventsList = await fetchEvents(savedEventIds);
-    }
-
-    // Sort saved events by start date
-    savedEvents.value = savedEventsList
-      .sort((a, b) => a.parsed_start_date - b.parsed_start_date);
-
-    console.log('Saved events:', savedEvents.value);
-
-  } catch (err) {
-    console.error('Error fetching events:', err);
-    error.value = 'Failed to load events. Please try again later.';
-  } finally {
     loading.value = false;
-  }
+  }, (err) => {
+    console.error('Error fetching user events:', err);
+    error.value = 'Failed to load events. Please try again later.';
+    loading.value = false;
+  });
 };
 
-// Add the handler for RSVP cancellation
+/**
+ * Handler for RSVP cancellation
+ * Refreshes the events by relying on the real-time listener
+ */
 const handleRSVPCancel = async () => {
   console.log('RSVP cancelled, refreshing events...');
-  await fetchUserEvents(); // Refresh the events list
+  // No need to manually fetch events since onSnapshot handles it
 };
 
-// Event detail handlers
+/**
+ * Event detail handlers
+ */
 const showEventDetails = (event) => {
   selectedEvent.value = event;
 };
@@ -207,8 +217,16 @@ const closeEventDetails = () => {
   selectedEvent.value = null;
 };
 
+/**
+ * Cleanup function to unsubscribe from Firestore listener when component unmounts
+ */
+onUnmounted(() => {
+  if (unsubscribe) unsubscribe();
+});
 
-// Initialize component
+/**
+ * Initialize component by setting up the real-time listener
+ */
 onMounted(() => {
   fetchUserEvents();
 });
