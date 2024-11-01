@@ -1,139 +1,145 @@
 <template>
-  <div class="analytics-container container-fluid">
-    <!-- Header Section -->
-    <div class="row mb-4 text-center">
-      <div class="col-12">
-        <h2 class="display-4 text-white animate__animated animate__fadeIn">
-          Your Journey in Numbers
-        </h2>
-      </div>
-    </div>
+  <div class="main-container">
+    <Parallax />
+    <!-- Add spacer div -->
+    <div class="parallax-spacer"></div>
+    <div class="content-section">
+      <div class="analytics-container container-fluid">
+        <!-- Header Section -->
+        <div class="row mb-4 text-center">
+          <div class="col-12">
+            <h2 class="display-4 text-white animate__animated animate__fadeIn">
+              Your Journey in Numbers
+            </h2>
+          </div>
+        </div>
 
-    <!-- Stats Cards Section -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-      <!-- Total Events Card -->
-      <div class="col">
-        <div class="stat-card" @click="flipCard('events')" :class="{ 'is-flipped': flippedCard === 'events' }">
-          <div class="stat-card-inner">
-            <div class="stat-card-front">
-              <i class="fas fa-calendar-check stat-icon"></i>
-              <h3>Total Events</h3>
-              <div class="stat-value animate__animated animate__fadeInUp">
-                {{ userStats.totalEvents }}
+        <!-- Stats Cards Section -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+          <!-- Total Events Card -->
+          <div class="col">
+            <div class="stat-card" @click="flipCard('events')" :class="{ 'is-flipped': flippedCard === 'events' }" style="--animation-order: 1">
+              <div class="stat-card-inner">
+                <div class="stat-card-front">
+                  <i class="fas fa-calendar-check stat-icon"></i>
+                  <h3>Total Events</h3>
+                  <div class="stat-value animate__animated animate__fadeInUp">
+                    {{ userStats.totalEvents }}
+                  </div>
+                </div>
+                <div class="stat-card-back text-center">
+                  <h4>Average Student Attended</h4>
+                  <div class="h2">???</div>
+                  <p>Events</p>
+                </div>
               </div>
             </div>
-            <div class="stat-card-back text-center">
-              <h4>Average Student Attended</h4>
-              <div class="h2">???</div>
-              <p>Events</p>
-              
+          </div>
+
+          <!-- Total Hours Card -->
+          <div class="col">
+            <div class="stat-card" @click="flipCard('hours')" :class="{ 'is-flipped': flippedCard === 'hours' }" style="--animation-order: 2">
+              <div class="stat-card-inner">
+                <div class="stat-card-front">
+                  <i class="fas fa-clock stat-icon"></i>
+                  <h3>Total Hours</h3>
+                  <div class="stat-value animate__animated animate__fadeInUp">
+                    {{ userStats.totalHours }}
+                  </div>
+                </div>
+                <div class="stat-card-back text-center">
+                  <h4>Average Student Participated for</h4>
+                  <div class="h2">???</div>
+                  <p>Hours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top CCA Card -->
+          <div class="col">
+            <div class="stat-card" @click="flipCard('cca')" :class="{ 'is-flipped': flippedCard === 'cca' }" style="--animation-order: 3">
+              <div class="stat-card-inner">
+                <div class="stat-card-front">
+                  <i class="fas fa-trophy stat-icon"></i>
+                  <div class="stat-name animate__animated animate__fadeInUp">
+                    <h3>{{ userStats.topCCA.name }}</h3>
+                  </div>
+                  <p>Is Your Top CCA</p>
+                </div>
+                <div class="stat-card-back">
+                  <h4>You Attended</h4>
+                  <div class="h2">{{ userStats.topCCA.count }}</div>
+                  <p>Of Their Events</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Total Hours Card -->
-      <div class="col">
-        <div class="stat-card" @click="flipCard('hours')" :class="{ 'is-flipped': flippedCard === 'hours' }">
-          <div class="stat-card-inner">
-            <div class="stat-card-front">
-              <i class="fas fa-clock stat-icon"></i>
-              <h3>Total Hours</h3>
-              <div class="stat-value animate__animated animate__fadeInUp">
-                {{ userStats.totalHours }}
-              </div>
+        <!-- Charts Section -->
+        <div class="row mt-5 g-4">
+          <div class="col-12 col-lg-6">
+            <div class="chart-card animate__animated animate__fadeInUp">
+              <h3 class="text-center mb-4">Your Top CCAs</h3>
+              <div ref="userCCAChart" style="height: 300px"></div>
             </div>
-            <div class="stat-card-back text-center">
-              <h4>Average Student Participated for</h4>
-              <div class="h2">???</div>
-              <p>Hours</p>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="chart-card animate__animated animate__fadeInUp animate__delay-1s">
+              <h3 class="text-center mb-4">Your Top Categories</h3>
+              <div ref="userCategoryChart" style="height: 300px"></div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Top CCA Card -->
-      <div class="col">
-        <div class="stat-card" @click="flipCard('cca')" :class="{ 'is-flipped': flippedCard === 'cca' }">
-          <div class="stat-card-inner">
-            <div class="stat-card-front">
-              <i class="fas fa-trophy stat-icon"></i>
-              <div class="stat-name animate__animated animate__fadeInUp">
-                <h3>{{ userStats.topCCA.name }}</h3>
-              </div>
-              <p>Is Your Top CCA</p>
-            </div>
-            <div class="stat-card-back">
-              <h4>You Attended</h4>
-              <div class="h2">{{ userStats.topCCA.count }}</div>
-              <p>Of Their Events</p>
+        <!-- School-wide Insights -->
+        <div class="row mt-5">
+          <div class="text-center">
+            <h2 class="display-4 text-white animate__animated animate__fadeIn">
+              School-wide Insights
+            </h2>
+          </div>
+          <div class="col-12 col-lg-8 mb-4 mb-lg-0">
+            <h2>Number of Events per Month</h2>
+            <label for="category" class="form-label">Filter by Category:</label>
+            <select id="category" class="form-select mb-4" v-model="selectedCategory" @change="filterEventsByCategory">
+              <option value="">All Categories</option>
+              <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
+            </select>
+            <div style="overflow-x: auto; width:100%; display:block;">
+              <div ref="eventChart" style="width: 100%; height: 400px;"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Charts Section -->
-    <div class="row mt-5 g-4">
-      <div class="col-12 col-lg-6">
-        <div class="chart-card animate__animated animate__fadeInUp">
-          <h3 class="text-center mb-4">Your Top CCAs</h3>
-          <div ref="userCCAChart" style="height: 300px"></div>
+          <div class="col-12 col-lg-4">
+            <h2>Top CCAs with Most Events</h2>
+            <ul class="list-group">
+              <li v-for="(cca, index) in topCCAs" :key="cca.name" class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center" @click="toggleCCA(index)" style="cursor: pointer;">
+                  <span>{{ index + 1 }}. {{ cca.name }}</span>
+                  <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
+                </div>
+                <div :id="'collapse-' + index" class="collapse mt-2">
+                  <ul class="list-group">
+                    <li v-for="event in getEventsByCCA(cca.name)" :key="event.id" class="list-group-item">{{ event.event_name }}</li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-
-      <div class="col-12 col-lg-6">
-        <div class="chart-card animate__animated animate__fadeInUp animate__delay-1s">
-          <h3 class="text-center mb-4">Your Top Categories</h3>
-          <div ref="userCategoryChart" style="height: 300px"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Original Analytics Content -->
-    <div class="row mt-5">
-      <div class="text-center">
-        <h2 class="display-4 text-white animate__animated animate__fadeIn">
-            School-wide Insights
-        </h2>
-      </div>
-      <div class="col-12 col-lg-8 mb-4 mb-lg-0">
-        <h2>Number of Events per Month</h2>
-        <label for="category" class="form-label">Filter by Category:</label>
-        <select id="category" class="form-select mb-4" v-model="selectedCategory" @change="filterEventsByCategory">
-          <option value="">All Categories</option>
-          <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-        </select>
-        <div style="overflow-x: auto; width:100%; display:block;">
-          <div ref="eventChart" style="width: 100%; height: 400px;"></div>
-        </div>
-      </div>
-
-      <div class="col-12 col-lg-4">
-        <h2>Top CCAs with Most Events</h2>
-        <ul class="list-group">
-          <li v-for="(cca, index) in topCCAs" :key="cca.name" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center" @click="toggleCCA(index)" style="cursor: pointer;" data-bs-toggle="collapse" :data-bs-target="'#collapse-' + index">
-              <span>{{ index + 1 }}. {{ cca.name }}</span>
-              <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
-            </div>
-            <div :id="'collapse-' + index" class="collapse mt-2">
-              <ul class="list-group">
-                <li v-for="event in getEventsByCCA(cca.name)" :key="event.id" class="list-group-item">{{ event.event_name }}</li>
-              </ul>
-            </div>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
-
-
+  
 </template>
 
 <script>
 import { auth } from '../../firebase';
 import { onMounted, ref } from 'vue';
+import Parallax from './Parallax.vue';
 import {
   categories,
   selectedCategory,
@@ -149,15 +155,18 @@ import {
   initializeUserAnalytics,
 } from '../../composables/analytics';
 
-
 export default {
   name: 'Analytics',
+  components: {
+    Parallax
+  },
   setup() {
     const flippedCard = ref(null);
 
     const flipCard = (cardId) => {
       flippedCard.value = flippedCard.value === cardId ? null : cardId;
     };
+
     onMounted(() => {
       initializeAnalytics();
       if (auth.currentUser) {
@@ -185,9 +194,41 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.main-container {
+  position: relative;
+
+
+}
+
+.overlay {
+  position: absolute;
+  top: 90vh;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(26, 26, 26, 0.7) 5%,
+    #1a1a1a 15%
+  );
+  z-index: 8;
+}
+
+.parallax-spacer {
+  height: 100vh;
+}
+
+.content-section {
+  position: relative;
+  z-index: 8;
+  background: #10080A; /* Solid black background */
+  margin-top: -8.2vh;
+}
+
 .analytics-container {
-  padding: 2rem;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  position: relative;
+  z-index: 2;
+  padding: 4rem 2rem 2rem; /* Increased top padding for better spacing */
   min-height: 100vh;
 }
 
@@ -195,6 +236,20 @@ export default {
   perspective: 1000px;
   height: 220px;
   cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--animation-order) * 0.1s);
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   &-inner {
     position: relative;
@@ -260,7 +315,37 @@ export default {
   }
 }
 
+.list-group-item {
+  background: #1f1f1f;
+  border-color: #2d2d2d;
+  color: white;
+}
+
+h2, label {
+  color: white;
+}
+
+.form-select {
+  background-color: #1f1f1f;
+  border-color: #2d2d2d;
+  color: white;
+
+  &:focus {
+    background-color: #1f1f1f;
+    border-color: #8c52ff;
+    box-shadow: 0 0 0 0.25rem rgba(140, 82, 255, 0.25);
+  }
+}
+
 @media (max-width: 992px) {
+  .overlay {
+    top: 85vh;
+  }
+  
+  .analytics-container {
+    padding-top: 15vh;
+  }
+  
   .stat-card {
     height: 200px;
   }
@@ -279,6 +364,14 @@ export default {
 }
 
 @media (max-width: 576px) {
+  .overlay {
+    top: 80vh;
+  }
+  
+  .analytics-container {
+    padding-top: 20vh;
+  }
+  
   .stat-card {
     height: 180px;
   }
