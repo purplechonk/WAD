@@ -1,5 +1,4 @@
 <template>
-  <div class="scroll-container">
     <h1>Explore Events</h1>
     <p>Discover the latest events happening around you!</p>
 
@@ -82,7 +81,6 @@
       :event="selectedEvent"
       @close="closeEventDetails"
     />
-  </div>
 </template>
 
 <script setup>

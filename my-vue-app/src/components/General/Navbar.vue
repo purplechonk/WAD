@@ -10,7 +10,7 @@
     </div>
   </section>
 
-  <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark py-2">
       <div class="container">
         <router-link to="/" class="navbar-brand">
           <img src="../../assets/images/sLoop.svg" alt="Logo" class="logo" width="100"/>
@@ -85,7 +85,6 @@
   
   <script >
     import "../../assets/js/replaceme.min.js"
-    import "../../assets/js/bootstrap.bundle.min.js"
     import "../../assets/js/script.js"
 </script>
   
