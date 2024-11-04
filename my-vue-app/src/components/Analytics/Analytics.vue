@@ -78,7 +78,7 @@
           <ul class="list-group">
             <li v-for="(cca, index) in topCCAs" :key="cca.name" class="list-group-item">
               <div class="d-flex justify-content-between align-items-center" @click="toggleCCA(index)"
-                style="cursor: pointer;" data-bs-toggle="collapse" :data-bs-target="'#collapse-' + index">
+                style="cursor: pointer;">
                 <span>{{ index + 1 }}. {{ cca.name }}</span>
                 <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
               </div>
@@ -94,6 +94,7 @@
             </li>
           </ul>
         </div>
+
       </div>
     </div>
   </div>
