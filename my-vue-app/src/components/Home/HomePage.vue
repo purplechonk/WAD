@@ -39,9 +39,15 @@
             </div>
 
             <!-- Wide box spanning 2 columns -->
-            <div class="bento-box span-2-cols bg-dark">
-              <h3>Project Overview</h3>
-              <p>Another wide box that spans multiple columns.</p>
+            <!-- <div class="bento-box span-2-cols bg-dark">
+              <h1>Reveal Animation Example</h1>
+              <button @click="triggerReveal">Reveal Animation</button>
+            </div> -->
+
+            <div class="bento-box span-2-cols bg-dark quote-box" ref="quoteElement">
+              <div class="block-revealer__content">
+                {{ currentQuote }}
+              </div>
             </div>
 
             <!-- Regular box -->
@@ -101,7 +107,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { fetchRecommendedEvents } from '../../composables/fetchEvents';
@@ -110,6 +116,7 @@ import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 import ReplaceMe from '../../utils/replaceMe';
 import Typed from 'typed.js';
+import { RevealFx } from '../../utils/revealFx';
 
 const recommendedEvents = ref([]);
 const isAuthenticated = ref(false);
@@ -154,6 +161,62 @@ const shuffleArray = (array) => {
 };
 
 const sections = ref([]);
+
+const quoteElement = ref(null);
+const currentQuote = ref("Don't miss our upcoming workshops and networking events!");
+const quoteCounter = ref(0);
+let quoteRevealEffect = null;
+const quoteClass = ref('default-quote-style');
+
+const quotes = [
+  "Stay tuned for the latest SMU events: Music festivals, seminars, and more!",
+  "Be part of something big — exclusive SMU events just for you",
+  "Don't miss our upcoming workshops and networking events!"
+];
+
+
+const changeQuote = () => {
+  if (!quoteRevealEffect) return;
+  
+  const revealSettings = {
+    bgColors: ['#2C0066', '#3E008F', '#5000B8', '#6100E0', '#9646FF', '#AE70FF', '#D1ADFF'],
+    duration: 400,
+    delay: 100,
+    direction: 'lr',
+    onStart: function(contentEl) {
+      if (contentEl) {
+        contentEl.style.opacity = '0';
+        contentEl.style.transform = 'scale(0.95)';
+      }
+    },
+    onHalfway: function(contentEl) {
+      quoteCounter.value = (quoteCounter.value + 1) % quotes.length;
+      currentQuote.value = quotes[quoteCounter.value];
+      if (contentEl) {
+        contentEl.textContent = currentQuote.value;
+        contentEl.style.fontSize = '1.3rem';
+        contentEl.style.fontWeight = 'bold';
+      }
+    },
+    onComplete: function(contentEl) {
+      if (contentEl) {
+        contentEl.style.opacity = '1';
+        contentEl.style.transform = 'scale(1)';
+        contentEl.style.textAlign = 'center';
+        
+        // Reset to normal style after animation
+        // setTimeout(() => {
+        //   contentEl.style.fontSize = '1.5rem';
+        //   contentEl.style.fontWeight = 'normal';
+        // }, 1000);
+      }
+    }
+  };
+
+  quoteRevealEffect.reveal(revealSettings);
+};
+
+
 
 onMounted(() => {
   console.log("Component mounted!");
@@ -231,6 +294,33 @@ onMounted(() => {
   updateProgress();
   window.addEventListener('scroll', updateProgress);
 
+  console.log('Initial quotes array:', quotes);
+  console.log('Checking quoteElement:', quoteElement.value);
+
+  // Wait for next tick to ensure DOM is ready
+  setTimeout(() => {
+    if (quoteElement.value) {
+      quoteRevealEffect = new RevealFx(quoteElement.value, {
+        layers: 7,
+        isContentHidden: false,
+        revealSettings: {
+          bgColors: ['#2C0066', '#3E008F', '#5000B8', '#6100E0', '#9646FF', '#AE70FF', '#D1ADFF'],
+          direction: 'lr',
+          duration: 400,
+          delay: 100
+        }
+      });
+      
+      currentQuote.value = quotes[0];
+      
+      const intervalId = setInterval(changeQuote, 4000);
+      
+      onBeforeUnmount(() => {
+        clearInterval(intervalId);
+      });
+    }
+  }, 100);
+
   onBeforeUnmount(() => {
     window.removeEventListener('scroll', updateProgress);
   });
@@ -253,6 +343,27 @@ html {
 body {
   margin: 0;
   padding: 0;
+}
+
+.quote-box {
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-revealer__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: bold;
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
 }
 
 .scroll-sections {
@@ -331,7 +442,7 @@ section {
   background: #8c52ff;
   top: 65px;
   transform: scaleX(0);
-  z-index: 9999;
+  z-index: 0;
 }
 
 ul,
@@ -357,5 +468,4 @@ li {
   flex-direction: column;
   overflow: hidden;
 }
-
 </style>
