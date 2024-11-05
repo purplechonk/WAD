@@ -1,5 +1,4 @@
 <template>
-  <div class="scroll-container">
     <div class="container mt-5">
       <div class="row gy-4 row-cols-1 row-cols-md-3 mb-5">
         <!-- Total Events -->
@@ -97,7 +96,6 @@
 
       </div>
     </div>
-  </div>
 
 </template>
 

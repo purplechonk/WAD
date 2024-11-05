@@ -10,7 +10,6 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
 
 // // Import Bootstrap JS
-import './assets/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
 window.CURRENT_DATE = new Date('2024-02-01T00:00:00');

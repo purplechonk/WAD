@@ -1,5 +1,4 @@
 <template>
-  <div class="scroll-container">
     <!-- Title -->
     <h1 class="text-blue-400 text-4xl">Your Events</h1>
 
@@ -71,8 +70,7 @@
       @close="closeEventDetails"
       @rsvp-cancelled="handleRSVPCancel"
     />
-  </div>
-</template>
+  </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';

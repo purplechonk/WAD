@@ -1,8 +1,12 @@
+:root {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* Prevents double scrollbars */
 }
 
 .scroll-container {
