@@ -358,30 +358,4 @@ li {
   overflow: hidden;
 }
 
-/* Add any additional styles specific to your layout */
-.bento-grid {
-  display: grid;
-  gap: 1rem;
-  padding: 1rem;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(100px, auto);
-}
-
-.span-2-rows {
-  grid-row: span 2;
-}
-
-.span-2-cols {
-  grid-column: span 2;
-}
-
-.span-3-cols {
-  grid-column: span 3;
-}
-
-.image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 </style>
