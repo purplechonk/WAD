@@ -18,14 +18,14 @@
             </div>
 
             <!-- Regular box -->
-            <div class="bento-box span-2-cols image-box bg-primary">
+            <div class="bento-box span-2-cols image-box bg-secondary">
               <h3>
                 Never Miss An Event For
               </h3>
-              <h1 class="text-dark fw-bold">
+              <h1 class="text-primary fw-bold">
                 <span class="" ref="typedElement"></span>
               </h1>
-              Stay in the LOOP with sLOOP
+              <span>Stay in the LOOP with sLOOP</span>
             </div>
 
             <!-- Regular box -->
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Wide box spanning 2 columns -->
-            <div class="bento-box span-2-cols bg-secondary">
+            <div class="bento-box span-2-cols bg-dark">
               <h3>Project Overview</h3>
               <p>Another wide box that spans multiple columns.</p>
             </div>
@@ -329,8 +329,7 @@ section {
   right: 0;
   height: 5px;
   background: #8c52ff;
-  top: 65px;
-  /* Updated to account for banner + navbar */
+  top: 50px;
   transform: scaleX(0);
   z-index: 9999;
 }
