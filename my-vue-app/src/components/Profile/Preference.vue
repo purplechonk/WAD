@@ -36,7 +36,7 @@
               <h6 class="mb-3">Event Categories</h6>
               <div class="preferences-pills">
                 <span v-for="category in availableCategories" :key="category"
-                  @click="toggleSelection('categories', category)" class="preference-pill categories"
+                  @click="toggleSelection('categories', category)" class="preference-pill border border-dark categories"
                   :class="{ 'selected': isSelected('categories', category) }">
                   <i class="bi" :class="isSelected('categories', category) ? 'bi-check' : 'bi-plus'">
                   </i>
@@ -50,7 +50,7 @@
               <h6 class="mb-3">CCAs & Organisations</h6>
               <div class="preferences-pills">
                 <span v-for="cca in availableCCAs" :key="cca" @click="toggleSelection('ccas', cca)"
-                  class="preference-pill cca" :class="{ 'selected': isSelected('ccas', cca) }">
+                  class="preference-pill cca border border-dark" :class="{ 'selected': isSelected('ccas', cca) }">
                   <i class="bi" :class="isSelected('ccas', cca) ? 'bi-check' : 'bi-plus'">
                   </i>
                   {{ cca }}
@@ -195,7 +195,6 @@ const saveAndClose = async () => {
   gap: 0.25rem;
   padding: 0.5rem 1rem;
   border-radius: 50px;
-  border: 1px solid #dee2e6;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.875rem;
