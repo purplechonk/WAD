@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="card p-3 border rounded-3" 
+    class="card p-3 border rounded-3 shadow" 
     v-if="userData"
     ref="card"
     @mousemove="handleMouseMove"
@@ -99,7 +99,6 @@ export default {
 <style scoped>
 .card {
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transform-style: preserve-3d;
   will-change: transform;
 }

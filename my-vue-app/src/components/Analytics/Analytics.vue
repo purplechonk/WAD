@@ -1,106 +1,174 @@
+```vue
 <template>
-    <div class="container mt-5">
-      <div class="row gy-4 row-cols-1 row-cols-md-3 mb-5">
-        <!-- Total Events -->
-        <div class="col">
-          <div class="bento-card animate__animated animate__zoomIn">
-            <div class="bento-content text-center">
-              <i class="fas fa-calendar-check icon-primary mb-3"></i>
-              <h4>Total Events</h4>
-              <h2 class="display-5 fw-bold">{{ userStats.totalEvents }}</h2>
-            </div>
-          </div>
-        </div>
-
-        <!-- Total Hours -->
-        <div class="col">
-          <div class="bento-card animate__animated animate__zoomIn animate__delay-1s">
-            <div class="bento-content text-center">
-              <i class="fas fa-clock icon-accent mb-3"></i>
-              <h4>Total Hours Participated</h4>
-              <h2 class="display-5 fw-bold">{{ userStats.totalHours }} hrs</h2>
-            </div>
-          </div>
-        </div>
-
-        <!-- Most Active CCA -->
-        <div class="col">
-          <div class="bento-card animate__animated animate__zoomIn animate__delay-2s">
-            <div class="bento-content text-center">
-              <i class="fas fa-trophy icon-green mb-3"></i>
-              <h4>Most Active CCA</h4>
-              <h3>{{ userStats.topCCA.name }}</h3>
-              <span class="badge bg-primary mt-2">{{ userStats.topCCA.count }} events</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- User CCA Chart -->
-        <div class="col-12">
-          <div class="bento-card animate__animated animate__fadeInUp animate__delay-3s">
-            <h4 class="text-center">Your Top CCAs</h4>
-            <div ref="userCCAChart" style="width: 100%; height: 300px;"></div>
-          </div>
-        </div>
-
-        <!-- User Category Chart -->
-        <div class="col-12">
-          <div class="bento-card animate__animated animate__fadeInUp animate__delay-4s">
-            <h4 class="text-center">Your Favorite Categories</h4>
-            <div ref="userCategoryChart" style="width: 100%; height: 300px;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Original Analytics Content -->
-      <div class="row">
-        <div class="col-md-8">
-          <h2>Overall Event Analytics</h2>
-
-          <!-- Category Filter Dropdown -->
-          <label for="category" class="form-label">Filter by Category:</label>
-          <select id="category" class="form-select mb-4" v-model="selectedCategory" @change="filterEventsByCategory">
-            <option value="">All Categories</option>
-            <option v-for="category in categories" :key="category" :value="category">
-              {{ category }}
-            </option>
-          </select>
-
-          <!-- Time Series Bar Chart -->
-          <h3>Events per Month</h3>
-          <div ref="eventChart" style="width: 100%; height: 400px;"></div>
-        </div>
-
-        <!-- Leaderboard: Top 5 CCAs -->
-        <div class="col-md-4">
-          <h2>Top 5 CCAs with Most Events</h2>
-          <ul class="list-group">
-            <li v-for="(cca, index) in topCCAs" :key="cca.name" class="list-group-item">
-              <div class="d-flex justify-content-between align-items-center" @click="toggleCCA(index)"
-                style="cursor: pointer;">
-                <span>{{ index + 1 }}. {{ cca.name }}</span>
-                <span class="badge bg-primary rounded-pill">{{ cca.count }} events</span>
+  <div class="min-vh-100">
+    <!-- Section 1: Overall Event Analytics -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+              <h1 class="text-dark mb-0 animate-header">Overall Event Analytics</h1>
+              <!-- Category Filter Dropdown -->
+              <div class="bg-white rounded shadow-sm p-3 animate-header" style="min-width: 250px;">
+                <label for="category" class="form-label text-muted small mb-1">Filter by Category:</label>
+                <select
+                  id="category"
+                  class="form-select"
+                  v-model="selectedCategory"
+                  @change="filterEventsByCategory"
+                  aria-label="Filter events by category"
+                >
+                  <option value="">All Categories</option>
+                  <option v-for="category in categories" :key="category" :value="category">
+                    {{ category }}
+                  </option>
+                </select>
               </div>
+            </div>
+          </div>
 
-              <!-- Collapsible List of Events -->
-              <div :id="'collapse-' + index" class="collapse mt-2">
-                <ul class="list-group">
-                  <li v-for="event in getEventsByCCA(cca.name)" :key="event.id" class="list-group-item">
-                    {{ event.event_name }}
+          <!-- Charts Row -->
+          <div class="col-12 col-lg-8 order-2 order-lg-1">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body p-4">
+                <h3 class="h4 fw-bold mb-4">Monthly Event Distribution</h3>
+                <div class="row">
+                  <div class="col-12">
+                    <div ref="eventChart" class="w-100" style="height: 400px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top 5 CCAs Column -->
+          <div class="col-12 col-lg-4 order-1 order-lg-2">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body p-4">
+                <h3 class="h4 fw-bold mb-4">Top 5 CCAs</h3>
+                <ul class="list-group list-group-flush">
+                  <li
+                    v-for="(cca, index) in topCCAs"
+                    :key="cca.name"
+                    class="list-group-item px-0 py-3 animate-list-item"
+                  >
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                      @click="toggleCCA(index)"
+                      role="button"
+                      tabindex="0"
+                      @keydown.enter="toggleCCA(index)"
+                      @keydown.space.prevent="toggleCCA(index)"
+                      aria-expanded="false"
+                      :aria-controls="'collapse-' + index"
+                    >
+                      <div class="d-flex align-items-center">
+                        <span class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" 
+                              style="width: 24px; height: 24px;">
+                          <small class="fw-bold text-white">{{ index + 1 }}</small>
+                        </span>
+                        <span>{{ cca.name }}</span>
+                      </div>
+                      <span class="badge bg-primary rounded-pill px-3">{{ cca.count }} events</span>
+                    </div>
+
+                    <div :id="'collapse-' + index" class="collapse mt-3">
+                      <ul class="list-group list-group-flush ps-4">
+                        <li
+                          v-for="event in getEventsByCCA(cca.name)"
+                          :key="event.id"
+                          class="list-group-item border-0 px-0 py-2"
+                        >
+                          {{ event.event_name }}
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </div>
-            </li>
-          </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Combined User Statistics & Analytics -->
+    <section class="py-5">
+      <div class="container">
+        <!-- Stats Cards Row -->
+        <div class="row g-4 mb-5 stats-section">
+          <div class="col-12 mb-4">
+            <h2 class="fw-bold text-dark animate-header">User Statistics</h2>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <i class="fas fa-calendar-check text-primary display-4"></i>
+                </div>
+                <h4 class="h5 text-muted mb-3">Total Events</h4>
+                <h2 class="display-5 fw-bold mb-0">{{ userStats.totalEvents }}</h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <i class="fas fa-clock text-danger display-4"></i>
+                </div>
+                <h4 class="h5 text-muted mb-3">Total Hours</h4>
+                <h2 class="display-5 fw-bold mb-0">{{ userStats.totalHours }} <span class="fs-6">hrs</span></h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body text-center p-4">
+                <div class="mb-3">
+                  <i class="fas fa-trophy text-success display-4"></i>
+                </div>
+                <h4 class="h5 text-muted mb-3">Most Active CCA</h4>
+                <h3 class="h4 mb-2">{{ userStats.topCCA.name }}</h3>
+                <span class="badge bg-primary px-3">{{ userStats.topCCA.count }} events</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-      </div>
-    </div>
+        <!-- Analytics Charts Row -->
+        <div class="row g-4 charts-section">
+          <!-- Top CCAs Chart -->
+          <div class="col-12 col-lg-6">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Your Top CCAs</h4>
+                <div class="ratio ratio-16x9">
+                  <div ref="userCCAChart" class="w-100 h-100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <!-- Favorite Categories Chart -->
+          <div class="col-12 col-lg-6">
+            <div class="card border-0 rounded shadow bg-white h-100 animate-card">
+              <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Category Distribution</h4>
+                <div class="ratio ratio-16x9">
+                  <div ref="userCategoryChart" class="w-100 h-100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-import { auth } from '../../firebase';
+import { animate, stagger, spring, ScrollOffset } from 'motion';
 import {
   categories,
   selectedCategory,
@@ -110,27 +178,149 @@ import {
   filterEventsByCategory,
   toggleCCA,
   getEventsByCCA,
-} from '../../composables/analytics';
-import {
   userStats,
   userCCAChart,
   userCategoryChart,
   initializeUserAnalytics,
+  eventChartInstance,
+  userCCAChartInstance,
+  userCategoryChartInstance
 } from '../../composables/analytics';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { auth } from '../../firebase';
 
 export default {
   name: 'Analytics',
   setup() {
-    onMounted(() => {
-      initializeAnalytics();
+    const eventChartDiv = ref(null);
+    const userCCAChartDiv = ref(null);
+    const userCategoryChartDiv = ref(null);
+
+    // Handle Window Resize with debounce
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (eventChartInstance.value) {
+          eventChartInstance.value.resize();
+        }
+        if (userCCAChartInstance.value) {
+          userCCAChartInstance.value.resize();
+        }
+        if (userCategoryChartInstance.value) {
+          userCategoryChartInstance.value.resize();
+        }
+      }, 250);
+    };
+
+    // Animation functions
+    const initializeAnimations = () => {
+      // Headers animation
+      animate(
+        '.animate-header',
+        { 
+          opacity: [0, 1], 
+          x: [-20, 0] 
+        },
+        { 
+          duration: 0.6,
+          delay: stagger(0.2),
+          easing: spring({ damping: 15 })
+        }
+      );
+
+      // Cards animation
+      animate(
+        '.animate-card',
+        { 
+          opacity: [0, 1], 
+          y: [20, 0] 
+        },
+        { 
+          duration: 0.7,
+          delay: stagger(0.15),
+          easing: spring({ damping: 12 })
+        }
+      );
+
+      // List items animation
+      animate(
+        '.animate-list-item',
+        { 
+          opacity: [0, 1], 
+          x: [-20, 0] 
+        },
+        { 
+          duration: 0.5,
+          delay: stagger(0.1),
+          easing: spring({ damping: 15 })
+        }
+      );
+
+      // Setup scroll animations for stats and charts sections
+      document.querySelectorAll('.stats-section .card, .charts-section .card').forEach((element, index) => {
+        animate(
+          element,
+          { 
+            opacity: [0, 1], 
+            y: [30, 0],
+            scale: [0.95, 1] 
+          },
+          { 
+            duration: 0.6,
+            delay: 0.1 * index,
+            easing: spring({ damping: 15 }),
+            offset: ScrollOffset.Once
+          }
+        );
+      });
+    };
+
+    onMounted(async () => {
+      await initializeAnalytics();
       if (auth.currentUser) {
-        initializeUserAnalytics();
+        await initializeUserAnalytics();
       }
+      window.addEventListener('resize', handleResize);
+      
+      // Initialize animations after a small delay to ensure DOM is ready
+      setTimeout(initializeAnimations, 100);
     });
 
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    });
+
+    // Watchers for dynamic data updates
+    watch(
+      () => eventChart.data,
+      (newData) => {
+        if (eventChartInstance.value) {
+          eventChartInstance.value.setOption(getEventChartOptions(newData));
+        }
+      }
+    );
+
+    watch(
+      () => userCCAChart.data,
+      (newData) => {
+        if (userCCAChartInstance.value) {
+          userCCAChartInstance.value.setOption(getUserCCAChartOptions(newData));
+        }
+      }
+    );
+
+    watch(
+      () => userCategoryChart.data,
+      (newData) => {
+        if (userCategoryChartInstance.value) {
+          userCategoryChartInstance.value.setOption(getUserCategoryChartOptions(newData));
+        }
+      }
+    );
+
     return {
-      auth,
       categories,
       selectedCategory,
       topCCAs,
@@ -141,101 +331,32 @@ export default {
       filterEventsByCategory,
       toggleCCA,
       getEventsByCCA,
+      eventChartDiv,
+      userCCAChartDiv,
+      userCategoryChartDiv,
     };
   },
 };
 </script>
 
-<style scoped lang="scss">
-.container {
-  max-width: 1200px;
-  padding: 2rem;
-  background: linear-gradient(45deg, #0c0c0e, #1a1a1a);
+<style scoped>
+.animate-header,
+.animate-card,
+.animate-list-item {
+  opacity: 0;
 }
 
-.bento-card {
-  background-color: #1f1f1f;
-  border-radius: 15px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  }
+.card {
+  will-change: transform;
 }
 
-.bento-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  h4 {
-    margin-top: 0.5rem;
-    color: #fff;
-  }
-
-  h2,
-  h3 {
-    color: #fff;
-    margin-top: 0.5rem;
-  }
+.card:hover {
+  transform: translateY(-3px);
+  transition: transform 0.2s ease-in-out;
 }
 
-.icon-primary {
-  color: #0d6efd;
-  font-size: 3rem;
-}
-
-.icon-accent {
-  color: #e83e8c;
-  font-size: 3rem;
-}
-
-.icon-green {
-  color: #28a745;
-  font-size: 3rem;
-}
-
-/* Custom Animations */
-.animate__fadeInUp {
-  animation: fadeInUp 1.5s ease-out;
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.badge {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-  .bento-card {
-    padding: 1rem;
-  }
-
-  h4 {
-    font-size: 1.25rem;
-  }
-
-  .icon-primary,
-  .icon-accent,
-  .icon-green {
-    font-size: 2.5rem;
-  }
+.list-group-item {
+  cursor: pointer;
 }
 </style>
+```

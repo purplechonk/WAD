@@ -1,8 +1,13 @@
 <template>
   <div class="d-flex justify-content-between align-items-center my-3">
-    <h2 class="m-0">My Event Preferences</h2>
+    <h2 class="m-0">My Event Preferences
+      <i class="bi bi-info-circle text-primary fs-5 align-text-top" data-bs-toggle="tooltip" data-bs-placement="right"
+          title="Select your favourite categories and CCA interests to help us personalize event recommendations for you!">
+        </i>
+    </h2>
+
     <button class="btn btn-outline-primary" @click="openModal">
-      <i class="bi bi-gear me-2"></i>Edit
+      <i class="bi bi-gear-fill me-2"></i>Edit
     </button>
   </div>
     <PreferencesSandbox/>
@@ -75,6 +80,7 @@ import { ref, onMounted } from 'vue';
 import { Modal } from 'bootstrap';
 import { getUserDataFromFirestore, saveUserPreferencesToFirestore } from '../../composables/profile';
 import { fetchCategoriesFromEvents, fetchCCAsFromEvents } from '../../composables/fetchEvents';
+import { Tooltip } from 'bootstrap';
 
 
 // Refs for component state

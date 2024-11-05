@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container ">
     <div class="d-flex justify-content-between align-items-center my-3">
       <h2>
         My Weekly Timetable
@@ -11,7 +11,7 @@
       </i>
     </div>
 
-    <div class="rounded shadow-sm">
+    <div class="rounded shadow bg-white">
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-5">
         <div class="spinner-border text-primary" role="status">
@@ -42,13 +42,13 @@
         <!-- Classes List -->
         <div class="list-group list-group-flush">
           <template v-if="paginatedClasses.length">
-            <div v-for="(classItem, index) in paginatedClasses" :key="index" class="list-group-item">
+            <div v-for="(classItem, index) in paginatedClasses" :key="index" class="list-group-item bg-white">
               <div class="d-flex flex-wrap justify-content-between align-items-start mb-2">
                 <div class="badges-wrapper d-flex flex-wrap gap-2 flex-grow-1">
-                  <span class="badge time-badge text-dark">
+                  <span class="badge bg-secondary text-dark fw-normal">
                     {{ classItem.start_time }} - {{ classItem.end_time }}
                   </span>
-                  <span class="badge duration-badge">
+                  <span class="badge bg-white text-dark border-dark duration-badge">
                     {{ calculateDuration(classItem.start_time, classItem.end_time) }} minutes
                   </span>
                 </div>
@@ -63,13 +63,13 @@
             <!-- Pagination Controls -->
             <div v-if="totalPages > 1"
               class="pagination-controls d-flex justify-content-center align-items-center gap-3 mt-4 mb-3">
-              <button class="btn btn-outline-primary btn-sm" @click="previousPage" :disabled="currentPage === 1">
+              <button class="btn btn-outline-primary btn-sm ms-2" @click="previousPage" :disabled="currentPage === 1">
                 Previous
               </button>
               <span class="page-info">
                 Page {{ currentPage }} of {{ totalPages }}
               </span>
-              <button class="btn btn-outline-primary btn-sm" @click="nextPage" :disabled="currentPage === totalPages">
+              <button class="btn btn-outline-primary btn-sm me-2" @click="nextPage" :disabled="currentPage === totalPages">
                 Next
               </button>
             </div>
@@ -127,7 +127,7 @@
                   <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
                     Cancel
                   </button>
-                  <button type="submit" class="btn btn-primary">
+                  <button type="submit" class="btn btn-primary text-light">
                     {{ isEditing ? 'Save Changes' : 'Add Class' }}
                   </button>
                 </div>

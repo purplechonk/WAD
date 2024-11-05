@@ -23,6 +23,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    // If there's a saved position (e.g., when navigating back), use that position
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      // Scroll to top for new route loads
+      return { left: 0, top: 0 };
+    }
+  }
 });
 
 // Navigation guard to check authentication and handle redirects
