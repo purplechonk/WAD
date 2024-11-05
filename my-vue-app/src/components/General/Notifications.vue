@@ -2,15 +2,16 @@
   <div class="notifications-wrapper" v-if="user">
     <!-- Trigger Button -->
     <button 
-      @click="togglePanel"
-      class="btn btn-primary rounded-circle position-fixed start-0 bottom-0 m-4 p-3 shadow"
-      aria-label="Toggle notifications"
-    >
-      <i class="bi bi-bell fs-5"></i>
-      <span v-if="notificationCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-        {{ notificationCount }}
-      </span>
-    </button>
+  @click="togglePanel"
+  class="btn btn-primary rounded-circle position-fixed start-0 bottom-0 m-4 shadow d-flex align-items-center justify-content-center"
+  style="width: 48px; height: 48px; padding: 0;"
+  aria-label="Toggle notifications"
+>
+  <i class="bi bi-bell fs-6"></i>
+  <span v-if="notificationCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+    {{ notificationCount }}
+  </span>
+</button>
 
     <!-- Overlay -->
     <div 
@@ -21,7 +22,7 @@
 
     <!-- Off-canvas Panel -->
     <div 
-      class="notifications-panel position-fixed top-0 end-0 h-100 bg-dark shadow"
+      class="notifications-panel position-fixed top-0 end-0 h-100 bg-secondary shadow"
       :class="{ 'panel-open': isPanelOpen }"
       @click.stop
     >
@@ -51,7 +52,7 @@
             <div class="d-flex gap-3">
               <div class="notification-content flex-grow-1">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                  <h3 class="h6 mb-0 text-white">{{ notification.title }}</h3>
+                  <h3 class="h6 mb-0 text-light fw-bold">{{ notification.title }}</h3>
                   <span 
                     class="badge rounded-pill ms-2"
                     :class="getUrgencyBadgeClass(notification.daysUntilEvent)"
@@ -70,10 +71,10 @@
       </div>
 
       <!-- Footer with View Saved Events button -->
-      <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark border-top border-primary">
+      <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-secondary border-top border-primary">
         <button 
           @click="handleViewSavedEvents"
-          class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+          class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 text-light"
         >
           <i class="bi bi-bookmark-fill"></i>
           View Saved Events
@@ -169,9 +170,9 @@ export default {
       }
     },
     getUrgencyBadgeClass(days) {
-      if (days <= 3) return 'bg-danger';
-      if (days <= 7) return 'bg-warning text-dark';
-      return 'bg-info text-dark';
+      if (days <= 7) return 'bg-danger fw-normal';
+      if (days <= 21) return 'bg-warning fw-normal';
+      return 'bg-light fw-normal';
     },
     calculateDaysUntilEvent(date) {
       const now = window.CURRENT_DATE

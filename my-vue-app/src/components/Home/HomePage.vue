@@ -39,7 +39,7 @@
             </div>
 
             <!-- Wide box spanning 2 columns -->
-            <div class="bento-box span-2-cols bg-dark">
+            <div class="bento-box span-2-cols bg-light">
               <h3>Project Overview</h3>
               <p>Another wide box that spans multiple columns.</p>
             </div>
