@@ -84,16 +84,3 @@ buttons.forEach(button => {
   });
 });
 
-
-
-
-// Initialize ScrollMagic Controller
-// var controller = new ScrollMagic.Controller();
-
-// Create Scene
-// new ScrollMagic.Scene({
-//   triggerElement: "#pane1", // Start effect when this element is in view
-//   duration: "100%"          // Continue effect throughout the height of pane1
-// })
-// .setPin("#pane1")            // Pin pane1 while scrolling through its height
-// .addTo(controller);          // Add this scene to the controller

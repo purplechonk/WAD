@@ -329,7 +329,7 @@ section {
   right: 0;
   height: 5px;
   background: #8c52ff;
-  top: 50px;
+  top: 65px;
   transform: scaleX(0);
   z-index: 9999;
 }
