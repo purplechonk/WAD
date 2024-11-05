@@ -17,10 +17,12 @@
     "bootstrap-icons": "^1.11.3",
     "echarts": "^5.5.1",
     "firebase": "^10.14.0",
-    "motion": "^10.18.0",
     "matter-js": "^0.20.0",
+    "motion": "^10.18.0",
+    "remixicon": "^4.5.0",
     "scss": "^0.2.4",
     "typed.js": "^2.1.0",
+    "vanilla-tilt": "^1.8.1",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   },

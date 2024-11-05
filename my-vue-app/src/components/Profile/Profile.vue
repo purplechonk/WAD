@@ -1,4 +1,5 @@
 <template>
+  <div class="scroll-container pb-6">
   <div class="container mt-4 p-3 justify-content-between">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
@@ -34,6 +35,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

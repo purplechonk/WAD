@@ -8,6 +8,7 @@ import './assets/css/bootstrap.css';
 import './assets/css/font-awesome.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
+import 'remixicon/fonts/remixicon.css';
 
 // // Import Bootstrap JS
 import './assets/js/bootstrap.bundle.min.js';

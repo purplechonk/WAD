@@ -306,15 +306,15 @@ onMounted(async () => {
 /* Main Event Modal */
 .modal-overlay {
   position: fixed;
-  top: 0;
+  top: 79px;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 2000;
 }
 
 .modal-content {
@@ -326,8 +326,11 @@ onMounted(async () => {
   padding: 30px;
   position: fixed;
   bottom: 0;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow-y: auto;
+  position: relative; /* Change from fixed to relative */
+  margin: auto; /* Center the modal */
+  z-index: 2001; /* Higher than overlay */
 }
 
 /* Small modals for Cancel and Success */
@@ -341,7 +344,7 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it's above the main modal */
+  z-index: 2002; /* Ensure it's above the main modal */
 }
 
 .small-modal-dialog {
@@ -352,6 +355,7 @@ onMounted(async () => {
   padding: 20px;
   position: relative;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2003; /* Higher than small modal overlay */
 }
 
 .close-button {
