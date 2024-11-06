@@ -2,15 +2,16 @@
   <div class="notifications-wrapper" v-if="user">
     <!-- Trigger Button -->
     <button 
-      @click="togglePanel"
-      class="btn btn-primary rounded-circle position-fixed start-0 bottom-0 m-4 p-3 shadow"
-      aria-label="Toggle notifications"
-    >
-      <i class="bi bi-bell fs-5"></i>
-      <span v-if="notificationCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-        {{ notificationCount }}
-      </span>
-    </button>
+  @click="togglePanel"
+  class="btn btn-primary rounded-circle position-fixed start-0 bottom-0 m-4 shadow d-flex align-items-center justify-content-center text-secondary"
+  style="width: 48px; height: 48px; padding: 0;"
+  aria-label="Toggle notifications"
+>
+  <i class="bi bi-bell fs-6"></i>
+  <span v-if="notificationCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+    {{ notificationCount }}
+  </span>
+</button>
 
     <!-- Overlay -->
     <div 
@@ -21,12 +22,12 @@
 
     <!-- Off-canvas Panel -->
     <div 
-      class="notifications-panel position-fixed top-0 end-0 h-100 bg-dark shadow"
+      class="notifications-panel position-fixed top-0 end-0 h-100 bg-secondary shadow"
       :class="{ 'panel-open': isPanelOpen }"
       @click.stop
     >
       <!-- Header -->
-      <div class="p-3 bg-primary text-white d-flex justify-content-between align-items-center">
+      <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
         <h2 class="h5 mb-0">Notifications</h2>
         <button 
           @click="togglePanel"
@@ -38,7 +39,7 @@
       </div>
 
       <!-- Notifications List -->
-      <div class="overflow-auto notification-list">
+      <div class="overflow-auto notification-list pb-3">
         <div v-if="sortedNotifications.length === 0" class="p-4 text-center text-white">
           No notifications
         </div>
@@ -51,7 +52,7 @@
             <div class="d-flex gap-3">
               <div class="notification-content flex-grow-1">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                  <h3 class="h6 mb-0 text-white">{{ notification.title }}</h3>
+                  <h3 class="h6 mb-0 text-dark fw-bold">{{ notification.title }}</h3>
                   <span 
                     class="badge rounded-pill ms-2"
                     :class="getUrgencyBadgeClass(notification.daysUntilEvent)"
@@ -59,21 +60,20 @@
                     Closing in {{ notification.daysUntilEvent }} days!
                   </span>
                 </div>
-                <p class="mb-2 text-light small">{{ notification.message }}</p>
+                <p class="mb-2 text-dark small">{{ notification.message }}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-light">{{ formatDate(notification.time) }}</small>
+                  <small class="text-dark">Closes {{ formatDate(notification.time) }}</small>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Footer with View Saved Events button -->
-      <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark border-top border-primary">
+      <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-secondary border-top border-primary">
         <button 
           @click="handleViewSavedEvents"
-          class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+          class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 text-light"
         >
           <i class="bi bi-bookmark-fill"></i>
           View Saved Events
@@ -169,9 +169,9 @@ export default {
       }
     },
     getUrgencyBadgeClass(days) {
-      if (days <= 3) return 'bg-danger';
-      if (days <= 7) return 'bg-warning text-dark';
-      return 'bg-info text-dark';
+      if (days <= 7) return 'bg-danger fw-normal';
+      if (days <= 21) return 'bg-warning fw-normal';
+      return 'bg-primary fw-normal';
     },
     calculateDaysUntilEvent(date) {
       const now = window.CURRENT_DATE
@@ -237,7 +237,7 @@ export default {
         .map(event => ({
           id: event.id,
           title: event.event_name,
-          message: `Reminder: ${event.event_name} is coming up soon!`,
+          message: `Don't miss out! ${event.event_name} sign-ups are closing soon! `,
           time: event.parsed_start_date,
           parsed_start_date: event.parsed_start_date,
           daysUntilEvent: event.daysUntilEvent

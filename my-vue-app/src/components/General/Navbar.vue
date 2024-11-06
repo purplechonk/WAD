@@ -1,19 +1,10 @@
 <!-- src/components/Navbar.vue -->
 <template>
 
-  <section class="banner-section">
-    <div class="banner-scroll">
-      <div class="banner-track">
-        <img src="../../assets/images/banner-home.png" alt="Scrolling Banner">
-        <img src="../../assets/images/banner-home.png" alt="Scrolling Banner">
-      </div>
-    </div>
-  </section>
-
-  <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light py-2">
       <div class="container">
         <router-link to="/" class="navbar-brand">
-          <img src="../../assets/images/sLoop.svg" alt="Logo" class="logo" width="100"/>
+          <img src="../../assets/images/sLoop-dark.svg" alt="Logo" class="logo" width="100"/>
         </router-link>
         <button
           class="navbar-toggler"
@@ -51,41 +42,9 @@
       </div>
     </nav>
   </template>
-
-<style scoped>
-  .banner-section {
-    width: 100%;
-    height: 30px;
-    position: relative;
-    z-index: 1;
-    background: #000;
-  }
-
-.banner-scroll {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.banner-track {
-  display: flex;
-  width: fit-content;
-  height: 100%;
-  animation: scroll 60s linear infinite;
-  
-  img {
-    width: 1600px;
-    height: 30px;
-    object-fit: cover;
-    display: block;
-  }
-}
-</style>
   
   <script >
     import "../../assets/js/replaceme.min.js"
-    import "../../assets/js/bootstrap.bundle.min.js"
     import "../../assets/js/script.js"
 </script>
   

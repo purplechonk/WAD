@@ -1,6 +1,7 @@
 <template>
-  <div class="scroll-container" ref="galleryContainer">
-    <section ref="sections">
+  <div class="scroll-sections">
+    <!-- First section with special class -->
+    <section ref="sections" class="first-section">
       <div class="page-wrapper">
         <div class="container-fluid py-1 bento-section-1">
           <div class="bento-grid">
@@ -17,14 +18,14 @@
             </div>
 
             <!-- Regular box -->
-            <div class="bento-box span-2-cols image-box bg-primary">
+            <div class="bento-box span-2-cols image-box bg-secondary">
               <h3>
                 Never Miss An Event For
               </h3>
-              <h1 class="text-dark fw-bold">
+              <h1 class="text-primary fw-bold">
                 <span class="" ref="typedElement"></span>
               </h1>
-              Stay in the LOOP with sLOOP
+              <span>Stay in the LOOP with sLOOP</span>
             </div>
 
             <!-- Regular box -->
@@ -38,7 +39,7 @@
             </div>
 
             <!-- Wide box spanning 2 columns -->
-            <div class="bento-box span-2-cols bg-secondary">
+            <div class="bento-box span-2-cols bg-light">
               <h3>Project Overview</h3>
               <p>Another wide box that spans multiple columns.</p>
             </div>
@@ -80,44 +81,38 @@
           <h2>#005</h2>
         </li>
       </ul>
-
     </section>
+
+    <!-- <section class="event-cards">
+      <h2>Featured Events</h2>
+      <div class="card-area">
+        <EventCard v-for="event in featuredEvents" :key="event.id" :event="event" @show-details="openEventDetails" />
+        <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
+          @login-success="handleLoginSuccess" />
+      </div>
+    </section> -->
 
     <section ref="sections">
       testing testing
     </section>
 
     <div class="progress"></div>
-
   </div>
-
 </template>
 
-<!-- <section class="event-cards">
-    <h2>Featured Events</h2>
-    <div class="card-area">
-      <EventCard v-for="event in featuredEvents" :key="event.id" :event="event" @show-details="openEventDetails" />
-      <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
-        @login-success="handleLoginSuccess" />
-    </div>
-  </section> -->
-
-
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase'; // Firebase Auth instance
+import { auth } from '../../firebase';
 import { fetchRecommendedEvents } from '../../composables/fetchEvents';
-import { animate, spring, stagger, scroll } from "motion";
+import { animate, spring, stagger } from "motion";
 import EventCard from '../General/EventCard.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 import ReplaceMe from '../../utils/replaceMe';
 import Typed from 'typed.js';
 
-
 const recommendedEvents = ref([]);
-const featuredEvents = ref([]);
-const isAuthenticated = ref(false); // Track user authentication state
+const isAuthenticated = ref(false);
 
 const loadRecommendedEvents = async () => {
   recommendedEvents.value = await fetchRecommendedEvents();
@@ -141,32 +136,28 @@ const handleModalClose = () => {
   closeModal();
 };
 
-// After login success from modal
 const handleLoginSuccess = async () => {
-  isAuthenticated.value = true; // User logged in, update state
-  await loadRecommendedEvents(); // Re-fetch recommended events after login
-  closeModal(); // Close the event detail modal after login
+  isAuthenticated.value = true;
+  await loadRecommendedEvents();
+  closeModal();
 };
 
-const typedElement = ref(null)
-let typed = null
+const typedElement = ref(null);
+let typed = null;
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]
+    [array[i], array[j]] = [array[j], array[i]];
   }
-  return array
-}
+  return array;
+};
 
-//snap scrolling
-const sections = ref([])
-const galleryContainer = ref(null);
-
+const sections = ref([]);
 
 onMounted(() => {
   console.log("Component mounted!");
-  // Initialize ReplaceMe on the "replace-me" element
+
   const replaceElement = document.querySelector('.replace-me');
   if (replaceElement) {
     new ReplaceMe(replaceElement, {
@@ -180,14 +171,13 @@ onMounted(() => {
 
   loadRecommendedEvents();
 
-  // Listen for auth state changes
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isAuthenticated.value = true;
-      loadRecommendedEvents(); // Re-fetch recommended events on login
+      loadRecommendedEvents();
     } else {
       isAuthenticated.value = false;
-      recommendedEvents.value = []; // Clear recommended events if user logs out
+      recommendedEvents.value = [];
     }
   });
 
@@ -196,10 +186,10 @@ onMounted(() => {
     typeSpeed: 40,
     backSpeed: 50,
     loop: true
-  })
+  });
 
-  const bentoBoxes = document.querySelectorAll('.bento-box')
-  const indices = shuffleArray([...Array(bentoBoxes.length).keys()])
+  const bentoBoxes = document.querySelectorAll('.bento-box');
+  const indices = shuffleArray([...Array(bentoBoxes.length).keys()]);
 
   animate(
     '.bento-box',
@@ -216,15 +206,14 @@ onMounted(() => {
         mass: 1.5
       }),
     }
-  )
+  );
 
-  //progress bar
-  const container = document.querySelector('.scroll-container');
+  // Progress bar with window scroll
   const progress = document.querySelector('.progress');
 
   const updateProgress = () => {
-    const totalHeight = container.scrollHeight - container.clientHeight;
-    const currentScroll = container.scrollTop;
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const currentScroll = window.scrollY;
     const scrollPercent = currentScroll / totalHeight;
 
     animate(
@@ -239,37 +228,39 @@ onMounted(() => {
     );
   };
 
-  // Initialize progress
   updateProgress();
+  window.addEventListener('scroll', updateProgress);
 
-  // Update on scroll
-  container.addEventListener('scroll', updateProgress);
-
-  // Cleanup
   onBeforeUnmount(() => {
-    container.removeEventListener('scroll', updateProgress);
+    window.removeEventListener('scroll', updateProgress);
   });
-
 });
 
 onBeforeUnmount(() => {
   if (typed) {
-    typed.destroy()
+    typed.destroy();
   }
-})
-
+});
 </script>
 
 <style scoped>
-.scroll-container {
+/* Global styles for snap scrolling */
+html {
   scroll-snap-type: y mandatory;
-  height: 100vh;
-  overflow-y: scroll;
-  width: 100%;
-  position: relative;
-  max-height: 100vh;
+  scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.scroll-sections {
+  width: 100%;
+  position: relative;
+}
+
+/* Section styles with navbar adjustment */
 section {
   height: 100vh;
   scroll-snap-align: start;
@@ -279,6 +270,13 @@ section {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  padding-top: 108px;
+  /* navbar (78px) + banner (30px) */
+}
+
+/* Special style for first section */
+.first-section {
+  margin-top: -108px;
 }
 
 .bento-section-1 {
@@ -331,7 +329,7 @@ section {
   right: 0;
   height: 5px;
   background: #8c52ff;
-  top: 78px;
+  top: 65px;
   transform: scaleX(0);
   z-index: 9999;
 }
@@ -359,4 +357,5 @@ li {
   flex-direction: column;
   overflow: hidden;
 }
+
 </style>

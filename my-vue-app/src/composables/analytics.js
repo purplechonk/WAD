@@ -4,6 +4,7 @@ import { fetchAllEvents } from './fetchEvents';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
+
 // Reactive state for general analytics
 export const categories = ref([]);
 export const selectedCategory = ref('');
@@ -12,6 +13,7 @@ export const filteredEvents = ref([]);
 export const topCCAs = ref([]);
 export const eventChart = ref(null);
 
+
 // Reactive state for user analytics
 export const userStats = ref({
   totalEvents: 0,
@@ -19,8 +21,11 @@ export const userStats = ref({
   topCCA: { name: '', count: 0 },
   topCategory: { name: '', count: 0 }
 });
+
+
 export const userCCAChart = ref(null);
 export const userCategoryChart = ref(null);
+
 
 // Initialize general analytics
 export const initializeAnalytics = async () => {
@@ -29,40 +34,56 @@ export const initializeAnalytics = async () => {
   filterEventsByCategory();
 };
 
+
 // Initialize user analytics
 export const initializeUserAnalytics = async () => {
   try {
     const user = auth.currentUser;
     if (!user) return;
 
+
     const userDoc = await getDoc(doc(db, 'user_records', user.uid));
     if (!userDoc.exists()) return;
+
 
     const userData = userDoc.data();
     const signedUpEvents = userData.signed_up_events || [];
 
+
     // Fetch full details of all signed-up events
-    const eventPromises = signedUpEvents.map(eventId => 
+    const eventPromises = signedUpEvents.map(eventId =>
       getDoc(doc(db, 'events', eventId))
     );
     const eventDocs = await Promise.all(eventPromises);
-    const events = eventDocs
+    const now = new Date('2024-02-01T00:00:00'); // Current date set to 1 Feb 2024
+
+
+    // Filter events to only include past events (ending before the current date)
+    const pastEvents = eventDocs
       .filter(doc => doc.exists())
-      .map(doc => ({ id: doc.id, ...doc.data() }));
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(event => {
+        const eventEndDate = new Date(convertToISOFormat(event.end_date_time));
+        return eventEndDate < now; // Only include past events
+      });
+
 
     // Calculate total events and hours
     let totalHours = 0;
     const ccaCounts = {};
     const categoryCounts = {};
 
-    events.forEach(event => {
+
+    pastEvents.forEach(event => {
       // Calculate hours
       totalHours += calculateDuration(event.start_date_time, event.end_date_time);
+
 
       // Count CCAs
       if (event.cca) {
         ccaCounts[event.cca] = (ccaCounts[event.cca] || 0) + 1;
       }
+
 
       // Count categories
       if (event.category) {
@@ -72,19 +93,22 @@ export const initializeUserAnalytics = async () => {
       }
     });
 
+
     // Find top CCA and category
     const topCCA = Object.entries(ccaCounts)
-      .sort(([,a], [,b]) => b - a)[0] || ['None', 0];
+      .sort(([, a], [, b]) => b - a)[0] || ['None', 0];
     const topCategory = Object.entries(categoryCounts)
-      .sort(([,a], [,b]) => b - a)[0] || ['None', 0];
+      .sort(([, a], [, b]) => b - a)[0] || ['None', 0];
+
 
     // Update user stats
     userStats.value = {
-      totalEvents: events.length,
+      totalEvents: pastEvents.length,
       totalHours: Math.round(totalHours * 10) / 10,
       topCCA: { name: topCCA[0], count: topCCA[1] },
       topCategory: { name: topCategory[0], count: topCategory[1] }
     };
+
 
     // Update visualizations
     updateUserCCAChart(ccaCounts);
@@ -93,6 +117,7 @@ export const initializeUserAnalytics = async () => {
     console.error('Error initializing user analytics:', error);
   }
 };
+
 
 // Filter events based on selected category
 export const filterEventsByCategory = () => {
@@ -107,6 +132,7 @@ export const filterEventsByCategory = () => {
   updateLeaderboard(filteredEvents.value);
 };
 
+
 // Get unique categories from events
 const getUniqueCategories = (events) => {
   const categoriesSet = new Set();
@@ -118,19 +144,77 @@ const getUniqueCategories = (events) => {
   return Array.from(categoriesSet);
 };
 
+
+// Calculate duration in hours between two datetime strings
 // Calculate duration in hours between two datetime strings
 const calculateDuration = (startDateTime, endDateTime) => {
-  const start = new Date(startDateTime.split(' ').join('T'));
-  const end = new Date(endDateTime.split(' ').join('T'));
-  return (end - start) / (1000 * 60 * 60); // Convert milliseconds to hours
+  try {
+    if (!startDateTime || !endDateTime) {
+      throw new Error('Invalid date string');
+    }
+
+
+    // Convert the date strings to a consistent format (ISO 8601)
+    const parsedStartDateTime = convertToISOFormat(startDateTime);
+    const parsedEndDateTime = convertToISOFormat(endDateTime);
+
+
+    const start = new Date(parsedStartDateTime);
+    const end = new Date(parsedEndDateTime);
+
+
+    // Check if the date parsing resulted in valid dates
+    if (isNaN(start) || isNaN(end)) {
+      throw new Error('Invalid date parsing');
+    }
+
+
+    // Calculate the duration in hours
+    return (end - start) / (1000 * 60 * 60); // Convert milliseconds to hours
+  } catch (error) {
+    console.error('Error calculating duration:', error);
+    return 0; // Return 0 hours if there is an error
+  }
 };
+
+
+// Helper function to convert date strings to ISO format
+const convertToISOFormat = (dateTimeStr) => {
+  // Check if the format is already compatible
+  if (dateTimeStr.includes('T')) {
+    return dateTimeStr; // Already in ISO format
+  }
+
+
+  // Split the date and time parts
+  const [datePart, timePart] = dateTimeStr.split(' ');
+  if (!datePart || !timePart) {
+    throw new Error('Invalid date-time format');
+  }
+
+
+  // Split the date part (assuming DD/MM/YYYY format)
+  const [day, month, year] = datePart.split('/');
+  if (!day || !month || !year) {
+    throw new Error('Invalid date format');
+  }
+
+
+  // Return in ISO format (YYYY-MM-DDTHH:mm:ss)
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${timePart}`;
+};
+
+
+
 
 // Update the general events bar chart
 export const updateChart = (events) => {
   nextTick(() => {
     const chart = echarts.init(eventChart.value);
 
+
     const monthCounts = new Array(12).fill(0);
+
 
     events.forEach(event => {
       const parsedDate = parseEventDate(event.start_date_time);
@@ -140,13 +224,9 @@ export const updateChart = (events) => {
       }
     });
 
+
     const options = {
-      title: { 
-        text: 'Number of Events per Month',
-        textStyle: {
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial'
-        }
-      },
+     
       tooltip: {},
       xAxis: {
         type: 'category',
@@ -164,29 +244,28 @@ export const updateChart = (events) => {
       }]
     };
 
+
     chart.setOption(options);
   });
 };
+
 
 // Update the user's CCA distribution chart
 export const updateUserCCAChart = (ccaCounts) => {
   if (!userCCAChart.value) return;
 
+
   const chart = echarts.init(userCCAChart.value);
-  
+ 
   const data = Object.entries(ccaCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([name, value]) => ({ name, value }));
 
+
   const option = {
-    title: {
-      text: 'Your Top CCAs',
-      left: 'center',
-      textStyle: {
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial'
-      }
-    },
+
+
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} events'
@@ -217,28 +296,26 @@ export const updateUserCCAChart = (ccaCounts) => {
     }]
   };
 
+
   chart.setOption(option);
 };
+
 
 // Update the user's category distribution chart
 export const updateUserCategoryChart = (categoryCounts) => {
   if (!userCategoryChart.value) return;
 
+
   const chart = echarts.init(userCategoryChart.value);
-  
+ 
   const data = Object.entries(categoryCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([name, value]) => ({ name, value }));
 
+
   const option = {
-    title: {
-      text: 'Your Top Categories',
-      left: 'center',
-      textStyle: {
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial'
-      }
-    },
+   
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} events'
@@ -269,12 +346,15 @@ export const updateUserCategoryChart = (categoryCounts) => {
     }]
   };
 
+
   chart.setOption(option);
 };
+
 
 // Update the leaderboard with top 5 CCAs
 export const updateLeaderboard = (events) => {
   const ccaCounts = {};
+
 
   events.forEach(event => {
     const cca = event.cca;
@@ -283,28 +363,36 @@ export const updateLeaderboard = (events) => {
     }
   });
 
+
   const sortedCCAs = Object.entries(ccaCounts)
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 
+
   topCCAs.value = sortedCCAs.slice(0, 5);
 };
 
-// Toggle the collapse for a CCA in the leaderboard
 export const toggleCCA = (index) => {
   const collapseElement = document.getElementById(`collapse-${index}`);
-  const isCollapsed = collapseElement.classList.contains('show');
-  if (isCollapsed) {
+  if (collapseElement.classList.contains('show')) {
     collapseElement.classList.remove('show');
   } else {
+    // Close any other open collapses before opening the current one (optional)
+    document.querySelectorAll('.collapse').forEach((el) => {
+      if (el !== collapseElement) {
+        el.classList.remove('show');
+      }
+    });
     collapseElement.classList.add('show');
   }
 };
+
 
 // Get events organized by a specific CCA (filtered by category)
 export const getEventsByCCA = (ccaName) => {
   return filteredEvents.value.filter((event) => event.cca === ccaName);
 };
+
 
 // Helper function to safely parse event dates
 const parseEventDate = (dateString) => {

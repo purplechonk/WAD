@@ -3,13 +3,12 @@ $font-family-sans-serif: 'Poppins', sans-serif;
 
 // Colors
 $primary: #8c52ff;
-$secondary: #35353a;
-$dark: #000;
-$body-bg: #0c0c0e;
-$body-color: #fff;
-$pink: #FE3E73;
-$neon-green: #D3FE3E;
-$turqoise: #3EFEC9;
+$secondary: #DEDCF4;
+$light: #eeeef2;
+$dark: #2b0f62;
+$body-bg: #fbfbfe;
+$body-color: #2b0f62;
+
 
 // Spacing
 $spacer: 1rem !default;
@@ -31,8 +30,8 @@ $line-height-base: 1.7 !default;
 // Navbar
 $navbar-nav-link-padding-x: 0.8rem;
 $navbar-padding-y: 1rem;
-$navbar-dark-color: #fff;
-$navbar-nav-link-hover-color: #8c52ff;
+$navbar-dark-color: #eeeef2;
+$navbar-nav-link-hover-color: #eeeef2;
 
 // Buttons
 $button-radius: 50px;

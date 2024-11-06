@@ -19,7 +19,6 @@
     "firebase": "^10.14.0",
     "matter-js": "^0.20.0",
     "motion": "^10.18.0",
-    "remixicon": "^4.5.0",
     "scss": "^0.2.4",
     "typed.js": "^2.1.0",
     "vanilla-tilt": "^1.8.1",
