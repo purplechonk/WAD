@@ -45,6 +45,8 @@
           </div>
         </div>
 
+        <Map :location="event.Geocode"/>
+
         <!-- Sign-Up Form Modal -->
         <SignUpFormModal
           v-if="showSignUpForm"
@@ -99,6 +101,7 @@ import SaveButton from './SaveButton.vue';
 import { hasUserSignedUpForEvent } from '../../composables/fetchEvents';
 import { cancelRSVPInDatabase } from '../../composables/eventActions';
 import { useRouter } from 'vue-router'; // Import Vue Router for navigation
+import Map from './Map.vue';
 
 // Helper function to parse date string
 const parseDateTime = (dateTimeStr) => {

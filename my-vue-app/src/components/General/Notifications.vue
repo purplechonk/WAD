@@ -62,7 +62,7 @@
                 </div>
                 <p class="mb-2 text-dark small">{{ notification.message }}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-dark">Closes {{ formatDate(notification.time) }}</small>
+                  <small class="text-dark text-decoration-underline">Closes {{ formatDate(notification.time) }}</small>
                 </div>
               </div>
             </div>
