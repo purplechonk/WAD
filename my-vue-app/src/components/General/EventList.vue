@@ -39,7 +39,6 @@ const closeModal = () => {
 
 <style scoped>
 .event-list {
-  margin-left: 8px;
   margin-top: 0;
   width: 100%;
 }
