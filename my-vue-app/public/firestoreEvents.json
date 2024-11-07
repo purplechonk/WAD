@@ -1,0 +1,759 @@
+{
+    "event_1": {
+      "event_name": "Java Workshop 2024",
+      "category": [
+        "Academic",
+        "Technology"
+      ],
+      "cca": "Ellipsis",
+      "start_date_time": "13/01/2024 11:30:00",
+      "end_date_time": "13/01/2024 16:30:00",
+      "venue": "SCIS 1 (T.B.A)",
+      "description": "Taking CS102 (Programming Fundamentals II), IS442 (Object Oriented Programming) in the upcoming semester? Are you looking for an introduction to Java programming to prepare you for the upcoming semester, or want to learn a new programming language?\n\nEllipsis is here to help with its annual Java Workshop!\n\nThe workshop is a crash course on Java Programming, from Java syntax and control flow to Object-Oriented Concepts such as encapsulation, abstraction and object inheritance.",
+      "no_of_signups": 23,
+      "max_participants": 60,
+      "photo_url": ""
+    },
+    "event_2": {
+      "event_name": "Befriending Kamma: A Life Shaped By Choices",
+      "category": [
+        "Religion",
+        "Special Interest"
+      ],
+      "cca": "Dhamma Circle",
+      "start_date_time": "18/01/2024 19:30:00",
+      "end_date_time": "18/01/2024 21:00:00",
+      "venue": "SOE/SCIS2 Classroom 3-3",
+      "description": "The concept of Kamma, or Karma often evokes feelings of fear due to its association with a universal system of punishment and reward. However, when explored through the teachings of the Buddha, Kamma takes on a profound meaning\u2014one that emphasizes the pivotal role of our intentions in shaping our destinies.\n\nContrary to common misconceptions, Kamma isn't a system of cosmic retribution; rather, it serves as a powerful reminder that our lives are influenced by the intentions behind our actions in body, speech and mind. There is no force of predetermined fate as our mindful choices have the transformative potential to reshape our lives.\n\nJoin us this Thursday as we explore this teaching and how we can break free from negative patterns in our lives.",
+      "no_of_signups": 12,
+      "max_participants": 60,
+      "photo_url": ""
+    },
+    "event_3": {
+      "event_name": "Xplore workshop - Repurposing Materials Towards Zero Waste",
+      "category": [
+        "Arts",
+        "Special Interest"
+      ],
+      "cca": "SMU-X Makerspace",
+      "start_date_time": "19/01/2024 14:30:00",
+      "end_date_time": "19/01/2024 17:00:00",
+      "venue": "Connexion SMU-X Makerspace",
+      "description": "Discover the Art of Circular Fashion and Reduce Textile Waste!\nCircularity can be integrated creatively and effectively into our daily lives. Join us for an experiential learning workshop where we will breathe new life into discarded fabrics and garments and reduce textile wastage. We welcome all individuals who are keen on reducing their environmental footprint and expanding their creative skillset towards sustainability. No prior sewing knowledge is required.\nThe 2.5 hour long Workshop includes a brief introduction on sustainable textiles and waste reduction, hand sewing and machine operation skills and allows participants sufficient hands-on time to create their individual product out of old materials.",
+      "no_of_signups": 23,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_4": {
+      "event_name": "Retro Romance Movie Night",
+      "category": [
+        "Special Interest",
+        "Cultural",
+        "Entertainment"
+      ],
+      "cca": "Yim Siam",
+      "start_date_time": "19/01/2024 18:00:00",
+      "end_date_time": "19/01/2024 20:30:00",
+      "venue": "SCIS CR B1-1",
+      "description": "Sawasdee ka/krub \u263a\ufe0f\nHow is this year going so far? Does everyone have a great start in school for this new year or do you still miss the unforgettable moments from the last few years?\n\nNo fear! There is nothing a nice movie break cannot cure! \n\nCome and join if you love coming-of-age stories.\n\nDive into the memories of your teenage emotions and enjoy the retro mood of the movie that captures the charm of highschool first crush without any miss!\n\nBring your buddies and have a nostalgic movie night together!\n\nSnacks and drinks are on us \ud83c\udf7f\ud83e\udd64\n\nFeel free to bring your refreshments!\n\nRegistration is first-come, first-served basis.\n\nSecure the spot by signing up here now \u2763\ufe0f",
+      "no_of_signups": 35,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_5": {
+      "event_name": "Economic Research and Writing Workshop",
+      "category": [
+        "Academic",
+        "Finance",
+        "Business"
+      ],
+      "cca": "Economics Intelligence Club",
+      "start_date_time": "26/01/2024 15:30:00",
+      "end_date_time": "26/01/2024 17:00:00",
+      "venue": "SOE/SCIS 2 SR 3-4",
+      "description": " SEIC is back with its introductory Economic Research and Writing Workshop!  \n\nThis workshop, led by SMU's Economics Research Librarian, Melody Chin, is designed to equip you with essential economic research and writing skills. \n\nIt will cover key skills in navigating databases and publications for economic writing and will enhance your understanding of economic analysis and communication. ",
+      "no_of_signups": 12,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_6": {
+      "event_name": "ICS Games Night",
+      "category": [
+        "Career",
+        "Entertainment"
+      ],
+      "cca": "ICON-Indian Cultural Society",
+      "start_date_time": "26/01/2024 16:30:00",
+      "end_date_time": "26/01/2024 18:30:00",
+      "venue": "YPHSL SR2-5",
+      "description": "Dear SMU Community,\n\nWe invite you to a fun-filled evening to kickstart the semester with us at the\ud83c\udfb2\u2728ICS Games Night\u2728\ud83c\udfae\n\nGrab your friends to sign up for an unforgettable experience filled with Indian snacks, thrilling games, and the chance to win incredible prizes!\n\n\ud83c\udf89 What Awaits You? \ud83c\udf89\n\ud83c\udfae Team Trivia: Get ready for a fun series of quizzes and games.\n\n\ud83e\udd1dNetwork: Connect with fellow participants to expand your social network and create lasting memories!\n\n\ud83c\udf8a Grand Prize: Join the exciting lucky draw for a chance to win Grab vouchers!",
+      "no_of_signups": 12,
+      "max_participants": 65,
+      "photo_url": ""
+    },
+    "event_7": {
+      "event_name": "Agile Workshop",
+      "category": [
+        "Academic",
+        "Technology"
+      ],
+      "cca": "Product Club",
+      "start_date_time": "02/02/2024 19:30:00",
+      "end_date_time": "02/02/2024 21:00:00",
+      "venue": "YPHSL SR 2-16",
+      "description": "Introducing Product Club\u2019s First Agile Workshop! \ud83d\udce2\n\nWe have meticulously crafted this workshop to empower beginners with the technical skills essential for landing that coveted internship, and elevate your understanding of Agile methodologies in a real-world context while networking among like-minded individuals! \u2728\n\n\ud83d\ude80 We are thrilled to announce our distinguished guest, David Marsh\u2014an Agile Coach from Wavestone with 20+ years of experience! \ud83e\uddd1\u200d\ud83c\udfeb Join us for an interactive session including activities and quizzes, followed by a live Q&A to delve deeper into the world of Agile! \ud83c\udfa4\n\nThis workshop will mainly touch on how we can use Agile to focus organisational efforts on customer needs \ud83c\udfaf, improve efficiency and reduce work in progress and waiting times \u23f3 and adapt quickly in projects to solve complex problems \ud83d\udd04",
+      "no_of_signups": 30,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_8": {
+      "event_name": "SMUKI Connect 2024",
+      "category": [
+        "Career",
+        "Cultural"
+      ],
+      "cca": "Komunitas Indonesia (SMUKI)",
+      "start_date_time": "15/02/2024 19:00:00",
+      "end_date_time": "15/02/2024 22:00:00",
+      "venue": "The Alcove",
+      "description": "\u203c\ufe0f ATTENTION, FUTURE LEADERS!\u203c\ufe0f\nAre you on the lookout for opportunities to elevate your professional journey? Eager to connect with accomplished Indonesian alumni?\n\nSMU Komunitas Indonesia applauds you for being in the right place because SMUKI Connect 2024 is BACK and BETTER THAN EVER!\n\nSeize the opportunity to:\n\u2b50\ufe0f Engage in dynamic discussions with Indonesian alumni and connect with our distinguished speakers, including:\n- Surya Gunawan Ali (Consulting Manager at TalearnX)\n- Stephanie Kurniawan (Associate Consultant at Hakuhodo Consulting)\n- Hardyanto Putra Antony K. (Cloud Solution Architect at Huawei Cloud)\n\ud83d\udd25 Gain exclusive, invaluable insights into their success stories during our vibrant networking session!\n\n\ud83d\udc4b Tap into your greatness \u2013 Free sign-ups for all SMU students! Dinner will be provided.",
+      "no_of_signups": 23,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_9": {
+      "event_name": "Tax Bites 2024",
+      "category": [
+        "Finance",
+        "Business",
+        "Career",
+        "Academic"
+      ],
+      "cca": "Tax Society",
+      "start_date_time": "16/02/2024 16:00:00",
+      "end_date_time": "16/02/2024 19:30:00",
+      "venue": "LKCSB SR 1-2 ",
+      "description": "Are you feeling the need for an urgent tax recap? Have you always been intrigued by matters relating to tax and do you possess a burning desire to explore further? Or perhaps you are craving for bite-sized tax concepts from the professionals? \n\nWell, we have good news for you! SMU Tax Society proudly presents our second installment of TAX BITES, an introductory workshop covering the fundamentals of tax including Personal Income Tax, Corporate Tax, and GST. This year, we are honored to have industry speakers from Deloitte, IRAS and KPMG to share and delve into these 3 core concepts. Our tax primer is aimed at equipping students with foundational and relevant tax concepts, and the roles that taxes play in our lives and in society \u2013 a good refresher for students looking for a career in the tax sector! \n\nStudents from all schools are welcome! Through this session, you will learn about:   \n\n\u00b7         Essential tax laws and practices in Singapore \n\n\u00b7         Tax planning techniques \n\n\u00b7         Personal tax concepts (including personal reliefs and rebates) \n\n\u00b7         Type of taxable income streams \n\n\u00b7         The purpose and basic concepts of Goods and Services Tax (GST) ",
+      "no_of_signups": 20,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_10": {
+      "event_name": "Taste The Middle East",
+      "category": [
+        "Cultural",
+        "Entertainment"
+      ],
+      "cca": "ICON-Al Khaleej",
+      "start_date_time": "16/02/2024 16:00:00",
+      "end_date_time": "16/02/2024 18:30:00",
+      "venue": "The Alcove",
+      "description": "\u2728 Embark on a Culinary Journey and Cultural Adventure! \u2728\n\nIndulge in a feast of authentic Middle Eastern cuisines meticulously crafted to transport you to the heart of the region. \ud83d\uddfa\ufe0f\u0b68\u0b67\u02da From mouthwatering hummus to delectable falafels, experience the true essence of Middle Eastern culture! \u0aee\u208d \u02c3 \u2919 \u02c2 \u208e\u10d0\n\nNot only that, discover the beauty of community and connection as we play fun games \ud83c\udfb2and share not just meals \ud83c\udf7d\ufe0f but stories and laughter \ud83d\udde3",
+      "no_of_signups": 32,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_11": {
+      "event_name": "JCC Karaoke & Movie Night",
+      "category": [
+        "Entertainment",
+        "Cultural"
+      ],
+      "cca": "Japanese Cultural Club",
+      "start_date_time": "23/02/2024 19:00:00",
+      "end_date_time": "23/02/2024 21:30:00",
+      "venue": "SOE SR 2-6",
+      "description": "Feeling overwhelmed with schoolwork? \ud83d\ude16\n\nTake a break and join us for a vibrant karaoke session with songs from the recent Yoasobi concert!\n\nIf singing isn\u2019t your vibe, we have prepared a timeless Japanese film \u541b\u306e\u540d\u306f (Your Name) for you to relieve stress \ud83d\ude0c",
+      "no_of_signups": 12,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_12": {
+      "event_name": "Beyond RESTful Workshop",
+      "category": [
+        "Technology",
+        "Academic"
+      ],
+      "cca": ".Hack",
+      "start_date_time": "26/02/2024 13:30:00",
+      "end_date_time": "26/02/2024 17:00:00",
+      "venue": "SCIS1 SR 3-2",
+      "description": "ou have heard of RESTful API. But have you thought of communication options beyond REST?\n\nDive into the world of gRPC and WebSockets, crucial for modern development! Build your expertise and satisfy your curiosity by joining us! Tailored for web development enthusiasts, ITSA and ESD students, this session offers both theory and hands-on experience. RESTless no more, let\u2019s go beyond REST!\n\nWHAT TO EXPECT\n- Learn about efficient, real-time communication in a tech-driven landscape\n- Explore gRPC\n- Understand persistent connections via WebSockets.\n\nWe will be exploring various programming languages such as Python and JavaScript. Knowledge of at least one programming language and have done web development is advised.",
+      "no_of_signups": 28,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_13": {
+      "event_name": "Local Hike @Dairy Farm Nature Park",
+      "category": [
+        "Sports",
+        "Special Interest",
+        "Environment"
+      ],
+      "cca": "SMUX Trekking Team",
+      "start_date_time": "02/03/2024 09:00:00",
+      "end_date_time": "02/03/2024 12:00:00",
+      "venue": "Hillview MRT",
+      "description": "\ud83c\udf05 \u26f0 Hike along Dairy Farm Nature Park and Bukit Timah with us before Recess week ends! \n\nThis Saturday, let\u2019s explore Singapore\u2019s nature till the cows come home (or until 12pm)! \ud83d\udc2e\ud83c\udf33",
+      "no_of_signups": 23,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_14": {
+      "event_name": "PSA Company Visit",
+      "category": [
+        "Career",
+        "Business",
+        "Technology"
+      ],
+      "cca": "Whitehat Society",
+      "start_date_time": "08/03/2024 16:30:00",
+      "end_date_time": "08/03/2024 18:30:00",
+      "venue": "PSA Horizons",
+      "description": "Join us for an exclusive tour into the heart of innovation at PSA's cutting-edge Innovation Centre in Singapore! PSA Innovation Centre is an experiential, multimedia showcase of PSA\u2019s next-generation port and wider supply chain ecosystem. Delve into the world's largest transhipment hub, operated by PSA Corporation.\n\nJoin us to:\n- Uncover exciting career/internship opportunities. \n- Engage with captivating interactive exhibits and discover the ground-breaking advancements driving PSA's operations. \n- Network with PSA's Cybersecurity team to find out how the team safeguards critical infrastructure. \n\nDon't miss out on this unique opportunity! Refreshments will be provided.",
+      "no_of_signups": 36,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_15": {
+      "event_name": "Maritime Merchants Networking Night",
+      "category": [
+        "Career",
+        "Business"
+      ],
+      "cca": "Maritime Merchants Society",
+      "start_date_time": "11/03/2024 19:00:00",
+      "end_date_time": "11/03/2024 22:00:00",
+      "venue": "SMU YPHSL Level 4 Function Lounge",
+      "description": "Curious about venturing into the dynamic realms of Commodities or Maritime industries, yet uncertain about the pathways or opportunities they offer?\n\nJoin us to delve deeper into the world of Commodity Trading, Port Operations, Chartering, Digitalisation, Sustainable Fuels and much more at SMU Maritime Merchants Society Industry Networking Night! Seize this chance to gain valuable insights and connect with industry experts! \ud83c\udf0d",
+      "no_of_signups": 37,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_16": {
+      "event_name": "SMU Purple Movie Screening 2024",
+      "category": [
+        "Entertainment"
+      ],
+      "cca": "SMU Purple",
+      "start_date_time": "26/04/2024 15:00:00",
+      "end_date_time": "26/04/2024 18:30:00",
+      "venue": "YPHSL SR B1-01",
+      "description": "\ud83d\udcfd\ufe0f\ud83c\udf7f Celebrate the end of finals with a free movie screening! \ud83c\udf7f\ud83d\udcfd\ufe0f\n\nJust one more week till finals are over! Call your friends and join us on the last day of finals to watch \u201cYour Eyes Tell\u201d, an award-winning Japanese film that will pull at your heartstrings! \ud83c\udfa5 \n\nReleased in 2020, \u201cYour Eyes Tell\u201d is not your stereotypical romance trope. The film follows the story of Rui, a once-promising kickboxer, and Akari, a girl who lost her eyesight and family in a tragic car accident. \nTouching on love, disability, acceptance and personal growth, \u201cYour Eyes Tell\u201d will bring you on a journey that leaves a lasting impression on your heart. \ud83d\udc9c\n\nJoin us and enjoy unlimited freshly made popcorn, assorted desserts (Brownies, Eclairs and Cream Puffs) and drinks! You also stand a chance in winning some delicious Bizlink Enterprise Cornflake Cookies when you participate in our activity booths before the movie starts! \ud83c\udf6a\n\n",
+      "no_of_signups": 12,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_17": {
+      "event_name": "The Red Gala",
+      "category": [
+        "Arts",
+        "Entertainment"
+      ],
+      "cca": "SMU SoundFoundry",
+      "start_date_time": "03/05/2024 18:00:00",
+      "end_date_time": "03/05/2024 23:00:00",
+      "venue": "SCAPE The Ground Theatre",
+      "description": "SMU SoundFoundry proudly presents our Annual Production: The Red Gala \u2728This lavish night of grandeur will feature SoundFoundry\u2019s very own bands playing music ranging from pop to rock, and even their own originals!\ud83d\udd25\u2728To add light to the flame, local artists Daniel Sid and Bellied Star will be making a special appearance as our headliner acts!! \ud83e\udd29\u2764\ufe0f\u200d\ud83d\udd25\ud83e\udd2fSo, what are you waiting for? Join us for a night of fantastic music and company now!!",
+      "no_of_signups": 23,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_18": {
+      "event_name": "Beginner Guitar Class",
+      "category": [
+        "Arts",
+        "Special Interest"
+      ],
+      "cca": "SMU Guitarissimo",
+      "start_date_time": "04/05/2024 16:00:00",
+      "end_date_time": "25/05/2024 18:00:00",
+      "venue": "LKCSB Basement Studio",
+      "description": "Guitarissimo is back with another round of our Summer Beginner Guitar Classes! \ud83c\udf89 \nJoin our 5-session course and emerge as a master of basic chord progressions and strumming patterns! \u2728\ud83c\udf8a\nOur classes will cover popular English songs such as Drivers License, Yellow, Love Story, Until I Found You and more! It is also 100% beginner friendly, including the provision of guitars and take-home music sheets during the sessions! \ud83d\ude33\ud83e\udd73\nHere are the details:\nDates (5 sessions): 4 May, 11 May, 18 May, 25 May, 1 June \nTime: Saturdays, 4 pm - 6 pm\nVenue: LKCSB Basement Studio\nPrice: $65 (for 5 sessions)\n\n\n\nAn exciting and enriching experience awaits you!\u2728\ud83e\udef5\ud83c\udffc",
+      "no_of_signups": 13,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_19": {
+      "event_name": "K-pop Dance Workshop by Woori Sayi X Kadence",
+      "category": [
+        "Arts",
+        "Cultural"
+      ],
+      "cca": "SMU Woori Sayi",
+      "start_date_time": "04/05/2024 16:30:00",
+      "end_date_time": "04/05/2024 18:30:00",
+      "venue": "Bolly Dancing Studio",
+      "description": "Annyeonghaseyo! \uc548\ub155\ud558\uc138\uc694! \ud83d\ude0aCongratulations on completing your final exams for the semester! It's time to unwind and celebrate with some exciting dance moves at our K-pop Dance Workshop! \ud83c\udf89Join us for an unforgettable experience where you'll learn choreography from popular K-pop artists led by Kadence, a group of students who share the same passion for K-pop and dance!In this workshop, you'll have the chance to vote for the artist you want to learn from: Babymonster, Twice, or Le Sserafim. Your voice matters, so be sure to cast your vote! In addition, all participants get to enjoy a cup of bubble tea after the dance session! ",
+      "no_of_signups": 53,
+      "max_participants": 60,
+      "photo_url": ""
+    },
+    "event_20": {
+      "event_name": "K-pop Dance Workshop by Woori Sayi X Kadence",
+      "category": [
+        "Arts",
+        "Cultural"
+      ],
+      "cca": "Woori Sayi",
+      "start_date_time": "04/05/2024 16:30:00",
+      "end_date_time": "04/05/2024 18:30:00",
+      "venue": "Bolly Dancing studio",
+      "description": "Annyeonghaseyo! \uc548\ub155\ud558\uc138\uc694! \ud83d\ude0a\n\nCongratulations on completing your final exams for the semester! It's time to unwind and celebrate with some exciting dance moves at our K-pop Dance Workshop! \ud83c\udf89\n\nJoin us for an unforgettable experience where you'll learn choreography from popular K-pop artists led by Kadence, a group of students who share the same passion for K-pop and dance!\n\nHere are the details ~\n\n\ud83d\udcc6 Saturday, 4th May, 2024\n\n\ud83d\udd52 4:30pm to 6:30pm\n\n\ud83d\udccd Bolly Dancing Studio\nIn this workshop, you'll have the chance to vote for the artist you want to learn from: Babymonster, Twice, or Le Sserafim. Your voice matters, so be sure to cast your vote! In addition, all participants get to enjoy a cup of bubble tea after the dance session! \nSlots are limited, so sign up here now!",
+      "no_of_signups": 15,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_21": {
+      "event_name": "Thingyan Festival",
+      "category": [
+        "Cultural"
+      ],
+      "cca": "Myanmar Community",
+      "start_date_time": "06/05/2024 13:30:00",
+      "end_date_time": "06/05/2024 17:00:00",
+      "venue": "Sentosa Beach",
+      "description": "After collaborating with other clubs in the past for Songkran, we're thrilled to announce that SMUMC is hosting its very first solo Water Festival at Sentosa Beach. Come join us in celebrating the Burmese New Year! \ud83c\udf89\nThis marks a significant milestone for our club, and we couldn't be more excited to celebrate with all of you. \nWith the sun, sand, and sea as our backdrop, this is bound to be an unforgettable day filled with laughter, friendship, and summer vibes. \ud83e\udd29\ud83c\udf0a\ud83d\udc1a\n\ud83d\udcc5 SAVE THE DATE: 6 May 2024\n\ud83d\udd5c Time: 1.30PM - 5.00PM\n\ud83d\udccdLocation: Sentosa Beach \u26f1\n(Meeting Point will be confirmed nearer to date)\n\ud83c\udfb6 VIBES: Burmese beats, water games, and delectable treats\n\ud83d\udca6 Let loose and soak up the summer vibes with us!\nWe have very limited spots so gather your friends and sign-up now to secure your spots! ",
+      "no_of_signups": 23,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_22": {
+      "event_name": "SMU SOE Seminar Series: The Skyscraper Revolution",
+      "category": [
+        "Academic"
+      ],
+      "cca": "School of Economics",
+      "start_date_time": "08/05/2024 16:00:00",
+      "end_date_time": "08/05/2024 17:30:00",
+      "venue": "SOE/SCIS2 Meeting Room 5.1",
+      "description": "Tall buildings are central to facilitating sustainable urbanization and growth in cities worldwide. We estimate average elasticities of city population and built area to aggregate city building heights of 0.12 and-0.17, respectively, indicating that the largest global cities in developing economies would be at least one-third smaller on average without their tall buildings. Land saved from urban development by post-1975 tall building construction is over 80% covered in vegetation. To isolate the effects of technology-induced reductions in the cost of height from correlated demand shocks, we use interactions between static demand factors and the geography of bedrock as instruments for observed 1975-2015 tall building construction in 12,877 cities worldwide, a triple difference identification strategy. Quantification using a canonical urban model suggests that the technology to build tall generates a potential global welfare gain of 4.8%, of which only about one-quarter has been realized. Estimated welfare gains from relaxing existing height constraints are 5.9% in the developed world and 3.1% in developing economies.",
+      "no_of_signups": 31,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_23": {
+      "event_name": "\ud83c\udf1f SMUMS x Converts Central\ud83c\udf1fUnderstanding Islam",
+      "category": [
+        "Religion"
+      ],
+      "cca": "SMU Muslim Society",
+      "start_date_time": "08/05/2024 19:30:00",
+      "end_date_time": "08/05/2024 21:30:00",
+      "venue": "SMU Admin Building Executive SR 4-1 (Level 4)",
+      "description": "Curious about Islam? Ever wondered what Islam is all about? Well, this is your chance to find out! \ud83d\ude4c SMU Muslim Society (SMUMS) and Converts Central (CC) present \"Understanding Islam!\" \ud83c\udf1f Join us for a four-session seminar that challenges myths and misconceptions about the fastest-growing religion in the world. \ud83c\udf0d Dive deep into the core tenets of Islam and discover the truth beyond the stereotypes. \ud83d\udd0dEveryone is welcome to engage in constructive dialogue and help bridge cultural divides. Don't miss out on this opportunity to broaden your perspective and ask any questions you may have about Islam! \ud83d\udcac",
+      "no_of_signups": 16,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_24": {
+      "event_name": "Mother's Day Special: Flower Arrangement Workshop (\u2741\u1d17\u0348\u02ec\u1d17\u0348)",
+      "category": [
+        "Arts",
+        "Special Interest"
+      ],
+      "cca": "SMU Artdicted ",
+      "start_date_time": "10/05/2024 17:00:00",
+      "end_date_time": "10/05/2024 19:00:00",
+      "venue": "LKCSB CR 2-1",
+      "description": "\u0a48\u2661\u02f3 Still missing that special something to gift your mom this upcoming Mother\u2019s day? \u25cc\u0f09\u2027 Surprise her with an alluring bouquet of fresh blooms \u2728  from our collection of flowers \ud83c\udf37, specially assembled and curated by you! Make this Mother\u2019s day a truly unforgettable one with us! \u2b50\ud83d\udc96\u0b68\u0b67 Don't say a little birdie didn't tell you... \ud83d\udd4a ",
+      "no_of_signups": 14,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_25": {
+      "event_name": "SUMMER 2024 OPEN CLASSES",
+      "category": [
+        "Special Interest"
+      ],
+      "cca": "SMU INDANCITY ",
+      "start_date_time": "10/05/2024 19:00:00",
+      "end_date_time": "10/05/2024 20:30:00",
+      "venue": "Contemporary Intermediate (Arts & Culture Centre)",
+      "description": "SMU INDANCITY will hold our first series of open classes for this summer break! \u2728 Bring your friends along to join in the fun! \u2728Join us for an exciting experience where you can express yourself through movement, meet new people, and learn exciting dance styles. Whether you're a seasoned dancer or taking your first steps onto the dance floor, our classes cater to all levels! \ud83e\udef6\ud83c\udffb",
+      "no_of_signups": 23,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_26": {
+      "event_name": "Kayak by the Bay",
+      "category": [
+        "Sports",
+        "Special Interest"
+      ],
+      "cca": "SMUX Kayaking Team",
+      "start_date_time": "11/05/2024 09:00:00",
+      "end_date_time": "11/05/2024 12:00:00",
+      "venue": "Singapore Canoe Federation",
+      "description": "What better way to say hello \ud83d\udc4bto the sem break than with a relaxing paddle by the bay \ud83c\udf0a!Soak in the sights\ud83d\udc40 and sounds\ud83d\ude49 of our beautiful bay area as we soak in the goodness of finally having a holiday from school\ud83d\ude2e\u200d\ud83d\udca8!!\nWe hope to have a splashing good time with you \ud83e\udef6\ud83c\udffb!\nDate: 11 May, Saturday\nTime: 9am to 12pm\nLocation: Singapore Canoe Federation - Kallang\nPrice: $14\nPromotion: 2 pax for $25!!\n\ud83d\ude0e Sign up HERE! We can't wait to see you at our paddles! \ud83d\ude0e\n\u2728No kayaking experience required\u2728 \n\ud83c\udfca Students without recognised swim certificates are required to clear a water proficiency test (WPT) before the event. \ud83c\udfca",
+      "no_of_signups": 13,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_27": {
+      "event_name": "SMUX XSeed\u2019s Cable Ski Session ",
+      "category": [
+        "Sports",
+        "Special Interest"
+      ],
+      "cca": "SMUX XSeed ",
+      "start_date_time": "11/05/2024 10:00:00",
+      "end_date_time": "11/05/2024 11:00:00",
+      "venue": "Singapore Wake Park",
+      "description": "\ud83c\udfc4 SMUX XSeed\u2019s Cable Ski Session \ud83d\udca6\u2600\ufe0fHot day? \ud83e\udd75 No better way to cool off than enjoying a splashing good time cable skiing on 11 May 2024! \ud83e\udd29\ud83d\udca6 No experience is required, and equipment will be provided!You need to have cleared WPT or have the relevant swim certificates to join us this session. Looking forward to seeing you there! \ud83d\ude0a",
+      "no_of_signups": 32,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_28": {
+      "event_name": "Longboarding Regular Sessions ",
+      "category": [
+        "Sports",
+        "Special Interest"
+      ],
+      "cca": "SMUX XSeed",
+      "start_date_time": "17/05/2024 11:00:00",
+      "end_date_time": "17/05/2024 12:30:00",
+      "venue": "National Stadium",
+      "description": "\u2728\ud83d\udef9 SMUX XSeed\u2019s Regular Longboarding Session \ud83d\udef9\u2728 What better way to kick off summer by learning a new skill? Come down and pick up longboarding with us at the National Stadium on Friday, 17 May! No experience is required and longboarding equipment will be provided!\nSo what are you waiting for??\n",
+      "no_of_signups": 38,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_29": {
+      "event_name": "\ud83c\udfb6 TIMELESS: NONSENSE II: Where Dance & Bingo Collide \ud83c\udfb6",
+      "category": [
+        "Arts",
+        "Entertainment"
+      ],
+      "cca": "SMU Eurhythmix",
+      "start_date_time": "23/05/2024 20:00:00",
+      "end_date_time": "23/05/2024 22:15:00",
+      "venue": "Capitol Theatre",
+      "description": "Dive into an evening where every dance move unlocks a world of possibilities, and every bingo number could redefine your experience. At TIMELESS: NONSENSE II, we crafted an event where the thrill of dance meets the playful suspense of bingo. A production where nobody, not the audience nor the dancers, know what is in store for them, with every item being decided LIVE through bingo games! Be part of TIMELESS: NONSENSE II \u2013 an experience that promises not just to entertain, but to redefine entertainment.",
+      "no_of_signups": 23,
+      "max_participants": 30,
+      "photo_url": ""
+    },
+    "event_30": {
+      "event_name": "Visit Parliament! ",
+      "category": [
+        "Career"
+      ],
+      "cca": "SMU Apolitical Society",
+      "start_date_time": "25/05/2024 11:30:00",
+      "end_date_time": "25/05/2024 14:00:00",
+      "venue": "1 Parliament Pl, Singapore 178880",
+      "description": "Get an exclusive guided tour and chat with the Speaker of Parliament, Mr Seah Kian Peng! ",
+      "no_of_signups": 12,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_31": {
+      "event_name": "\ud83d\udefcTHE HIROLLER EXPERIENCE\ud83d\udefc",
+      "category": [
+        "Sports",
+        "Special Interest"
+      ],
+      "cca": "SMUX Skating",
+      "start_date_time": "01/06/2024 15:00:00",
+      "end_date_time": "01/06/2024 17:00:00",
+      "venue": "HiRoller @ Downtown East",
+      "description": "Don't bojio, you know you've been waiting for\u2014\ud83d\udefcTHE HIROLLER EXPERIENCE\ud83d\udefc\ud83e\udea9Nostalgic for the roller rinks of the 80s that you've never gotten to experience? Now's your chance to do so at HiRoller's electrifying retro roller rink.\u26a1Don\u2019t miss this opportunity to get a COMPLIMENTARY NAME TENT and stand a chance to win a pair of FLYING EAGLE F5S SKATES!!\ud83e\udd29 You get 1 additional chance in our lucky draw for Flying Eagle F5S skates for EACH HiRoller / Skate Experience session you sign up for \u2192 so what are you waiting for?",
+      "no_of_signups": 17,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_32": {
+      "event_name": "Pickleball Clinic 2024",
+      "category": [
+        "Sports"
+      ],
+      "cca": "SMU Tennis",
+      "start_date_time": "07/06/2024 14:00:00",
+      "end_date_time": "07/06/2024 16:00:00",
+      "venue": "SMU MPSH, Admin Building",
+      "description": "Looking for a way to spend your summer break and learn something new? Look no further as SMU Tennis presents Pickleball Clinic! \ud83e\udd38\ud83c\udffb\u200d\u2642\ufe0fCome join us and try this up-and-coming sport with your friends! You will learn the basics of the sport, which combines elements of Tennis \ud83c\udfbe, Badminton \ud83c\udff8, and Table Tennis \ud83c\udfd3, \nas well as play some friendly matches. ",
+      "no_of_signups": 26,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_33": {
+      "event_name": "Sea Glass Workshop Sign-Ups!",
+      "category": [
+        "Special Interest",
+        "Environment"
+      ],
+      "cca": "SMUX Diving",
+      "start_date_time": "08/06/2024 09:00:00",
+      "end_date_time": "08/06/2024 14:00:00",
+      "venue": "East Coast Park Cleanpod (near Carpark F2)",
+      "description": "\ud83e\udd3f In collaboration with Singapore Institute of Technology (SIT) Scuba Team! \ud83d\udc40 \ud83e\udde9Looking for a fun summer activity? As part of our conservation efforts, join us as we find Sea Glass and pick up litter along the beaches at East Coast Park! Create beautiful and sustainable pieces of jewellery which you can take home! \ud83d\udc9a Feel free to stay after too and get to know like-minded individuals from SIT! Grab a friend and join us for a meaningful and fun time \ud83c\udfdd\ufe0f\ud83c\udf34\ud83d\udd76\ufe0f",
+      "no_of_signups": 21,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_34": {
+      "event_name": "SMU FLOORBALL OPEN 2024",
+      "category": [
+        "Sports"
+      ],
+      "cca": "SMU Floorball",
+      "start_date_time": "15/06/2024 09:00:00",
+      "end_date_time": "15/06/2024 13:30:00",
+      "venue": "SMU Administration Building MPSH (Level 3) ",
+      "description": "Calling all adrenaline seekers and floorball enthusiasts!\ud83c\udfd2 Get ready to experience the ultimate thrill on court as we bring you the most electrifying floorball event of the year. Lace up your sneakers, grab your sticks and join us for an action-packed day filled with speed, skills, and sheer excitement.\u2728 Whether you\u2019re a seasoned player or a newcomer to the sport, this event promises to deliver heart pounding matches, jaw dropping goals and a vibrant atmosphere like no other! ",
+      "no_of_signups": 25,
+      "max_participants": 35,
+      "photo_url": ""
+    },
+    "event_35": {
+      "event_name": "Wrinkles in The Air XV ",
+      "category": [
+        "Arts",
+        "Entertainment"
+      ],
+      "cca": "SMU Chamber Choir ",
+      "start_date_time": "15/06/2024 17:00:00",
+      "end_date_time": "15/06/2024 18:30:00",
+      "venue": "Chamber, The Arts House",
+      "description": "Join SMU Chamber Choir for our annual production Wrinkles in The Air XV on 15 June 2024 at Chamber, The Arts House, as we serenade you with songs about this crazy desire. What is this crazy desire? Love. We sing of this crazy desire\u2014este deseo loco\u2014in Stroope\u2019s Four Spanish Sonnets, until we believe, perhaps as de la Vega may have, that love trumps everything.  Love was Shakespeare\u2019s language; and we sing his language in Dobrogosz\u2019 My Rose songs and Harris\u2019 Sonnet, an effusive ode to the Bard. The modal harmonies and whole tone melodies create a tonal flux that bewitches and bewilders the ear, a restless love. To act or not to act on this crazy desire, ask the Three Flower Songs of Whitacre, and our final act is a telling of Bernstein\u2019s West Side Story\u2014the Ultimate Love Story, the story of \u2018til death do us part\u2014of a Romeo after every Juliet\u2019s heart. Let love take centre stage, where every note sings of wild desires and timeless tales!",
+      "no_of_signups": 38,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_36": {
+      "event_name": "Beyond The Ring",
+      "category": [
+        "Sports",
+        "Career"
+      ],
+      "cca": "SMU Boxing Interest Group",
+      "start_date_time": "22/06/2024 16:00:00",
+      "end_date_time": "22/06/2024 18:00:00",
+      "venue": "SOL SR 2-2",
+      "description": "Knockout advice for knockout careers.\n\nAt B.I.G, we focus on your overall growth beyond boxing.\n\nUnsure about your career path? Join us to hear from members and alumni about their diverse internship experiences.",
+      "no_of_signups": 10,
+      "max_participants": 30,
+      "photo_url": ""
+    },
+    "event_37": {
+      "event_name": "Boxing Clinic",
+      "category": [
+        "Sports"
+      ],
+      "cca": "SMU Boxing Interest Group",
+      "start_date_time": "06/07/2024 16:30:00",
+      "end_date_time": "06/07/2024 18:30:00",
+      "venue": "SOL Rooftop",
+      "description": "Join Us for the Ultimate Boxing Clinic! \n\nWhether you're a seasoned boxer or just curious to dip your toes into the ring, this event is for YOU!\n\nWhat to Expect:\n \u2022 Boxing drills\n \u2022 Hands-on workshop\n \u2022 Lucky draw, fun bonding games, and more!\n\nWhy Attend?\n \u2022 Discover the exhilarating world of boxing\n \u2022 Connect with fellow boxing enthusiasts\n \u2022 Perfect opportunity for beginners to get started\n \u2022 Make new friends in SMU! ",
+      "no_of_signups": 10,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_38": {
+      "event_name": "SCIS Project Experience Information Session",
+      "category": [
+        "Academic",
+        "Technology"
+      ],
+      "cca": "Ellipsis",
+      "start_date_time": "12/08/2024 14:00:00",
+      "end_date_time": "12/08/2024 15:45:00",
+      "venue": "Virtual",
+      "description": "Gain valuable insights and tips for completing your Project Experience (Final Year Project)! Join us for informative sharing and a Q&A session with our SCIS Professors, tailored to each SCIS major.\nTake your first step in acing your Project Experience!",
+      "no_of_signups": 27,
+      "max_participants": 60,
+      "photo_url": ""
+    },
+    "event_39": {
+      "event_name": "Ctrl+Psych Freshman Night",
+      "category": [
+        "Special Interest",
+        "Psychology",
+        "Entertainment"
+      ],
+      "cca": "SMU Psychology Society",
+      "start_date_time": "23/08/2024 16:00:00",
+      "end_date_time": "23/08/2024 18:00:00",
+      "venue": "SOSS CR 3-2",
+      "description": "Starting off in University can feel like navigating a new operating system, but SMUPS has got your back. \n\nWe have some outstanding seniors who are excited to share their insights on revision techniques, internship opportunities, module bidding, and more during our Q&A session! \n\nWe'll wrap up with a casual networking session, giving you the chance to connect with your peers and seniors like never before. Don't miss this opportunity to upgrade your university experience! \n",
+      "no_of_signups": 25,
+      "max_participants": 80,
+      "photo_url": ""
+    },
+    "event_40": {
+      "event_name": "ELLIPSIS TECH SERIES - Coffee Chats",
+      "category": [
+        "Technology",
+        "Academic",
+        "Career"
+      ],
+      "cca": "Ellipsis",
+      "start_date_time": "26/08/2024 18:00:00",
+      "end_date_time": "26/08/2024 19:15:00",
+      "venue": "CIS B1 Event Lobby",
+      "description": "Elevate your networking experience by engaging in meaningful, small-group conversations with industry professionals and alumni. \n\nEngage in deeper conversations, gain practical insights from experts, and learn from the experiences of those who\u2019ve walked the path before you. Don\u2019t miss this opportunity to expand your knowledge and network!",
+      "no_of_signups": 33,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_41": {
+      "event_name": "Welcome Tea",
+      "category": [
+        "Entertainment",
+        "Cultural",
+        "Special Interest"
+      ],
+      "cca": "Connect China",
+      "start_date_time": "30/08/2024 16:00:00",
+      "end_date_time": "30/08/2024 18:30:00",
+      "venue": "SOE SR 4-2",
+      "description": "Kickstart the New Semester with Connect China 'Welcome Tea' Event! \n\nAre you wondering where to meet new friends? Do you love games and crave exciting prizes? Or maybe you think your SMU lanyard could use a fun upgrade? If you answered \"yes\" to any of these questions, then our Welcome Tea event is perfect for you!\n\nJoin us in celebrating the joy of making new connections and indulging in some serious fun as you start your journey at SMU this new semester! We can't wait to welcome you and create unforgettable memories together!",
+      "no_of_signups": 27,
+      "max_participants": 45,
+      "photo_url": ""
+    },
+    "event_42": {
+      "event_name": "Sports Psychology Mentorship Talk",
+      "category": [
+        "Psychology",
+        "Sports",
+        "Academic"
+      ],
+      "cca": "SMU Psychology Society",
+      "start_date_time": "30/08/2024 19:30:00",
+      "end_date_time": "30/08/2024 21:30:00",
+      "venue": "SOSS CR 3-4",
+      "description": "Are you curious about how this mentorship programme will be run? Are you wondering what you will gain from this Sports Exercise & Performance Psychology Mentorship programme that is the first of its kind? Come down for this exciting sharing session to find out more!\n\nJoin like-minded psychology students like yourself for an evening of learning about the SEP field as well, with renowned psychologist Edgar K Tham and his team from SportsPsych Consulting sharing about their services \u2014 from mental toughness training to performance enhancement training.\n\nAre you Y1? 2? 3? 4? It doesn\u2019t matter! This mentorship program is open to everyone, regardless of their year! Don\u2019t miss this opportunity to grow both personally and professionally! ",
+      "no_of_signups": 47,
+      "max_participants": 60,
+      "photo_url": ""
+    },
+    "event_43": {
+      "event_name": "ELLIPSIS TECH SERIES TECH WORKSHOPS - Innovating for Singapore's Safety: HTX's Cutting-Edge Homeland Security Technologies",
+      "category": [
+        "Academic",
+        "Technology",
+        "Business"
+      ],
+      "cca": "Ellipsis",
+      "start_date_time": "10/09/2024 19:00:00",
+      "end_date_time": "10/09/2024 21:00:00",
+      "venue": "Virtual",
+      "description": "Join us for an insightful journey into the world of the Home Team Science and Technology Agency (HTX), Singapore's pioneering statutory board dedicated to developing advanced science and technology capabilities for homeland security.",
+      "no_of_signups": 45,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_44": {
+      "event_name": "Animal Assisted Therapy",
+      "category": [
+        "Special Interest",
+        "Psychology",
+        "Academic"
+      ],
+      "cca": "SMU Psychology Society",
+      "start_date_time": "13/09/2024 16:00:00",
+      "end_date_time": "13/09/2024 18:00:00",
+      "venue": "SOSS SR 2-1",
+      "description": "Love animals as much as we do at SMUPS? \n\nFind out how dogs and horses can lend a helping paw or hoof to the field of psychology! We will be conducting sharings from therapeutic equine riding centre THERIS, and canine assisted intervention centre The Gentle Paws regarding the many psychological benefits therapy animals can bring!\n\nWe'll also be inviting therapy dogs down to SMU, for you to experience these positive feelings yourself! ",
+      "no_of_signups": 14,
+      "max_participants": 30,
+      "photo_url": ""
+    },
+    "event_45": {
+      "event_name": "eSports Weeklies",
+      "category": [
+        "Sports",
+        "Special Interest",
+        "Entertainment"
+      ],
+      "cca": "SMU eSports",
+      "start_date_time": "20/09/2024 15:30:00",
+      "end_date_time": "20/09/2024 18:30:00",
+      "venue": "Connexion ALC 3-1",
+      "description": "Gear up for a fun afternoon! \u2699\ufe0f\n\nThis week\u2019s featured games are Mario Party and Pokken Tournament! \n\nFeel free to come play other games too!\n\nGather your friends and have a fun afternoon with us! See you soon!",
+      "no_of_signups": 24,
+      "max_participants": 35,
+      "photo_url": ""
+    },
+    "event_46": {
+      "event_name": "Paper Marbling Workshop",
+      "category": [
+        "Arts",
+        "Special Interest"
+      ],
+      "cca": "Artdicted",
+      "start_date_time": "20/09/2024 17:00:00",
+      "end_date_time": "20/09/2024 22:00:00",
+      "venue": "LKCSB CR 3-4",
+      "description": "Immerse yourself in a world of fluid creativity at our Acrylic Pour Art Jam session!  \n\nLet your imagination flow as you mix vibrant colors with secret and unique techniques to create mesmerizing, one-of-a-kind abstract masterpieces. \n\nLet\u2019s bring your art to life with every pour! ",
+      "no_of_signups": 13,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_47": {
+      "event_name": "Mid Autumn Festival Mooncake Tasting",
+      "category": [
+        "Special Interest",
+        "Cultural"
+      ],
+      "cca": "Connect China",
+      "start_date_time": "20/09/2024 17:30:00",
+      "end_date_time": "20/09/2024 17:00:00",
+      "venue": "Connexion ALC 4.1-4.2",
+      "description": "We\u2019re bringing the magic of the Mid-Autumn Festival to campus! and YOU\u2019RE invited!\n\nSign up now to experience mooncake tasting of mooncakes brought to you by our very own EXCO!",
+      "no_of_signups": 10,
+      "max_participants": 50,
+      "photo_url": ""
+    },
+    "event_48": {
+      "event_name": "Mapping Your Major",
+      "category": [
+        "Finance",
+        "Business",
+        "Academic"
+      ],
+      "cca": "Okios",
+      "start_date_time": "24/09/2024 19:00:00",
+      "end_date_time": "24/09/2024 22:00:00",
+      "venue": "Connexion Level 5 Event Space",
+      "description": "Feeling a little lost about what tracks or majors to pursue? Uncertain about which academic pathway to take? Well fret not, as OIKOS proudly presents Mapping Your Major (MYM) 2024, to help students learn about the various tracks and majors offered by the School of Economics and other majors commonly pursued by Economics undergraduates! \n\nLook forward to hearing from professors and alumni about their experiences, careers and prospects through our rotating fireside chat.",
+      "no_of_signups": 23,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_49": {
+      "event_name": "Kayak n Klean II",
+      "category": [
+        "Sports",
+        "Environment",
+        "Special Interest"
+      ],
+      "cca": "SMUX Kayaking Team",
+      "start_date_time": "28/09/2024 09:00:00",
+      "end_date_time": "28/09/2024 12:00:00",
+      "venue": "Singapore Canoe Federation Kallang",
+      "description": "T.R.A.S.H.G.O~ you can take that trash to go! Let's do our part in keeping our Kallang waters rubbish free !! After all, aren't water activities best enjoyed when the water is clean? \n\nTrash doesn't spark joy!! So... let's take them out\u203c\ufe0f\u203c\ufe0f ",
+      "no_of_signups": 34,
+      "max_participants": 40,
+      "photo_url": ""
+    },
+    "event_50": {
+      "event_name": "Across Asia",
+      "category": [
+        "Special Interest",
+        "Arts",
+        "Entertainment"
+      ],
+      "cca": "SMU Barworks",
+      "start_date_time": "04/10/2024 19:00:00",
+      "end_date_time": "04/10/2024 21:00:00",
+      "venue": "SOE CR 4-1",
+      "description": "Let us take you on a trip through taste, travelling across Asia as we craft distinctly delectable Asian flavours from Malaysia, Japan and Singapore. ",
+      "no_of_signups": 10,
+      "max_participants": 45,
+      "photo_url": ""
+    }
+  }
