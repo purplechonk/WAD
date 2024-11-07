@@ -31,8 +31,8 @@
     </div>
     <div class="row mt-2 mb-2">
       <div class="col">
-        <span class="cardTextPink">DATE OF ADMISSION</span><br>
-        <span class="cardTextPink">AUG {{ userData.matriculation_year }}</span>
+        <span class="text-dark">DATE OF ADMISSION</span><br>
+        <span class="text-dark">AUG {{ userData.matriculation_year }}</span>
       </div>
     </div>
   </div>
@@ -114,9 +114,6 @@ export default {
   transform-style: preserve-3d;
 }
 
-.cardTextPink {
-color: #FE3E73;
-}
 
 img {
   transform: translateZ(20px); /* Makes images appear slightly raised */
