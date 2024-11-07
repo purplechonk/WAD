@@ -63,7 +63,7 @@
     
     <div class="card__content">
       <img 
-        src="../../assets/images/event_1.jpg" 
+        :src="event.image_url" 
         alt="image" 
         class="card__img_info"
       >
