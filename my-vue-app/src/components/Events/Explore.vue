@@ -823,8 +823,8 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
-.category-option[data-value="all"] {
-  grid-column: 1 / -1;
+  .category-option[data-value="all"] {
+    grid-column: 1 / -1;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 4px;
   padding-top: 8px;
@@ -836,7 +836,7 @@ onUnmounted(() => {
 .error,
 .no-events {
   text-align: center;
-  /* margin-top: 30px; */
+  margin-top: 200px;
   font-size: 1.2em;
 }
 

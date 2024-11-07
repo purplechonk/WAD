@@ -513,26 +513,3 @@ const openEventDetails = () => {
 }
 
 </style>
-```
-
-Key changes:
-1. Increased total card width and centered it
-2. Changed layout to use flexbox for better alignment
-3. Made the left overlay position relative instead of absolute
-4. Adjusted image sizing and positioning
-5. Removed unnecessary padding and margins
-6. Added proper responsive layout
-7. Fixed click area to cover the entire card
-8. Added mobile-friendly layout with stacked design
-9. Improved content spacing and alignment
-
-The card now:
-- Is properly centered
-- Has a consistent click area across the entire card
-- Maintains proper spacing between elements
-- Is responsive to different screen sizes
-- Has better content alignment
-- Preserves all functionality while being more polished
-
-Would you like me to adjust any specific aspect of the layout or styling?
-
