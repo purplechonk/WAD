@@ -10,6 +10,11 @@ $body-bg: #fbfbfe;
 $body-color: #2b0f62;
 
 
+$toast-header-bg: #2b0f62;
+.toast {
+  --bs-toast-header-bg: #{$toast-header-bg}; // Use the SCSS variable to define the CSS variable
+}
+
 // Spacing
 $spacer: 1rem !default;
 $spacers: (

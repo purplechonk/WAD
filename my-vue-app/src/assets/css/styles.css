@@ -255,7 +255,4 @@ html, body {
   .span-2-rows {
     grid-column: span 2;
   }
-  .toast-header {
-    background-color: #2b0f62;
-  }
 }

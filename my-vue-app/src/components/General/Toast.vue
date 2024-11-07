@@ -12,7 +12,7 @@
             aria-atomic="true"
             style="min-width: 250px"
           >
-            <div class="toast-header text-white">
+            <div class="toast-header text-white bg-dark">
               <img src="../../assets/favicon-16x16.png" class="rounded me-2" alt="...">
               <strong class="me-auto">sLoop</strong>
               <small class="text-white-50">just now</small>
