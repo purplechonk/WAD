@@ -1,135 +1,146 @@
 <template>
-  <!-- Combined Filter Section -->
-  <div class="multisearchbar" :class="{ scrolled: isScrolled }">
-    <!-- Expanded Filter -->
-    <div 
-      id="filter-expanded"  
-      class="filter-expanded" 
-      :style="expandedFilterStyle"
-      @click="handleExpandedClick"
-    >
-      <div class="sbpart0" @click="handleSbpart0Click">
-        <p class="categories">Categories</p>
-        <p class="category-display">{{ categoryDisplayText }}</p>
-        
-        <!-- Categories Dropdown -->
-        <div id="categories-dropdown" class="categories-dropdown" :class="{ active: isCategoryDropdownOpen }">
-          <div class="dropdown-content">
-            <!-- Add Clear Filters button -->
-            <div class="clear-filters-container" v-if="selectedCategories.size > 0">
-              <button class="clear-filters-btn" @click="clearFilters">
-                Clear Filters 
-              </button>
-            </div>
-            <div class="category-options">
-              <button 
-                class="category-option" 
-                :class="{ selected: selectedCategories.size === 0 }"
-                data-value="all"
-                @click="handleAllCategoriesClick"
-              >
-                All Categories
-                <span class="remove-tag" v-if="selectedCategories.size === 0">×</span>
-              </button>
+  <div>
+    <!-- Combined Filter Section -->
+    <div class="multisearchbar z-4" :class="{ scrolled: isScrolled }">
+      <!-- Expanded Filter -->
+      <div 
+        id="filter-expanded"  
+        class="filter-expanded filter-transition" 
+        :class="{ 'filter-hidden': isScrolled }"
+        :style="expandedFilterStyle"
+        @click="handleExpandedClick"
+      >
+        <div class="sbpart0" @click="handleSbpart0Click">
+          <p class="categories">Categories</p>
+          <p class="category-display">{{ categoryDisplayText }}</p>
+          
+          <!-- Categories Dropdown -->
+          <div id="categories-dropdown" class="categories-dropdown" :class="{ active: isCategoryDropdownOpen }">
+            <div class="dropdown-content">
+              <!-- Add Clear Filters button -->
+              <div class="clear-filters-container" v-if="selectedCategories.size > 0">
+                <button class="clear-filters-btn" @click="clearFilters">
+                  Clear Filters 
+                </button>
+              </div>
+              <div class="category-options">
+                <button 
+                  class="category-option" 
+                  :class="{ selected: selectedCategories.size === 0 }"
+                  data-value="all"
+                  @click="handleAllCategoriesClick"
+                >
+                  All Categories
+                </button>
 
-              <!-- Category section label -->
-              <div class="category-section-label">CHOOSE CATEGORIES</div>
-              
-              <button
-                v-for="category in availableCategories"
-                :key="category"
-                class="category-option afterall"
-                :class="{ selected: selectedCategories.has(category) }"
-                :data-value="category"
-                @click="handleCategoryClick(category, $event)"
-              >
-                {{ category }}
-                <span 
-                  v-if="selectedCategories.has(category)" 
-                  class="remove-tag"
-                  @click.stop="handleRemoveCategory(category, $event)"
-                >×</span>
-              </button>
+                <!-- Category section label -->
+                <div class="category-section-label">CHOOSE CATEGORIES</div>
+                
+                <button
+                  v-for="category in availableCategories"
+                  :key="category"
+                  class="category-option afterall"
+                  :class="{ selected: selectedCategories.has(category) }"
+                  :data-value="category"
+                  @click="handleCategoryClick(category, $event)"
+                >
+                  {{ category }}
+                  <span 
+                    v-if="selectedCategories.has(category)" 
+                    class="remove-tag"
+                    @click.stop="handleRemoveCategory(category, $event)"
+                  >×</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="sbdivider1"></div>
+        <div class="sbdivider1"></div>
 
-      <div class="sbpart1" @click="handleSbpart1Click">
-        <p class="events">Events</p>
-        <div class="search-input-container">
-          <input
-            id="search-events"
-            type="text"
-            v-model="searchQuery"
-            placeholder="Search events..."
-            :class="{ typing: isTyping }"
-            @focus="handleInputFocus"
-            @blur="handleInputBlur"
-            @keypress="handleKeyPress"
-            @input="handleSearchInput"
-            aria-label="Search events"
-          >
-          <!-- Add clear search button -->
-          <button 
-            v-if="searchQuery.trim()"
-            class="clear-search-btn"
-            @click="clearSearch"
-          >
-            ×
-          </button>
+        <div class="sbpart1" @click="handleSbpart1Click">
+          <p class="events">Events</p>
+          <div class="search-input-container">
+            <input
+              id="search-events"
+              type="text"
+              v-model="searchQuery"
+              placeholder="Search event"
+              :class="{ typing: isTyping }"
+              @focus="handleInputFocus"
+              @blur="handleInputBlur"
+              @keypress="handleKeyPress"
+              @input="handleSearchInput"
+              aria-label="Search events"
+            >
+            <!-- Add clear search button -->
+            <button 
+              v-if="searchQuery.trim()"
+              class="clear-search-btn"
+              @click="clearSearch"
+            >
+              ×
+            </button>
+          </div>
+          <!-- <div class="search-button1" @click="handleSearchButton1Click">
+            <svg class="searchicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill:none; height: 16px; width: 16px; stroke:white; stroke-width: 4; overflow: visible;">
+              <path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path>
+            </svg>
+          </div> -->
         </div>
       </div>
+
+      <!-- Collapsed Filter -->
+      <div 
+        id="filter-collapsed"
+        class="filter-collapsed filter-transition"
+        :class="{ 'filter-visible': isScrolled }"
+        :style="collapsedFilterStyle" 
+        @click="showExpanded"
+      >
+        <div class="sbpart3">
+          <button class="btn category-button">{{ collapsedCategoryText }}</button>
+        </div>
+        <div class="sbdivider2"></div>
+        <div class="sbpart4">
+          <button class="btn event-button">{{ collapsedEventText }}</button>
+        </div>
+        <!-- <div class="search-button2" @click.stop="handleSearchButton1Click">
+          <svg class="searchicon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill:none; height: 10px; width: 10px; stroke:white; stroke-width: 4; overflow: visible;"><path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path></svg>
+        </div> -->
+      </div>
     </div>
 
-    <!-- Collapsed Filter -->
-    <div 
-      id="filter-collapsed"
-      class="filter-collapsed"
-      :class="{ scrolled: isScrolled }"
-      :style="collapsedFilterStyle" 
-      @click="showExpanded"
-    >
-      <div class="sbpart3">
-        <button class="btn category-button">{{ collapsedCategoryText }}</button>
-      </div>
-      <div class="sbdivider2"></div>
-      <div class="sbpart4">
-        <button class="btn event-button">{{ collapsedEventText }}</button>
-      </div>
+    <!-- Loading Indicator -->
+    <div v-if="loading" class="loading">
+      Loading events...
     </div>
+
+    <!-- Error Message -->
+    <div v-if="error" class="error">
+      {{ error }}
+    </div>
+
+    <!-- Display Filtered Events -->
+    <EventList 
+      v-if="!loading && !error && filteredEvents.length > 0" 
+      :events="filteredEvents"
+      @show-details="openEventDetails"
+    />
+
+    <!-- No Events Found Message -->
+    <div v-if="!loading && !error && filteredEvents.length === 0" class="no-events">
+      No events found for the selected categories.
+    </div>
+
+    <!-- Event Detail Modal -->
+    <EventDetailModal
+      v-if="showEventModal"
+      :event="selectedEvent"
+      @close="closeEventDetails"
+    />
   </div>
-
-  <!-- Loading Indicator -->
-  <div v-if="loading" class="loading">
-    Loading events...
-  </div>
-
-  <!-- Error Message -->
-  <div v-if="error" class="error">
-    {{ error }}
-  </div>
-
-  <!-- Display Filtered Events -->
-  <EventList 
-    v-if="!loading && !error && filteredEvents.length > 0" 
-    :events="filteredEvents"
-    @show-details="openEventDetails"
-  />
-
-  <!-- No Events Found Message -->
-  <div v-if="!loading && !error && filteredEvents.length === 0" class="no-events">
-    No events found for the selected categories.
-  </div>
-
-  <!-- Event Detail Modal -->
-  <EventDetailModal
-    v-if="showEventModal"
-    :event="selectedEvent"
-    @close="closeEventDetails"
-  />
+  <!-- <div class="justaddmargin pb-6"></div> -->
 </template>
 
 <script setup>
@@ -150,293 +161,331 @@ const searchQuery = ref('');
 const isTyping = ref(false);
 const showEventModal = ref(false);
 const selectedEvent = ref(null);
+// Add new state for tracking scroll direction
 const lastScrollTop = ref(0);
 const isScrollingUp = ref(true);
 
 // Visibility states for filters
 const expandedFilterStyle = computed(() => ({
-visibility: isScrolled.value ? 'hidden' : 'visible',
-opacity: isScrolled.value ? '0' : '1',
-transform: isScrolled.value ? 'translate(-50%, -120%)' : 'translate(-50%, 0)',
+  transform: isScrolled.value 
+    ? 'translate(-50%, -100%)' 
+    : 'translate(-50%, 0)',
+  opacity: isScrolled.value ? '0' : '1',
+  pointerEvents: isScrolled.value ? 'none' : 'auto',
 }));
 
 const collapsedFilterStyle = computed(() => ({
-visibility: isScrolled.value ? 'visible' : 'hidden',
-opacity: isScrolled.value ? '1' : '0',
-transform: isScrolled.value ? 'translate(-50%, 0)' : 'translate(-50%, -120%)',
-top: '14px'
+  transform: isScrolled.value 
+    ? 'translate(-50%, 0)' 
+    : 'translate(-50%, 100%)',
+  opacity: isScrolled.value ? '1' : '0',
+  pointerEvents: isScrolled.value ? 'auto' : 'none',
 }));
 
 // Display text computeds
 const categoryDisplayText = computed(() => {
-if (selectedCategories.value.size === 0) return 'All categories';
-return `${selectedCategories.value.size} ${
-  selectedCategories.value.size === 1 ? 'category' : 'categories'
-}`;
+  if (selectedCategories.value.size === 0) return 'All categories';
+  return `${selectedCategories.value.size} ${
+    selectedCategories.value.size === 1 ? 'category' : 'categories'
+  }`;
 });
 
 const collapsedCategoryText = computed(() => {
-if (selectedCategories.value.size === 0) return 'All Categories';
-return `${selectedCategories.value.size} Categories`;
+  if (selectedCategories.value.size === 0) return 'All Categories';
+  return `${selectedCategories.value.size} Categories`;
 });
 
 const collapsedEventText = computed(() => {
-return searchQuery.value.trim() || 'All Events';
+  return searchQuery.value.trim() || 'All Events';
 });
 
-// Computed for filtered events
+// Filter events based on categories and search query
 const filteredEvents = computed(() => {
-let eventsToFilter = events.value;
+  // Start with all events
+  let eventsToFilter = events.value;
 
-const hasSelectedCategories = selectedCategories.value.size > 0;
-if (hasSelectedCategories) {
-  eventsToFilter = eventsToFilter.filter(event => 
-    event.category.some(cat => selectedCategories.value.has(cat))
-  );
-}
+  // Category filtering
+  const hasSelectedCategories = selectedCategories.value.size > 0;
+  if (hasSelectedCategories) {
+    eventsToFilter = eventsToFilter.filter(event => 
+      event.category.some(cat => selectedCategories.value.has(cat))
+    );
+  }
 
-const query = searchQuery.value.toLowerCase().trim();
-if (query !== '') {
-  eventsToFilter = eventsToFilter.filter(event => {
-    const eventString = JSON.stringify(event).toLowerCase();
-    const matchesSearch = eventString.includes(query);
-    
-    if (hasSelectedCategories) {
-      return matchesSearch && event.category.some(cat => 
-        selectedCategories.value.has(cat)
-      );
-    }
-    
-    return matchesSearch;
-  });
-}
+  // Search query filtering - both array and object methods
+  const query = searchQuery.value.toLowerCase().trim();
+  if (query !== '') {
+    eventsToFilter = eventsToFilter.filter(event => {
+      // Convert the event object to a string for full text search
+      const eventString = JSON.stringify(event).toLowerCase();
+      
+      // Check if search query matches any part of the event
+      const matchesSearch = eventString.includes(query);
+      
+      // If there are selected categories, ensure the event matches both conditions
+      if (hasSelectedCategories) {
+        return matchesSearch && event.category.some(cat => 
+          selectedCategories.value.has(cat)
+        );
+      }
+      
+      // If no categories selected, just return search matches
+      return matchesSearch;
+    });
+  }
 
-return eventsToFilter;
+  return eventsToFilter;
+});
+
+const handleSearchInput = () => {
+  isTyping.value = true;
+  // Reset typing animation after delay
+  setTimeout(() => {
+    isTyping.value = false;
+  }, 1000);
+};
+
+// Check if any filters are active
+const hasActiveFilters = computed(() => {
+  return selectedCategories.value.size > 0 || 
+         searchQuery.value.trim().length > 0;
 });
 
 // Methods
 const fetchEvents = async () => {
-loading.value = true;
-try {
-  const fetchedEvents = await fetchLiveEvents();
-  events.value = fetchedEvents;
+  loading.value = true;
+  try {
+    const fetchedEvents = await fetchLiveEvents();
+    events.value = fetchedEvents;
 
-  const categoriesSet = new Set();
-  fetchedEvents.forEach(event => {
-    event.category.forEach(cat => categoriesSet.add(cat));
-  });
-  availableCategories.value = Array.from(categoriesSet).sort();
-} catch (err) {
-  console.error('Error fetching events:', err);
-  error.value = 'Failed to fetch events. Please try again later.';
-} finally {
-  loading.value = false;
-}
-};
-
-// Updated scroll handler for window
-const handleScroll = () => {
-const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-
-// Update scroll state based on scroll position
-if (currentScroll > 20) {
-  isScrolled.value = true;
-} else {
-  isScrolled.value = false;
-}
-
-// Update scroll direction
-isScrollingUp.value = currentScroll < lastScrollTop.value;
-lastScrollTop.value = currentScroll;
+    // Extract unique categories
+    const categoriesSet = new Set();
+    fetchedEvents.forEach(event => {
+      event.category.forEach(cat => categoriesSet.add(cat));
+    });
+    availableCategories.value = Array.from(categoriesSet).sort();
+  } catch (err) {
+    console.error('Error fetching events:', err);
+    error.value = 'Failed to fetch events. Please try again later.';
+  } finally {
+    loading.value = false;
+  }
 };
 
 // Event handlers
 const handleExpandedClick = (event) => {
-event.stopPropagation();
+  event.stopPropagation();
 };
 
 const handleSbpart0Click = (event) => {
-if (!document.getElementById('categories-dropdown').contains(event.target)) {
-  event.stopPropagation();
-  isCategoryDropdownOpen.value = !isCategoryDropdownOpen.value;
-}
+  if (!document.getElementById('categories-dropdown').contains(event.target)) {
+    event.stopPropagation();
+    isCategoryDropdownOpen.value = !isCategoryDropdownOpen.value;
+  }
 };
 
 const handleSbpart1Click = () => {
-isCategoryDropdownOpen.value = false;
-focusSearchInput();
-};
-
-const handleSearchInput = () => {
-isTyping.value = true;
-setTimeout(() => {
-  isTyping.value = false;
-}, 1000);
+  isCategoryDropdownOpen.value = false;
+  focusSearchInput();
 };
 
 const handleAllCategoriesClick = (event) => {
-event.stopPropagation();
-selectedCategories.value.clear();
-isCategoryDropdownOpen.value = false;
+  event.stopPropagation();
+  selectedCategories.value.clear();
+  isCategoryDropdownOpen.value = false;
 };
 
 const handleCategoryClick = (category, event) => {
-event.stopPropagation();
-if (selectedCategories.value.has(category)) {
-  selectedCategories.value.delete(category);
-} else {
-  selectedCategories.value.add(category);
-}
+  event.stopPropagation();
+  const totalOptions = availableCategories.value.length;
 
-if (selectedCategories.value.size === availableCategories.value.length) {
-  selectedCategories.value.clear();
-}
+  if (selectedCategories.value.has(category)) {
+    selectedCategories.value.delete(category);
+  } else {
+    selectedCategories.value.add(category);
+  }
+
+  // Check if all categories are selected
+  if (selectedCategories.value.size === totalOptions) {
+    selectedCategories.value.clear();
+  }
 };
 
 const handleRemoveCategory = (category, event) => {
-event.stopPropagation();
-selectedCategories.value.delete(category);
+  event.stopPropagation();
+  selectedCategories.value.delete(category);
 };
 
 const handleSearchButton1Click = (event) => {
-event?.stopPropagation();
-isCategoryDropdownOpen.value = false;
-
-if (searchQuery.value.trim() !== '') {
-  isScrolled.value = true;
-  if (window.scrollY === 0) {
-    scrollPageDown();
-  }
-}
-};
-
-// Updated showExpanded to use window scroll
-const showExpanded = () => {
-window.scrollTo({
-  top: 0,
-  behavior: 'smooth'
-});
-
-isScrolled.value = false;
-isCategoryDropdownOpen.value = false;
-};
-
-const focusSearchInput = () => {
-const searchInput = document.getElementById('search-events');
-if (searchInput) {
-  searchInput.focus();
-  isTyping.value = true;
-  setTimeout(() => {
-    isTyping.value = false;
-  }, 1000);
-}
-};
-
-const handleInputFocus = () => {
-isTyping.value = true;
-};
-
-const handleInputBlur = () => {
-isTyping.value = false;
-};
-
-const handleKeyPress = (event) => {
-if (event.key === 'Enter') {
+  event?.stopPropagation();
+  isCategoryDropdownOpen.value = false;
+  
   if (searchQuery.value.trim() !== '') {
     isScrolled.value = true;
     if (window.scrollY === 0) {
       scrollPageDown();
     }
   }
-}
 };
 
+const showExpanded = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  
+  isScrolled.value = false;
+  isCategoryDropdownOpen.value = false;
+};
+
+const focusSearchInput = () => {
+  const searchInput = document.getElementById('search-events');
+  if (searchInput) {
+    searchInput.focus();
+    isTyping.value = true;
+    setTimeout(() => {
+      isTyping.value = false;
+    }, 1000);
+  }
+};
+
+const handleInputFocus = () => {
+  isTyping.value = true;
+};
+
+const handleInputBlur = () => {
+  isTyping.value = false;
+};
+
+const handleKeyPress = (event) => {
+  if (event.key === 'Enter') {
+    if (searchQuery.value.trim() !== '') {
+      isScrolled.value = true;
+      if (window.scrollY === 0) {
+        scrollPageDown();
+      }
+    }
+  }
+};
+
+// Modal handlers
 const openEventDetails = (event) => {
-selectedEvent.value = event;
-showEventModal.value = true;
+  selectedEvent.value = event;
+  showEventModal.value = true;
 };
 
 const closeEventDetails = () => {
-showEventModal.value = false;
-selectedEvent.value = null;
+  showEventModal.value = false;
+  selectedEvent.value = null;
+};
+
+
+// Scroll handlers
+const handleScroll = () => {
+  const scrollTop = window.scrollY;
+  
+  // Add threshold for smoother transition
+  if (scrollTop > 50) {
+    if (!isScrolled.value) {
+      isScrolled.value = true;
+    }
+  } else {
+    if (isScrolled.value) {
+      isScrolled.value = false;
+    }
+  }
 };
 
 const handleClickOutside = (event) => {
-const dropdown = document.getElementById('categories-dropdown');
-const sbpart0 = document.querySelector('.sbpart0');
-
-if (dropdown && !dropdown.contains(event.target) && !sbpart0.contains(event.target)) {
-  isCategoryDropdownOpen.value = false;
-}
+  const dropdown = document.getElementById('categories-dropdown');
+  const sbpart0 = document.querySelector('.sbpart0');
+  
+  if (dropdown && !dropdown.contains(event.target) && !sbpart0.contains(event.target)) {
+    isCategoryDropdownOpen.value = false;
+  }
 };
 
 const scrollPageDown = () => {
-window.scrollTo({
-  top: 30,
-  behavior: 'smooth'
-});
+  window.scrollTo({
+    top: 30,
+    behavior: 'smooth'
+  });
 };
 
+// Add clear filters method
 const clearFilters = () => {
-selectedCategories.value.clear();
-isCategoryDropdownOpen.value = false;
+  selectedCategories.value.clear();
+  isCategoryDropdownOpen.value = false;
 };
 
+// Add clear search method
 const clearSearch = () => {
-searchQuery.value = '';
-isTyping.value = false;
+  searchQuery.value = '';
+  isTyping.value = false;
 };
 
-// Updated lifecycle hooks to use window
+
+// Lifecycle hooks
 onMounted(() => {
-fetchEvents();
-window.addEventListener('scroll', handleScroll);
-document.addEventListener('click', handleClickOutside);
+  fetchEvents();
+  // Use window scroll event instead of container
+  window.addEventListener('scroll', handleScroll);
+  document.addEventListener('click', handleClickOutside);
 });
 
 onUnmounted(() => {
-window.removeEventListener('scroll', handleScroll);
-document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('scroll', handleScroll);
+  document.removeEventListener('click', handleClickOutside);
 });
 </script>
 
 <style scoped>
 /* Base Container Styles */
 .scroll-container {
-  /* padding: 20px; */
+  padding: 0px;
   scroll-snap-type: y mandatory;
   height: 100vh;
   overflow-y: scroll;
   width: 100%;
   position: relative;
   max-height: 100vh;
+  padding-bottom: 150px;
 }
 
 /* MultiSearchBar Styles */
 .multisearchbar {
-  background: none;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  height: 80px;
   transition: height 0.3s ease;
-  z-index: 1000000000001;
+  z-index: 2000;
+  margin-bottom: 0;
+  height: auto;
 }
 
 .multisearchbar.scrolled {
   height: 60px;
 }
 
+.filter-transition {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  position: fixed;
+  left: 50%;
+}
+
 .filter-expanded {
-  background-color: black;
+  top: 80px; /* Fixed initial position */
+  color: black;
+  background-color: #ffffff;
   width: 342px;
   height: 66px;
-  border: 0.5px solid #d4cfcf;
+  border: 0.5px solid #ffffff;
   border-radius: 40px;
-  box-shadow: 0px 0px 13px 1px #e3dada;
+  box-shadow: 0px 0px 13px 1px #a889d1cb;
   display: flex;
   align-items: center;
   position: fixed;
@@ -446,16 +495,23 @@ document.removeEventListener('click', handleClickOutside);
   transition: all 0.3s ease;
   will-change: transform, opacity, visibility;
   backface-visibility: hidden;
-  z-index: 1000000000000;
+  /* z-index: 10; */
+  margin-bottom: 1rem; /* Add small margin only to filter */
+}
+
+.filter-expanded.filter-hidden {
+  pointer-events: none;
 }
 
 .filter-collapsed {
-  background-color: black;
+  top: 34px; /* Fixed collapsed position */
+
+  background-color: #ffffff;
   width: 280px;
   height: 35px;
-  border: 0.5px solid #d4cfcf;
+  border: 0.5px solid #ffffff;
   border-radius: 40px;
-  box-shadow: 0px 0px 13px 1px #e3dada;
+  box-shadow: 0px 0px 13px 1px #a889d1cb;
   display: flex;
   align-items: center;
   position: fixed;
@@ -464,8 +520,12 @@ document.removeEventListener('click', handleClickOutside);
   transition: all 0.3s ease;
   will-change: transform, opacity, visibility;
   backface-visibility: hidden;
-  z-index: 1000000000000;
+  /* z-index: 10; */
   cursor: pointer;
+}
+
+.filter-collapsed.filter-visible {
+  pointer-events: auto;
 }
 
 /* Filter Positioning */
@@ -499,7 +559,7 @@ document.removeEventListener('click', handleClickOutside);
 }
 
 .sbdivider1, .sbdivider2 {
-  background-color: #d4cfcf;
+  background-color: #a889d1cb;
   width: 0.5px;
   align-self: center;
   margin: 0;
@@ -535,7 +595,7 @@ document.removeEventListener('click', handleClickOutside);
 .sbpart1 {
   width: 170px; /* Adjusted width */
   position: relative;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px 10px 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -543,7 +603,7 @@ document.removeEventListener('click', handleClickOutside);
 }
 
 .sbpart0:hover, .sbpart1:hover {
-  box-shadow: 0px 0px 3px 1px #e3dada;
+  box-shadow: 0px 0px 15px 2px #9646FF;
   border-radius: 50px;
   height: 65px;
   cursor: pointer;
@@ -561,7 +621,6 @@ document.removeEventListener('click', handleClickOutside);
 
 .sbpart1 p {
   width: 160px;
-  margin: 0;
   padding-left: 2px;
   height: 20px;
   font-size: 16px;
@@ -569,7 +628,7 @@ document.removeEventListener('click', handleClickOutside);
 }
 
 .category-display {
-  color: #757575;
+  color: #7b7b7b;
   font-size: 14px;
   font-weight: normal;
 }
@@ -602,49 +661,15 @@ document.removeEventListener('click', handleClickOutside);
   border: none;
   height: 20px;
   border-radius: 10px;
-  background-color: black;
-  color: white;
+  background-color: transparent;
+  color: black;
   padding-right: 24px; /* Make room for clear button */
 }
 
 .sbpart1 input:focus {
   border: none;
   outline: none;
-}
-
-/* Search Buttons */
-.search-button1 {
-  width: 48px;
-  height: 48px;
-  background-color: #8c52ff;
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease-in;
-  position: absolute;
-  margin: 140px;
-}
-
-.search-button2 {
-  width: 20px;
-  height: 20px;
-  background-color: #8c52ff;
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease-in;
-  margin-left: auto;
-  margin-right: 10px;
-  position: absolute;
-  margin: 240px;
-}
-
-.search-button1:hover, .search-button2:hover {
-  background-color: rgb(112, 65.6, 204);
-  cursor: pointer;
-  transform: rotate(90deg);
+  color: black;
 }
 
 /* Collapsed Filter Parts */
@@ -656,7 +681,7 @@ document.removeEventListener('click', handleClickOutside);
 }
 
 .sbpart3:hover, .sbpart4:hover {
-  box-shadow: 0px 0px 3px 1px #e3dada;
+  box-shadow: 0px 0px 3px 1px #9646FF;
   border-radius: 50px;
   cursor: pointer;
 }
@@ -673,7 +698,7 @@ document.removeEventListener('click', handleClickOutside);
 .sbpart3 .btn, .sbpart4 .btn {
   background: none;
   border: none;
-  color: white;
+  color: black;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -698,7 +723,7 @@ document.removeEventListener('click', handleClickOutside);
   top: 100%;
   left: 0;
   width: 300px;
-  background-color: black;
+  background-color: white;
   border: 0.5px solid #d4cfcf;
   border-radius: 20px;
   margin-top: 12px;
@@ -723,7 +748,7 @@ document.removeEventListener('click', handleClickOutside);
   max-height: 300px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #8c52ff #1a1a1a;
+  scrollbar-color: #DEDCF4 ;
 }
 
 /* .category-options::before {
@@ -740,7 +765,7 @@ document.removeEventListener('click', handleClickOutside);
 /* Style for All Categories button */
 .category-option.all-categories {
   grid-column: 1 / -1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 4px;
   padding-bottom: 12px;
 }
@@ -748,7 +773,7 @@ document.removeEventListener('click', handleClickOutside);
 /* New category section label */
 .category-section-label {
   grid-column: 1 / -1;
-  color: #757575;
+  color: #383838;
   font-size: 10px;
   font-weight: 500;
   margin: 2px 0;
@@ -774,7 +799,7 @@ document.removeEventListener('click', handleClickOutside);
 .category-option {
   background: none;
   border: none;
-  color: white;
+  color: black;
   padding: 8px 12px;
   text-align: left;
   font-size: 12px;
@@ -793,35 +818,17 @@ document.removeEventListener('click', handleClickOutside);
 }
 
 .category-option.selected {
-  background-color: rgba(140, 82, 255, 0.15);
-  color: #8c52ff;
+  background-color: #c0bcfc;
+  color: black;
   font-weight: 500;
 }
 
 .category-option[data-value="all"] {
   grid-column: 1 / -1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 4px;
-  padding-bottom: 12px;
-}
-
-.remove-tag {
-  display: none;
-  color: #8c52ff;
-  font-size: 14px;
-  padding: 2px;
-  line-height: 1;
-  border-radius: 50%;
-  cursor: pointer;
-  margin-left: 8px;
-}
-
-.category-option.selected .remove-tag {
-  display: inline-block;
-}
-
-.remove-tag:hover {
-  background-color: rgba(140, 82, 255, 0.2);
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 /* Loading and Error States */
@@ -919,6 +926,10 @@ document.removeEventListener('click', handleClickOutside);
   position: relative;
   display: flex;
   align-items: center;
+} 
+
+#search-events {
+  color: black;
 }
 
 /* Clear Search Button */
@@ -952,19 +963,27 @@ document.removeEventListener('click', handleClickOutside);
   .filter-expanded {
     width: 383px;
     height: 68px;
+    top: 80px;
   }
   
   .filter-collapsed {
     width: 320px;
     height: 40px;
+    top: 13px;
+  }
+
+  .events {
+    margin: 0px;
   }
 
   .sbpart0, .sbpart1 {
     width: 190px; 
+    height: 70px;
   }
 
   .sbpart3, .sbpart4 {
     width: 160px;
+    height: 40px;
   }
 
   .categories-dropdown {
@@ -980,8 +999,13 @@ document.removeEventListener('click', handleClickOutside);
   }
   
   .filter-collapsed {
-    width: 280px;
+    width: 260px;
     height: 35px;
+    top: 15px;
+  }
+
+  .events {
+    margin: 0px;
   }
 
   .categories-dropdown {
@@ -994,11 +1018,13 @@ document.removeEventListener('click', handleClickOutside);
   .filter-expanded {
     width: 303px;
     height: 68px;
+    top: 80px;
   }
   
   .filter-collapsed {
     width: 260px;
     height: 35px;
+    top: 15px;
   }
 
   .sbpart0, .sbpart1 {
@@ -1014,6 +1040,10 @@ document.removeEventListener('click', handleClickOutside);
   .categories-dropdown {
     width: 280px;
   }
+
+  .events {
+    margin: 0px;
+  }
 }
 
 /* Large Mobile */
@@ -1028,7 +1058,12 @@ document.removeEventListener('click', handleClickOutside);
     width: calc(100% - 60px);
     max-width: 250px;
     height: 32px;
+    top: 16px;
   }
+
+  .sbpart3 .btn, .sbpart4 .btn {
+    font-size: 13px;
+}
 
   .sbpart0, .sbpart1 {
     width: 50%;
@@ -1050,7 +1085,11 @@ document.removeEventListener('click', handleClickOutside);
   }
 
   .categories, .events {
-    font-size: 10px;
+    font-size: 7px;
+  }
+
+  .events {
+    margin: 0px;
   }
 
   .category-display {
@@ -1061,21 +1100,26 @@ document.removeEventListener('click', handleClickOutside);
 /* Small Mobile */
 @media (max-width: 479px) {
   .filter-expanded {
-    width: calc(100% - 32px);
-    max-width: 280px;
-    height: 56px;
+    max-width: 250px;
+    height: 50px;
+    top: 80px;
   }
   
   .filter-collapsed {
-    width: calc(100% - 48px);
-    max-width: 230px;
-    height: 30px;
+    max-width: 140px;
+    height: 25px;
+    top: 20px;
   }
 
   .sbpart0, .sbpart1 {
-    width: 45%;
-    min-width: 100px;
-    padding: 6px 10px;
+    width: 50%;
+    min-width: 110px;
+    padding: 6px 8px;
+    height: 100%;
+  }
+
+  .sbpart1 {
+    padding-left: 12px;
   }
 
   .sbdivider1 {
@@ -1083,27 +1127,57 @@ document.removeEventListener('click', handleClickOutside);
   }
 
   .sbdivider2 {
-    height: 16px;
+    height: 14px;
   }
 
-  .sbpart3, .sbpart4 {
-    width: 45%;
+  .sbpart3 {
+    height: auto;
     min-width: 80px;
+    padding: 4px 4px;
+  }
+
+  .sbpart4 {
+    height: auto;
+    min-width: 50px;
     padding: 4px 8px;
   }
 
+  .sbpart3 .btn, .sbpart4 .btn {
+    font-size: 9px;
+}
+
   .categories, .events {
-    font-size: 12px;
+    font-size: 10px;
+    height: auto;
+    margin: 0;
   }
+
+  .events {
+    margin-top: 3px;
+    margin-bottom: -2px;
+  }
+
 
   .category-display {
     font-size: 11px;
+    height: auto;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sbpart0 p, .sbpart1 p {
+    width: auto;
+    height: auto;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .categories-dropdown {
     width: calc(100vw - 40px);
     max-width: 250px;
-    left: 50%;
+    left: 100%;
     transform: translateX(-50%);
   }
 
@@ -1117,45 +1191,31 @@ document.removeEventListener('click', handleClickOutside);
   }
 
   .sbpart1 input {
-    width: 100%;
-    min-width: 70px;
+    min-width: 105px;
     font-size: 12px;
+  }
+
+  .search-input-container {
+    width: 100%;
+  }
+
+  /* Fix hover states for touch devices */
+  .sbpart0:hover, .sbpart1:hover {
+    height: auto;
   }
 }
 
 /* Height-based adjustments */
-@media (max-height: 700px) {
-  .categories-dropdown {
-    max-height: 70vh;
-  }
 
-  .category-options {
-    max-height: 250px;
-  }
-}
 
-/* Landscape mode adjustments */
 @media (max-height: 500px) and (orientation: landscape) {
   .filter-expanded {
     top: 60px;
   }
-
+  
   .filter-collapsed {
-    top: 20px;
+    top: 38px;
   }
-
-  .categories-dropdown {
-    max-height: 60vh;
-  }
-
-  .category-options {
-    max-height: 180px;
-  }
-}
-
-/* Update some base styles to be more responsive */
-.sbdivider {
-  flex-shrink: 0; /* Prevent divider from shrinking */
 }
 
 .search-input-container {
@@ -1177,378 +1237,6 @@ document.removeEventListener('click', handleClickOutside);
 .clear-filters-btn {
   font-size: 11px;
   padding: 5px 10px;
-}
-
-
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!CARD BASE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-.card-base {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-/* a .card-base {
-  text-decoration: none;
-} */
-
-.card-container {
-  display: grid;
-  place-items: center;
-  margin-inline: 1.5rem;
-}
-
-.card__container, .card__article {
-  display: grid;
-  gap: 4rem;
-}
-
-.card__container {
-  padding-block: 4rem;
-}
-
-.card__article {
-  --hue-1: 210;
-  --hue-2: 238;
-  position: relative;
-  justify-items: center;
-  color: white;
-  text-align: center;
-  /* padding: rem 3rem; */
-  border: solid 4px transparent;
-  background: linear-gradient(
-              var(--container-color-first),
-              var(--container-color-first)) padding-box,
-
-              linear-gradient(135deg, 
-              hsl(var(--hue-1), 85%, 70%) 0%,
-              var(--container-color-first),
-              var(--container-color-first),
-              hsl(var(--hue-2), 70%, 55%) 100%) border-box;
-  border-radius: 1.25rem;
-  overflow: hidden;
-}
-
-
-
-/* SHAPING CARD */
-
-.card__shape-1 {
-  position: relative;
-  width: 330px;
-  height: 510px;
-  background: linear-gradient(140deg,
-              hsl(var(--hue-1), 75%, 25%) 3%,
-              hsl(var(--hue-2), 65%, 45%) 100%);
-  border-radius: 2rem;
-  z-index: 2;
-}
-
-.card__shape-2 {
-  width: 310px;
-  height: 475px;
-  background: linear-gradient(140deg,
-              hsl(var(--hue-1), 70%, 50%) 3%,
-              hsl(var(--hue-2), 95%, 45%) 100%);
-  border-radius: 1.5rem;
-}
-
-.card__shape-3 {
-  width: 290px;
-  height: 440px;
-  background: linear-gradient(140deg,
-              hsl(var(--hue-1), 85%, 60%) 3%,
-              hsl(var(--hue-2), 85%, 60%) 100%);
-  border-radius: 1rem;
-  display: grid;
-  place-items: center;
-}
-
-.card__shape-2, .card__shape-3 {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-}
-
-.card__icon {
-  font-size: 3rem;
-}
-
-.card__data {
-  z-index: 3;
-}
-
-.card__title {
-  font-size: 35px;
-  margin-bottom: 0.25rem;
-  font-weight: 600;
-}
-
-.card__description {
-  margin-bottom: 1.5rem;
-}
-
-.card__button {
-  display: inline-block;
-  background-color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
-  color: black;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-/* COLOUR CHANGE */
-.card__orange {
-  --hue-1: 300;
-  --hue-2: 30;
-}
-
-.card__green {
-  --hue-1: 180;
-  --hue-2: 50;
-}
-
-/* SHAPES SCALE - creates glowy effect for card__shape */
-.card__scale-1 {
-  width: 1000px;
-  height: 500px;
-  background: linear-gradient(140deg,
-              hsl(var(--hue-1), 75%, 25%) 3%,
-              hsl(var(--hue-2), 65%, 45%) 100%);
-  border-radius: 2rem;
-  top: 2rem;
-}
-
-.card__scale-2 {
-  width: 116px;
-  height: 116px;
-  background-color: var(--container-color-first);
-  border-radius: 1.5rem;
-  top: 5rem;
-}
-
-.card__scale-1, .card__scale-2 {
-  position: absolute;
-  /* z-index: 10; */
-  filter: blur(24px);
-  transition: transform .3s ease-in;
-}
-
-/* SHAPES SCALE ANIMATION */
-.card__article:hover .card__scale-1 {
-  transform: scale(2);
-}
-
-.card__article:hover .card__scale-2 {
-  transform: scale(3);
-  transition-delay: .1s;
-}
-
-@media screen and (max-width: 320px) {
-  .card-container {
-    margin-inline: 1rem;
-  }
-  .card__article {
-    padding: 2rem 1rem;
-  }
-  .card__scale-1 {
-    top: 2rem;
-  }
-  .card__scale-2 {
-    top: 3rem;
-  }
-}
-
-@media screen and (min-width: 576px) {
-  .card__container {
-    grid-template-columns: 328px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .card__container {
-    grid-template-columns: repeat(2, 328px);
-  }
-}
-
-@media screen and (min-width: 1120px) {
-  .card-container {
-    height: 100vh;
-  }
-  .card__container {
-    grid-template-columns: repeat(3, 400px);
-  } 
-  .card__article {
-    padding: 1rem 1rem;
-  }
-}
-
-
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CARD POPUP INFO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-.card-base-info {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-/*=============== CARD ===============*/
-.card-container-info {
-  display: grid;
-  place-items: center;
-  margin-inline: 1.5rem;
-  padding-block: 5rem;
-}
-
-.card__container_info {
-  display: grid;
-  row-gap: 3.5rem;
-}
-
-.card__article_info {
-  position: relative;
-  overflow: hidden;
-}
-
-.card__img_info {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  width: 328px;
-  border-radius: 1.5rem;
-}
-
-.card__data_info {
-  width: 250px;
-  background-color: var(--container-color-second);
-  padding: 0.5rem 0.5rem;
-  box-shadow: 0 8px 24px hsla(0, 0%, 0%, .15);
-  border-radius: 1rem;
-  position: absolute;
-  bottom: -9rem;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-  opacity: 0;
-  transition: opacity 1s 1s;
-}
-
-.card__description_info {
-  display: block;
-  font-size: 10px;
-  margin-bottom: .25rem;
-}
-
-.card__title_info {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--card-info-title-color);
-  margin-bottom: .75rem;
-}
-
-.card__button_info {
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--card-info-first-color);
-}
-
-.card__button:hover_info {
-  text-decoration: underline;
-}
-
-/* Naming animations in hover */
-.card__article_info:hover .card__data_info {
-  animation: show-data 1s forwards;
-  opacity: 1;
-  transition: opacity .3s;
-}
-
-.card__article_info:hover {
-  animation: remove-overflow 2s forwards;
-}
-
-.card__article_info:not(:hover) {
-  animation: show-overflow 2s forwards;
-}
-
-.card__article_info:not(:hover) .card__data_info {
-  animation: remove-data 1s forwards;
-}
-
-/* Card animation */
-@keyframes show-data {
-  50% {
-    transform: translateY(-10rem);
-  }
-  100% {
-    transform: translateY(-7rem);
-  }
-}
-
-@keyframes remove-overflow {
-  to {
-    overflow: initial;
-  }
-}
-
-@keyframes remove-data {
-  0% {
-    transform: translateY(-7rem);
-  }
-  50% {
-    transform: translateY(-10rem);
-  }
-  100% {
-    transform: translateY(.5rem);
-  }
-}
-
-@keyframes show-overflow {
-  0% {
-    overflow: initial;
-    pointer-events: none;
-  }
-  50% {
-    overflow: hidden;
-  }
-}
-
-/*=============== BREAKPOINTS ===============*/
-/* For small devices */
-@media screen and (max-width: 340px) {
-  .card-container-info {
-    margin-inline: 1rem;
-  }
-
-  .card__data_info {
-    width: 250px;
-    padding: 1rem;
-  }
-}
-
-/* For medium devices */
-@media screen and (min-width: 768px) {
-  .card__container_info {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 1.5rem;
-  }
-}
-
-/* For large devices */
-@media screen and (min-width: 1120px) {
-  .card-container-info {
-    height: 100vh;
-  }
-
-  .card__container_info {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .card__img_info {
-    width: 348px;
-  }
-  .card__data_info {
-    width: 260px;
-    padding-inline: 2.5rem;
-  }
 }
 
 </style>

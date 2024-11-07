@@ -17,7 +17,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse z-7" id="navbarNavDropdown">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <router-link to="/explore" class="nav-link">Explore</router-link>

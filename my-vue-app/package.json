@@ -26,6 +26,7 @@
     "three-spritetext": "^1.9.0",
     "three-stdlib": "^2.34.0",
     "typed.js": "^2.1.0",
+    "vanilla-tilt": "^1.8.1",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   },
