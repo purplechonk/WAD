@@ -181,7 +181,7 @@ export default {
       return Math.max(0, diffDays);
     },
     formatDate(date) {
-      return new Date(date).toLocaleDateString('en-US', {
+      return new Date(date).toLocaleDateString('en-SG', {
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
