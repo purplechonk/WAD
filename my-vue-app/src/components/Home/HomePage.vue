@@ -64,6 +64,7 @@
       </div>
     </section>
 
+    <!-- 
     <section class="scroll-section event-cards" ref="sections">
       <ul class="gallery-track">
         <li>
@@ -88,6 +89,34 @@
         </li>
       </ul>
     </section>
+     -->
+
+    <section>
+      <featurepage/>
+    </section>
+
+    <section>
+      <div class="card-container" ref="containerRef">
+        <div class="card-deck" ref="deckRef">
+          <div v-for="(event, index) in events" :key="event.id" class="event-card" :ref="el => cardRefs[index] = el"
+            :class="{ 'visible': visibleCards[index] }">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.date }}</p>
+                <p class="card-description">{{ event.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-info-circle me-2"></i>Details
+                  </button>
+                  <span class="badge bg-secondary">{{ event.category }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- <section class="event-cards">
       <h2>Featured Events</h2>
@@ -107,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { fetchRecommendedEvents } from '../../composables/fetchEvents';
@@ -117,6 +146,8 @@ import EventDetailModal from '../General/EventDetailModal.vue';
 import ReplaceMe from '../../utils/replaceMe';
 import Typed from 'typed.js';
 import { RevealFx } from '../../utils/revealFx';
+import anime from 'animejs/lib/anime.es.js';
+import featurepage from '../Home/featureShowcase.vue'
 
 const recommendedEvents = ref([]);
 const isAuthenticated = ref(false);
@@ -177,19 +208,19 @@ const quotes = [
 
 const changeQuote = () => {
   if (!quoteRevealEffect) return;
-  
+
   const revealSettings = {
     bgColors: ['#2C0066', '#3E008F', '#5000B8', '#6100E0', '#9646FF', '#AE70FF', '#D1ADFF'],
     duration: 400,
     delay: 100,
     direction: 'lr',
-    onStart: function(contentEl) {
+    onStart: function (contentEl) {
       if (contentEl) {
         contentEl.style.opacity = '0';
         contentEl.style.transform = 'scale(0.95)';
       }
     },
-    onHalfway: function(contentEl) {
+    onHalfway: function (contentEl) {
       quoteCounter.value = (quoteCounter.value + 1) % quotes.length;
       currentQuote.value = quotes[quoteCounter.value];
       if (contentEl) {
@@ -198,12 +229,12 @@ const changeQuote = () => {
         contentEl.style.fontWeight = 'bold';
       }
     },
-    onComplete: function(contentEl) {
+    onComplete: function (contentEl) {
       if (contentEl) {
         contentEl.style.opacity = '1';
         contentEl.style.transform = 'scale(1)';
         contentEl.style.textAlign = 'center';
-        
+
         // Reset to normal style after animation
         // setTimeout(() => {
         //   contentEl.style.fontSize = '1.5rem';
@@ -216,6 +247,63 @@ const changeQuote = () => {
   quoteRevealEffect.reveal(revealSettings);
 };
 
+const events = ref([
+  {
+    id: 1,
+    title: 'Tech Conference 2024',
+    date: '2024-04-15',
+    description: 'Annual technology conference featuring industry leaders',
+    category: 'Conference'
+  },
+  {
+    id: 2,
+    title: 'Workshop: Vue 3',
+    date: '2024-04-20',
+    description: 'Hands-on workshop about Vue 3 fundamentals',
+    category: 'Workshop'
+  },
+  {
+    id: 3,
+    title: 'Networking Mixer',
+    date: '2024-04-25',
+    description: 'Evening networking event for tech professionals',
+    category: 'Networking'
+  },
+  // Add more events as needed
+]);
+
+const containerRef = ref(null);
+const deckRef = ref(null);
+const cardRefs = ref([]);
+const visibleCards = ref(Array(events.value.length).fill(false));
+
+const handleScroll = () => {
+  const cards = cardRefs.value;
+  cards.forEach((card, index) => {
+    if (!card) return;
+    
+    const rect = card.getBoundingClientRect();
+    const isVisible = rect.top <= window.innerHeight * 0.8;
+    
+    if (isVisible && !visibleCards.value[index]) {
+      visibleCards.value[index] = true;
+      animateCard(card, index);
+    }
+  });
+};
+
+const animateCard = (card, index) => {
+  anime({
+    targets: card,
+    translateX: [-300, 0],
+    translateY: [50, 0],
+    rotate: [-15, 0],
+    opacity: [0, 1],
+    duration: 800,
+    easing: 'easeOutElastic(1, .8)',
+    delay: index * 100
+  });
+};
 
 
 onMounted(() => {
@@ -310,16 +398,20 @@ onMounted(() => {
           delay: 100
         }
       });
-      
+
       currentQuote.value = quotes[0];
-      
+
       const intervalId = setInterval(changeQuote, 4000);
-      
+
       onBeforeUnmount(() => {
         clearInterval(intervalId);
       });
     }
   }, 100);
+
+  window.addEventListener('scroll', handleScroll);
+  // Initial check for visible cards
+  handleScroll();
 
   onBeforeUnmount(() => {
     window.removeEventListener('scroll', updateProgress);
@@ -330,6 +422,8 @@ onBeforeUnmount(() => {
   if (typed) {
     typed.destroy();
   }
+
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
@@ -467,5 +561,53 @@ li {
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
+}
+
+.card-container {
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.event-card {
+  flex: 0 0 300px;
+  opacity: 0;
+  transform: translateX(-300px) translateY(50px) rotate(-15deg);
+}
+
+.event-card.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.card {
+  height: 100%;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-title {
+  margin: 0;
+  font-weight: bold;
+}
+
+.card-description {
+  flex-grow: 1;
+  margin: 0;
 }
 </style>
