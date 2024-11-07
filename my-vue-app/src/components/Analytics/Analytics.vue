@@ -31,7 +31,7 @@
 <div class="col-12 col-lg-8 order-2 order-lg-1">
   <div class="card border-0 rounded shadow bg-white h-100">
     <div class="card-body p-4">
-      <h3 class="h4 fw-bold mb-4">Monthly Event Distribution</h3>
+      <h3 class="h4 fw-bold mb-4">Number of Events Monthly</h3>
       <div class="row">
         <div class="col-12">
           <div ref="eventChart" class="w-100" style="height: 400px;"></div>
@@ -59,27 +59,27 @@
                       tabindex="0"
                       @keydown.enter="toggleCCA(index)"
                       @keydown.space.prevent="toggleCCA(index)"
-                      aria-expanded="false"
+                      aria-expanded="isOpen(index)"
                       :aria-controls="'collapse-' + index"
                     >
-                      <div class="d-flex align-items-center">
+                      <div class="d-flex align-items-center px-2">
                         <span class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" 
                               style="min-width: 1.5rem; min-height: 1.5rem;">
                           <small class="fw-bold text-white">{{ index + 1 }}</small>
                         </span>
                         <span>{{ cca.name }}</span>
                       </div>
-                      <span class="badge bg-primary rounded-pill px-3">{{ cca.count }} events</span>
+                      <span class="badge bg-primary rounded-pill px-3 mx-2">{{ cca.count }} events</span>
                     </div>
 
-                    <div :id="'collapse-' + index" class="collapse mt-3">
+                    <div :id="'collapse-' + index" class="collapse mt-3" :class="{show: isOpen(index)}">
                       <ul class="list-group list-group-flush ps-4">
                         <li
                           v-for="event in getEventsByCCA(cca.name)"
                           :key="event.id"
-                          class="list-group-item border-0 px-0 py-2"
+                          class="list-group-item border-0 px-2 py-2"
                         >
-                          {{ event.event_name }}
+                          {{ event.event_name }} 
                         </li>
                       </ul>
                     </div>
@@ -98,7 +98,7 @@
         <!-- Stats Cards Row -->
         <div class="row g-4 mb-5">
           <div class="col-12 mb-4 ">
-            <h2 class="fw-bold text-dark">User Statistics</h2>
+            <h1 class="text-dark">Personal Insights</h1>
           </div>
           <div class="col-12 col-md-4 ">
             <div class="card border-0 rounded shadow bg-white  h-100">
@@ -154,7 +154,7 @@
           <div class="col-12 col-lg-6">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
-                <h4 class="fw-bold mb-4">Category Distribution</h4>
+                <h4 class="fw-bold mb-4">Your Top Categories</h4>
                 <div class="ratio ratio-16x9">
                   <div ref="userCategoryChart" class="w-100 h-100"></div>
                 </div>
@@ -195,6 +195,13 @@ export default {
     const eventChartDiv = ref(null);
     const userCCAChartDiv = ref(null);
     const userCategoryChartDiv = ref(null);
+    const openIndex = ref(0); // Open the first dropdown by default
+    const toggleCCA = (index) => {
+      openIndex.value = openIndex.value === index ? null : index;
+    };
+    const isOpen = (index) => openIndex.value === index;
+
+
 
     // Handle Window Resize with debounce
     let resizeTimeout;
@@ -268,13 +275,13 @@ export default {
       eventChartDiv,
       userCCAChartDiv,
       userCategoryChartDiv,
+      isOpen,
     };
   },
 };
 </script>
 
 <style scoped>
-/* Minimal custom styles - only what's absolutely necessary */
 .card {
   transition: transform 0.2s ease-in-out;
 }

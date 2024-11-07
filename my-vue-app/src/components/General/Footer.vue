@@ -100,6 +100,7 @@
   <script>
   import { ref, onMounted } from 'vue'
   import { Toast } from 'bootstrap'
+  import { storeFeedback } from "../../composables/footer";
   
   export default {
     name: 'Footer',
@@ -112,31 +113,34 @@
       }
     },
     methods: {
-      submitFeedback() {
-        if (this.feedbackText.trim() && this.consent) {
-          console.log('Feedback submitted:', this.feedbackText)
-          // You can add additional logic here, such as sending the feedback to a server
-  
+    async submitFeedback() {
+      if (this.feedbackText.trim() && this.consent) {
+        try {
+          // Store feedback using the storeFeedback function
+          await storeFeedback(this.feedbackText);
+
           // Show the toast notification
           if (this.toastInstance) {
-            this.toastInstance.show()
+            this.toastInstance.show();
           }
-  
+
           // Clear the form fields
-          this.feedbackText = ''
-          this.consent = false
-        } else {
-          // Optionally, handle the case where the form is incomplete
-          alert('Please provide feedback and confirm your consent.')
+          this.feedbackText = "";
+          this.consent = false;
+        } catch (error) {
+          console.error("Error submitting feedback:", error);
         }
+      } else {
+        alert("Please provide feedback and confirm your consent.");
       }
     },
-    mounted() {
-      // Initialize the Bootstrap toast
-      const toastEl = this.$refs.feedbackToast
-      this.toastInstance = new Toast(toastEl)
-    }
-  }
+  },
+  mounted() {
+    const toastEl = this.$refs.feedbackToast;
+    this.toastInstance = new Toast(toastEl);
+  },
+};
+
   </script>
   
   <style scoped>
