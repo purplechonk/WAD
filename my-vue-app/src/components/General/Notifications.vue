@@ -150,7 +150,7 @@ export default {
         if (savedEventsSection) {
           setTimeout(() => {
             savedEventsSection.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
+          }, 300);
         } else {
           setTimeout(() => attemptScroll(attempt + 1), 200 * (attempt + 1));
         }

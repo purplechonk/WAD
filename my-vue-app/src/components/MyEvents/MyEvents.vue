@@ -33,7 +33,7 @@ myevents.vue
       <div v-if="!loading && !error">
         <!-- Event Type Tabs -->
         <ul class="nav nav-tabs nav-fill mb-4 gap-2" role="tablist">
-          <li class="nav-item">
+          <li class="nav-item" id="saved_events">
             <button class="nav-link rounded-3 px-4" :class="{ active: openSection === 'saved' }"
               @click="toggleSection('saved')" style="color: #8257ff;">
               <i class="bi bi-bookmark-heart me-2"></i>

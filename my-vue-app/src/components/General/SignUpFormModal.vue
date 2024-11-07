@@ -20,7 +20,7 @@
           </div>
 
           <!-- Confirm Signup Button -->
-          <button class="btn btn-primary mt-3" @click="confirmSignup">Confirm Signup</button>
+          <button class="btn btn-primary mt-3 text-light" @click="confirmSignup">Confirm Signup</button>
         </div>
       </div>
     </div>
