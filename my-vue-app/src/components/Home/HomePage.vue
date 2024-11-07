@@ -91,9 +91,11 @@
     </section>
      -->
 
+     <!--  
     <section>
       <featurepage/>
     </section>
+    -->
 
     <section>
       <div class="card-container" ref="containerRef">
@@ -102,9 +104,9 @@
             :class="{ 'visible': visibleCards[index] }">
             <div class="card shadow-sm">
               <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
-                <p class="card-text">{{ event.date }}</p>
-                <p class="card-description">{{ event.description }}</p>
+                <h5 class="card-title text-primary">{{ event.title }}</h5>
+                <p class="card-text text-dark">{{ event.date }}</p>
+                <p class="card-description text-dark">{{ event.description }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="btn btn-primary">
                     <i class="fas fa-info-circle me-2"></i>Details
