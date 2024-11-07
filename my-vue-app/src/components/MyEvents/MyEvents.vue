@@ -2,7 +2,7 @@ myevents.vue
 <template>
   <div class="min-vh-100">
     <!-- Hero Section with Gradient Background -->
-    <div class="mb-4">
+    <div class="mt-5">
       <div class="container">
         <div class="text-center">
           <h1 class="display-4 fw-bold" style="color: #8257ff;">Your Events</h1>
