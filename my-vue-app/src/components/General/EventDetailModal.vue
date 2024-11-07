@@ -53,7 +53,6 @@
               <strong>Description</strong>
               <p>{{ event.description }}</p>
             </div>
-
             <Map :location="event.Geocode"/>
 
           <!-- Loading state -->
@@ -83,7 +82,7 @@
         </div>
       </div>
 
-        <Map :location="event.Geocode"/>
+
 
         <!-- Sign-Up Form Modal -->
         <SignUpFormModal

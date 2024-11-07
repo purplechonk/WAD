@@ -44,7 +44,7 @@
               <button @click="triggerReveal">Reveal Animation</button>
             </div> -->
 
-            <div class="bento-box span-2-cols bg-dark quote-box" ref="quoteElement">
+            <div class="bento-box span-2-cols bg-dark quote-box text-light" ref="quoteElement">
               <div class="block-revealer__content">
                 {{ currentQuote }}
               </div>
