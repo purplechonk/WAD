@@ -54,6 +54,8 @@
               <p>{{ event.description }}</p>
             </div>
 
+            <Map :location="event.Geocode"/>
+
           <!-- Loading state -->
           <div v-if="loading" class="loading-placeholder"></div>
 
