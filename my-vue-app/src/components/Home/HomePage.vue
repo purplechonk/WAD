@@ -91,11 +91,11 @@
     </section>
      -->
 
-     <!--  
+      
     <section>
       <featurepage/>
     </section>
-    -->
+   
 
     <section>
       <div class="card-container" ref="containerRef">
