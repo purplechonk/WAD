@@ -145,9 +145,9 @@
   
   <style scoped>
   /* Optional: Add any custom styles if needed */
-  footer {
-    scroll-snap-align: start;
-  }
+  /* footer {
+    scroll-snap-align: end;
+  } */
   /* Ensure the toast appears above other elements */
   .toast {
     z-index: 1055;
