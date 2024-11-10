@@ -53,7 +53,7 @@ export const initializeUserAnalytics = async () => {
       getDoc(doc(db, 'events', eventId))
     );
     const eventDocs = await Promise.all(eventPromises);
-    const now = new Date('2024-02-01T00:00:00'); // Current date set to 1 Feb 2024
+    const now = window.CURRENT_DATE; // Current date set to 1 Feb 2024
 
     // Filter events to only include past events (ending before the current date)
     const pastEvents = eventDocs
@@ -215,7 +215,7 @@ export const updateChart = (events) => {
         data: monthCounts,
         type: 'bar',
         smooth: true,
-        color: '#0d6efd', // Bootstrap primary color
+        color: '#693EFE', 
       }]
     };
 
@@ -264,7 +264,8 @@ export const updateUserCCAChart = (ccaCounts) => {
       },
       data: data,
       // Bootstrap-inspired colors
-      color: ['#0d6efd', '#6610f2', '#6f42c1', '#d63384', '#dc3545']
+      color: ['#693EFE', '#7C4EFF', '#8c52ff', '#5230A3', '#2B0F62']
+
     }]
   };
 
@@ -312,7 +313,9 @@ export const updateUserCategoryChart = (categoryCounts) => {
       },
       data: data,
       // Bootstrap-inspired colors
-      color: ['#198754', '#20c997', '#0dcaf0', '#0d6efd', '#6610f2']
+      color:['#FE3E73', '#FF6B91', '#FF92AF', '#E3265A', '#B21E48']
+
+
     }]
   };
 

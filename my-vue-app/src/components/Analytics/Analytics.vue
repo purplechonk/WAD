@@ -1,23 +1,21 @@
-```vue
 <template>
-  <div class="min-vh-100">
+  <div class="min-vh-100 mb-4">
     <!-- Section 1: Overall Event Analytics -->
-    <section class="py-5">
+    <section class="mt-5">
       <div class="container">
         <div class="row g-4">
           <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-              <h1 class="text-dark mb-0">Overall Event Analytics</h1>
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <div class="col-lg-8 col-12 mb-2">
+                <h1 class="display-4 fw-bold text-primary">Event Analytics</h1>
+                <p class="text-muted lead mb-0">Gain insights into SMU events, track your participation, and celebrate
+                  your achievements with detailed analytics.</p>
+              </div>
               <!-- Category Filter Dropdown -->
-              <div class="bg-white rounded shadow-sm p-3" style="min-width: 250px;">
+              <div class="bg-white rounded shadow-sm p-3 col-lg-3 col-12" style="min-width: 250px;">
                 <label for="category" class="form-label text-muted small mb-1">Filter by Category:</label>
-                <select
-                  id="category"
-                  class="form-select"
-                  v-model="selectedCategory"
-                  @change="filterEventsByCategory"
-                  aria-label="Filter events by category"
-                >
+                <select id="category" class="form-select" v-model="selectedCategory" @change="filterEventsByCategory"
+                  aria-label="Filter events by category">
                   <option value="">All Categories</option>
                   <option v-for="category in categories" :key="category" :value="category">
                     {{ category }}
@@ -27,64 +25,58 @@
             </div>
           </div>
 
-<!-- Charts Row -->
-<div class="col-12 col-lg-8 order-2 order-lg-1">
-  <div class="card border-0 rounded shadow bg-white h-100">
-    <div class="card-body p-4">
-      <h3 class="h4 fw-bold mb-4">Number of Events Monthly</h3>
-      <div class="row">
-        <div class="col-12">
-          <div ref="eventChart" class="w-100" style="height: 400px;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+          <!-- Charts Row -->
+          <div class="col-12 col-lg-7 order-2 order-lg-1">
+            <div class="card border-0 rounded shadow bg-white h-100">
+              <div class="card-body p-4">
+                <h3 class="h4 fw-bold mb-4">Number of Events Monthly</h3>
+                <div class="row">
+                  <div class="col-12">
+                    <div ref="eventChart" class="w-100" style="height: 400px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Top 5 CCAs Column -->
-          <div class="col-12 col-lg-4 order-1 order-lg-2">
+          <div class="col-12 col-lg-5 order-1 order-lg-2">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h3 class="h4 fw-bold mb-4">Top 5 CCAs</h3>
-                <ul class="list-group list-group-flush">
-                  <li
-                    v-for="(cca, index) in topCCAs"
-                    :key="cca.name"
-                    class="list-group-item px-0 py-3"
-                  >
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                      @click="toggleCCA(index)"
-                      role="button"
-                      tabindex="0"
-                      @keydown.enter="toggleCCA(index)"
-                      @keydown.space.prevent="toggleCCA(index)"
-                      aria-expanded="isOpen(index)"
-                      :aria-controls="'collapse-' + index"
-                    >
-                      <div class="d-flex align-items-center px-2">
-                        <span class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" 
+                <div class="accordion accordian-flush" id="ccaAccordion">
+                  <div v-for="(cca, index) in topCCAs" :key="cca.name" class="accordion-item">
+                    <h2 class="accordion-header" :id="'heading-' + index">
+                      <button class="accordion-button d-flex align-items-center"
+                        :class="{ 'collapsed': !isOpen(index) }" type="button" data-bs-toggle="collapse"
+                        :data-bs-target="'#collapse-' + index" :aria-expanded="isOpen(index)"
+                        :aria-controls="'collapse-' + index" @click="toggleCCA(index)">
+                        <div class="d-flex align-items-center justify-content-between flex-grow-1">
+                          <div class="d-flex align-items-center">
+                            <span
+                              class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center me-2"
                               style="min-width: 1.5rem; min-height: 1.5rem;">
-                          <small class="fw-bold text-white">{{ index + 1 }}</small>
-                        </span>
-                        <span>{{ cca.name }}</span>
+                              <small class="fw-bold">{{ index + 1 }}</small>
+                            </span>
+                            {{ cca.name }}
+                          </div>
+                          <span class="badge bg-primary rounded-pill me-3">{{ cca.count }} events</span>
+                        </div>
+                      </button>
+                    </h2>
+                    <div :id="'collapse-' + index" class="accordion-collapse collapse"
+                      :class="{ 'show': isOpen(index) }" :aria-labelledby="'heading-' + index"
+                      data-bs-parent="#ccaAccordion">
+                      <div class="accordion-body">
+                        <ul class="list-group list-group-flush">
+                          <li v-for="event in getEventsByCCA(cca.name)" :key="event.id" class="list-group-item">
+                            {{ event.event_name }}
+                          </li>
+                        </ul>
                       </div>
-                      <span class="badge bg-primary rounded-pill px-3 mx-2">{{ cca.count }} events</span>
                     </div>
-
-                    <div :id="'collapse-' + index" class="collapse mt-3" :class="{show: isOpen(index)}">
-                      <ul class="list-group list-group-flush ps-4">
-                        <li
-                          v-for="event in getEventsByCCA(cca.name)"
-                          :key="event.id"
-                          class="list-group-item border-0 px-2 py-2"
-                        >
-                          {{ event.event_name }} 
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -96,41 +88,60 @@
     <section class="py-5">
       <div class="container">
         <!-- Stats Cards Row -->
-        <div class="row g-4 mb-5">
-          <div class="col-12 mb-4 ">
-            <h1 class="text-dark">Personal Insights</h1>
-          </div>
-          <div class="col-12 col-md-4 ">
-            <div class="card border-0 rounded shadow bg-white  h-100">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <i class="fas fa-calendar-check text-primary display-4"></i>
-                </div>
-                <h4 class="h5 text-muted mb-3">Total Events</h4>
-                <h2 class="display-5 fw-bold mb-0">{{ userStats.totalEvents }}</h2>
-              </div>
-            </div>
-          </div>
+        <div class="row g-4 mb-4">
+
+          <h1 class="display-6 fw-bold mb-2 text-primary">Personal Insights</h1>
+
           <div class="col-12 col-md-4">
-            <div class="card border-0 rounded shadow bg-white  h-100">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <i class="fas fa-clock text-danger display-4"></i>
+            <div class="card border-0 rounded shadow bg-white h-100">
+              <div class="card-body p-4 d-flex flex-column h-100">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-calendar-check fs-4" style="color: #8257ff;"></i>
+                  <span class="text-muted">Total events attended</span>
                 </div>
-                <h4 class="h5 text-muted mb-3">Total Hours</h4>
-                <h2 class="display-5 fw-bold mb-0">{{ userStats.totalHours }} <span class="fs-6">hrs</span></h2>
+
+                <div class="d-flex flex-column align-items-start justify-content-center flex-grow-1 my-4">
+                  <h2 class="display-3 fw-bold mb-0 text-dark">
+                    <animated-counter :value="userStats.totalEvents" :duration="2000" />
+                  </h2>
+                </div>
+
+                <p class="text-muted small mb-0">since Jan 2024</p>
               </div>
             </div>
           </div>
           <div class="col-12 col-md-4">
             <div class="card border-0 rounded shadow bg-white h-100">
-              <div class="card-body text-center p-4">
-                <div class="mb-3">
-                  <i class="fas fa-trophy text-success display-4"></i>
+              <div class="card-body p-4 d-flex flex-column h-100">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-clock fs-4" style="color: #8257ff;"></i>
+                  <span class="text-muted">Total hours clocked</span>
                 </div>
-                <h4 class="h5 text-muted mb-3">Most Active CCA</h4>
-                <h3 class="h4 mb-2">{{ userStats.topCCA.name }}</h3>
-                <span class="badge bg-primary px-3">{{ userStats.topCCA.count }} events</span>
+
+                <div class="d-flex flex-column align-items-start justify-content-center flex-grow-1 my-4">
+                  <h2 class="display-3 fw-bold mb-0 text-dark">
+                    <animated-counter :value="userStats.totalHours" :duration="2000" />
+                    <span class="fs-6 fw-normal ms-1">hrs</span>
+                  </h2>
+                </div>
+
+                <p class="text-muted small mb-0">since Jan 2024</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card border-0 rounded shadow bg-white h-100">
+              <div class="card-body p-4 d-flex flex-column h-100">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-trophy fs-4" style="color: #8257ff;"></i>
+                  <span class="text-muted">Most participated CCA</span>
+                </div>
+
+                <div class="d-flex flex-column align-items-start justify-content-center flex-grow-1 my-4">
+                  <h2 class="display-6 fw-bold mb-1 lh-sm text-dark">{{ userStats.topCCA.name }}</h2>
+                </div>
+
+                <div class="text-muted small mb-0">{{ userStats.topCCA.count }} event attended since Jan 2024</div>
               </div>
             </div>
           </div>
@@ -142,7 +153,7 @@
           <div class="col-12 col-lg-6">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
-                <h4 class="fw-bold mb-4">Your Top CCAs</h4>
+                <h4 class="fw-bold mb-4">My Top CCAs</h4>
                 <div class="ratio ratio-16x9">
                   <div ref="userCCAChart" class="w-100 h-100"></div>
                 </div>
@@ -154,7 +165,7 @@
           <div class="col-12 col-lg-6">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
-                <h4 class="fw-bold mb-4">Your Top Categories</h4>
+                <h4 class="fw-bold mb-4">My Top Categories</h4>
                 <div class="ratio ratio-16x9">
                   <div ref="userCategoryChart" class="w-100 h-100"></div>
                 </div>
@@ -168,7 +179,6 @@
 </template>
 
 <script>
-// Script remains exactly the same as your original code
 import {
   categories,
   selectedCategory,
@@ -188,20 +198,24 @@ import {
 } from '../../composables/analytics';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { auth } from '../../firebase';
+import AnimatedCounter from './AnimatedCounter.vue';
 
 export default {
   name: 'Analytics',
+  components: {
+    AnimatedCounter
+  },
   setup() {
     const eventChartDiv = ref(null);
     const userCCAChartDiv = ref(null);
     const userCategoryChartDiv = ref(null);
-    const openIndex = ref(0); // Open the first dropdown by default
+    const openIndex = ref(0);
+
     const toggleCCA = (index) => {
       openIndex.value = openIndex.value === index ? null : index;
     };
+
     const isOpen = (index) => openIndex.value === index;
-
-
 
     // Handle Window Resize with debounce
     let resizeTimeout;
@@ -294,4 +308,3 @@ export default {
   cursor: pointer;
 }
 </style>
-```
