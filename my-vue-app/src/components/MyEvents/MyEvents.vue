@@ -341,9 +341,6 @@ onUnmounted(() => {
 
 
 
-
-
-
 .accordion-button:not(.collapsed) {
   color: var(--purple-secondary);
   background-color: #f5f5ff;

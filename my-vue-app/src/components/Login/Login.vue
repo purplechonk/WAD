@@ -69,7 +69,6 @@
 <script setup>
 import { loginWithGoogle } from '../../composables/auth';
 import { useRouter, useRoute } from 'vue-router';
-import 'animate.css'
 
 // Emitting events for closing and successful login
 const emit = defineEmits(['close', 'login-success']);

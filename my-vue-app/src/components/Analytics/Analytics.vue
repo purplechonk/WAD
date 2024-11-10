@@ -6,13 +6,13 @@
         <div class="row g-4">
           <div class="col-12">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <div class="col-lg-8 col-12 mb-2  animate__animated animate__fadeInDown">
+              <div class="col-lg-8 col-12 mb-2">
                 <h1 class="display-4 fw-bold text-primary">Event Analytics</h1>
                 <p class="text-muted lead mb-0">Gain insights into SMU events, track your participation, and celebrate
                   your achievements with detailed analytics.</p>
               </div>
               <!-- Category Filter Dropdown -->
-              <div class="bg-white rounded shadow-sm p-3 col-lg-3 col-12 animate__animated animate__fadeInRight" style="min-width: 250px;">
+              <div class="bg-white rounded shadow-sm p-3 col-lg-3 col-12" style="min-width: 250px;">
                 <label for="category" class="form-label text-muted small mb-1">Filter by Category:</label>
                 <select id="category" class="form-select" v-model="selectedCategory" @change="filterEventsByCategory"
                   aria-label="Filter events by category">
@@ -27,7 +27,7 @@
 
           <!-- Charts Row -->
           <div class="col-12 col-lg-7 order-2 order-lg-1">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInLeft">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h3 class="h4 fw-bold mb-4">Number of Events Monthly</h3>
                 <div class="row">
@@ -41,7 +41,7 @@
 
           <!-- Top 5 CCAs Column -->
           <div class="col-12 col-lg-5 order-1 order-lg-2">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInRight">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h3 class="h4 fw-bold mb-4">Top 5 CCAs</h3>
                 <div class="accordion accordian-flush" id="ccaAccordion">
@@ -93,7 +93,7 @@
           <h1 class="display-6 fw-bold mb-2 text-primary">Personal Insights</h1>
 
           <div class="col-12 col-md-4">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInLeft">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
                   <i class="fas fa-calendar-check fs-4" style="color: #8257ff;"></i>
@@ -112,7 +112,7 @@
           </div>
           <div class="col-12 col-md-4">
             <div class="card border-0 rounded shadow bg-white h-100">
-              <div class="card-body p-4 d-flex flex-column h-100 animate__animated animate__fadeIn">
+              <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
                   <i class="fas fa-clock fs-4" style="color: #8257ff;"></i>
                   <span class="text-muted">Total hours clocked</span>
@@ -130,7 +130,7 @@
             </div>
           </div>
           <div class="col-12 col-md-4">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInRight">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
                   <i class="fas fa-trophy fs-4" style="color: #8257ff;"></i>
@@ -151,7 +151,7 @@
         <div class="row g-4">
           <!-- Top CCAs Chart -->
           <div class="col-12 col-lg-6">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInUp">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h4 class="fw-bold mb-4">My Top CCAs</h4>
                 <div class="ratio ratio-16x9">
@@ -163,7 +163,7 @@
 
           <!-- Favorite Categories Chart -->
           <div class="col-12 col-lg-6">
-            <div class="card border-0 rounded shadow bg-white h-100 animate__animated animate__fadeInUp">
+            <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h4 class="fw-bold mb-4">My Top Categories</h4>
                 <div class="ratio ratio-16x9">
