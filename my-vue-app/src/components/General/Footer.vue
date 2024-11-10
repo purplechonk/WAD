@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-dark text-light">
+    <footer class="bg-dark text-light" >
       <div class="container pt-4 pb-2">
         <!-- Main Row: Logo & Nav and Feedback Form -->
         <div class="row align-items-start justify-content-between">
@@ -145,7 +145,9 @@
   
   <style scoped>
   /* Optional: Add any custom styles if needed */
-  
+  footer {
+    scroll-snap-align: start;
+  }
   /* Ensure the toast appears above other elements */
   .toast {
     z-index: 1055;
