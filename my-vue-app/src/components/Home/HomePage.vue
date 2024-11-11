@@ -11,9 +11,11 @@
                 <div class="flip-card-front">
                   <img src="../../assets/images/homepage-1.jpg" alt="">
                 </div>
+                <!--  
                 <div class="flip-card-back">
                   Hello Hello Test
                 </div>
+                -->
               </div>
             </div>
 
@@ -52,7 +54,7 @@
 
             <!-- Regular box -->
             <div class="bento-box image-box">
-              <h1>Hi</h1>
+              <img src="../../assets/images/homepage-7.jpeg" alt="">
             </div>
 
             <!-- Full width box -->
@@ -64,34 +66,6 @@
       </div>
     </section>
 
-    <!-- 
-    <section class="scroll-section event-cards" ref="sections">
-      <ul class="gallery-track">
-        <li>
-          <img src="../../assets/images/test_img.jpg" />
-          <h2>#001</h2>
-        </li>
-        <li>
-          <img src="../../assets/images/test_img.jpg" />
-          <h2>#002</h2>
-        </li>
-        <li>
-          <img src="../../assets/images/test_img.jpg" />
-          <h2>#003</h2>
-        </li>
-        <li>
-          <img src="../../assets/images/test_img.jpg" />
-          <h2>#004</h2>
-        </li>
-        <li>
-          <img src="../../assets/images/test_img.jpg" />
-          <h2>#005</h2>
-        </li>
-      </ul>
-    </section>
-     -->
-
-      
     <section>
       <featurepage/>
     </section>
@@ -101,39 +75,7 @@
     </section>
 
     <section>
-      <div class="card-container" ref="containerRef">
-        <div class="card-deck" ref="deckRef">
-          <div v-for="(event, index) in events" :key="event.id" class="event-card" :ref="el => cardRefs[index] = el"
-            :class="{ 'visible': visibleCards[index] }">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title text-primary">{{ event.title }}</h5>
-                <p class="card-text text-dark">{{ event.date }}</p>
-                <p class="card-description text-dark">{{ event.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn btn-primary">
-                    <i class="fas fa-info-circle me-2"></i>Details
-                  </button>
-                  <span class="badge bg-secondary">{{ event.category }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- <section class="event-cards">
-      <h2>Featured Events</h2>
-      <div class="card-area">
-        <EventCard v-for="event in featuredEvents" :key="event.id" :event="event" @show-details="openEventDetails" />
-        <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
-          @login-success="handleLoginSuccess" />
-      </div>
-    </section> -->
-
-    <section ref="sections">
-      testing testing
+      <foryousection/>
     </section>
 
     <div class="progress"></div>
@@ -154,6 +96,7 @@ import { RevealFx } from '../../utils/revealFx';
 import anime from 'animejs/lib/anime.es.js';
 import featurepage from '../Home/featureShowcase.vue';
 import feedbackpage from '../Home/FeedbackDisplay.vue';
+import foryousection from '../Home/foryousection.vue';
 
 const recommendedEvents = ref([]);
 const isAuthenticated = ref(false);
@@ -510,9 +453,9 @@ section {
   padding: 0px;
 }
 
-.flip-card:hover .flip-card-inner {
+/* .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
-}
+} */
 
 .flip-card-front,
 .flip-card-back {

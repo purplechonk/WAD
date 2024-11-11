@@ -1,30 +1,26 @@
 <!-- components/ViewportFeatures.vue -->
 <template>
   <div class="features-wrapper">
-    <!-- Background gradient circles -->
     <div class="background-effects">
       <div class="gradient-circle circle-1"></div>
       <div class="gradient-circle circle-2"></div>
     </div>
 
-    <!-- Main content container -->
     <div class="content-container">
-      <!-- Header -->
       <div class="header-section">
-        <h1 class="main-title">SMU Events</h1>
+        <h1 class="main-title text-dark">SMU Events</h1>
         <p class="subtitle">Stay in the LOOP with sLOOP</p>
       </div>
 
-      <!-- Features Grid -->
       <div class="features-grid">
         <div 
           v-for="(feature, index) in features" 
           :key="feature.id"
-          :ref="el => featureRefs[index] = el"
           class="feature-card"
+          :ref="el => featureRefs[index] = el"
           @click="navigateTo(feature.route)"
-          @mouseenter="onHover(index)"
-          @mouseleave="onLeave(index)"
+          @mouseenter="onHover($event.currentTarget)"
+          @mouseleave="onLeave($event.currentTarget)"
         >
           <div class="icon-wrapper">
             <i :class="feature.icon"></i>
@@ -33,8 +29,11 @@
         </div>
       </div>
 
-      <!-- CTA Button -->
-      <button class="get-started-btn" @click="navigateTo('/signup')">
+      <button 
+        class="get-started-btn"
+        ref="ctaButton" 
+        @click="navigateTo('/signup')"
+      >
         Get Started
       </button>
     </div>
@@ -43,80 +42,120 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import gsap from 'gsap'
+import { animate, stagger, spring } from 'motion'
 
 export default {
   name: 'ViewportFeatures',
   setup() {
     const featureRefs = ref([])
-    const hoveredIndex = ref(null)
+    const ctaButton = ref(null)
 
     const features = [
       {
         id: 'browse',
-        title: 'Browse Events',
+        title: 'Browse',
         icon: 'fas fa-compass',
         route: '/browse'
       },
       {
-        id: 'notifications',
-        title: 'Notifications',
-        icon: 'fas fa-bell',
-        route: '/notifications'
+        id: 'myevents',
+        title: 'My Events',
+        icon: 'fas fa-calendar-alt',
+        route: '/my-events'
       },
       {
-        id: 'timeline',
-        title: 'My Timeline',
-        icon: 'fas fa-calendar',
-        route: '/timeline'
+        id: 'statistics',
+        title: 'Statistics',
+        icon: 'fas fa-chart-bar',
+        route: '/statistics'
       },
       {
-        id: 'interests',
-        title: 'Interests',
-        icon: 'fas fa-star',
-        route: '/interests'
-      },
-      {
-        id: 'analytics',
-        title: 'Analytics',
-        icon: 'fas fa-chart-line',
-        route: '/analytics'
+        id: 'profile',
+        title: 'Profile',
+        icon: 'fas fa-user',
+        route: '/profile'
       }
     ]
 
-    const onHover = (index) => {
-      hoveredIndex.value = index
-      gsap.to(featureRefs.value[index], {
-        scale: 1.1,
-        duration: 0.3,
-        ease: 'power2.out'
+    const onHover = (element) => {
+      animate(element, {
+        scale: 1.05,
+        y: -5
+      }, {
+        duration: 0.2,
+        easing: spring({ stiffness: 400, damping: 17 })
       })
     }
 
-    const onLeave = (index) => {
-      hoveredIndex.value = null
-      gsap.to(featureRefs.value[index], {
+    const onLeave = (element) => {
+      animate(element, {
         scale: 1,
-        duration: 0.3,
-        ease: 'power2.out'
+        y: 0
+      }, {
+        duration: 0.2,
+        easing: spring({ stiffness: 400, damping: 17 })
       })
     }
 
     onMounted(() => {
-      // Animate cards in
-      gsap.from(featureRefs.value, {
-        y: 30,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'power2.out'
+      // Initial state - hide everything
+      featureRefs.value.forEach(card => {
+        card.style.opacity = '0'
+        card.style.transform = 'scale(0.8) translateY(40px)'
       })
+      
+      if (ctaButton.value) {
+        ctaButton.value.style.opacity = '0'
+        ctaButton.value.style.transform = 'translateY(20px)'
+      }
+
+      // Create intersection observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Animate cards
+            animate(featureRefs.value, 
+              {
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                y: [40, 0]
+              },
+              {
+                duration: 0.7,
+                delay: stagger(0.15),
+                easing: spring({ stiffness: 100, damping: 15 })
+              }
+            )
+
+            // Animate CTA button
+            if (ctaButton.value) {
+              animate(ctaButton.value,
+                {
+                  opacity: [0, 1],
+                  y: [20, 0]
+                },
+                {
+                  duration: 0.5,
+                  delay: 0.8,
+                  easing: 'ease-out'
+                }
+              )
+            }
+
+            observer.disconnect()
+          }
+        })
+      }, {
+        threshold: 0.2
+      })
+
+      observer.observe(document.querySelector('.features-wrapper'))
     })
 
     return {
       features,
       featureRefs,
-      hoveredIndex,
+      ctaButton,
       onHover,
       onLeave,
       navigateTo: (route) => {
@@ -128,6 +167,7 @@ export default {
 </script>
 
 <style scoped>
+/* Previous styles remain the same */
 .features-wrapper {
   height: 100vh;
   width: 100%;
@@ -184,25 +224,26 @@ export default {
 
 .header-section {
   text-align: center;
-  margin-bottom: 2rem;
+  padding: 1rem;
 }
 
 .main-title {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: #6b7280;
+  font-size: 1.2rem;
+  color: #666;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   width: 100%;
+  max-width: 600px;
   padding: 0 1rem;
 }
 
@@ -215,8 +256,8 @@ export default {
   align-items: center;
   gap: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  will-change: transform;
 }
 
 .icon-wrapper {
@@ -227,7 +268,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .feature-card:hover .icon-wrapper {
@@ -252,43 +293,30 @@ export default {
 }
 
 .get-started-btn {
-  background: #4338ca;
+  background: linear-gradient(45deg, #4338ca, #8c52ff);
   color: white;
   padding: 0.875rem 2rem;
   border-radius: 9999px;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(67, 56, 202, 0.25);
   margin-top: 2rem;
+  will-change: transform;
 }
 
 .get-started-btn:hover {
-  background: #4f46e5;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(67, 56, 202, 0.3);
 }
 
-@media (max-width: 768px) {
-  .content-container {
-    height: 95vh;
-    padding: 1rem 0;
-  }
-
+@media (max-width: 480px) {
   .features-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 
   .feature-card {
     padding: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
