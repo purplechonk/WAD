@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Combined Filter Section -->
-    <div class="multisearchbar z-4" :class="{ scrolled: isScrolled }">
+    <div class="multisearchbar sticky-top" :class="{ scrolled: isScrolled }">
       <!-- Expanded Filter -->
       <div 
         id="filter-expanded"  
@@ -112,9 +112,12 @@
     </div>
 
     <!-- Loading Indicator -->
-    <div v-if="loading" class="loading">
-      Loading events...
-    </div>
+    <div v-if="loading" class="text-center mt-6 py-6">
+        <div class="spinner-grow" style="color: #8257ff;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-3">Loading your events...</p>
+      </div>
 
     <!-- Error Message -->
     <div v-if="error" class="error">
@@ -461,7 +464,6 @@ onUnmounted(() => {
   align-items: center;
   position: relative;
   transition: height 0.3s ease;
-  z-index: 2000;
   margin-bottom: 0;
   height: auto;
 }

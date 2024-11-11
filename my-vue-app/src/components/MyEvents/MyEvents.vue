@@ -2,7 +2,7 @@ myevents.vue
 <template>
   <div class="min-vh-100">
     <!-- Hero Section with Gradient Background -->
-    <div class="mb-4">
+    <div class="mt-5">
       <div class="container">
         <div class="text-center">
           <h1 class="display-4 fw-bold" style="color: #8257ff;">Your Events</h1>
@@ -32,36 +32,24 @@ myevents.vue
       <!-- Events Content -->
       <div v-if="!loading && !error">
         <!-- Event Type Tabs -->
-        <ul class="nav nav-tabs nav-fill mb-4 gap-2" role="tablist">
-          <li class="nav-item">
-            <button
-              class="nav-link rounded-3 px-4"
-              :class="{ active: openSection === 'saved' }"
-              @click="toggleSection('saved')"
-              style="color: #8257ff;"
-            >
+        <ul class="nav nav-tabs nav-fill mb-4 gap-2 fw-bold h4" role="tablist">
+          <li class="nav-item" id="saved_events">
+            <button class="nav-link rounded-3 px-4" :class="{ active: openSection === 'saved' }"
+              @click="toggleSection('saved')" style="color: #8257ff;">
               <i class="bi bi-bookmark-heart me-2"></i>
               Saved Events
             </button>
           </li>
           <li class="nav-item">
-            <button
-              class="nav-link rounded-3 px-4"
-              :class="{ active: openSection === 'upcoming' }"
-              @click="toggleSection('upcoming')"
-              style="color: #8257ff;"
-            >
+            <button class="nav-link rounded-3 px-4" :class="{ active: openSection === 'upcoming' }"
+              @click="toggleSection('upcoming')" style="color: #8257ff;">
               <i class="bi bi-calendar-check me-2"></i>
               Upcoming Events
             </button>
           </li>
           <li class="nav-item">
-            <button
-              class="nav-link rounded-3 px-4"
-              :class="{ active: openSection === 'past' }"
-              @click="toggleSection('past')"
-              style="color: #8257ff;"
-            >
+            <button class="nav-link rounded-3 px-4" :class="{ active: openSection === 'past' }"
+              @click="toggleSection('past')" style="color: #8257ff;">
               <i class="bi bi-calendar-x me-2"></i>
               Past Events
             </button>
@@ -71,58 +59,58 @@ myevents.vue
 
         <!-- Event Cards -->
         <div class="tab-content">
-          <div v-for="(events, type) in { saved: savedEvents, upcoming: upcomingEvents, past: pastEvents }"
-               :key="type"
-               class="tab-pane fade"
-               :class="{ 'show active': openSection === type }">
+          <div v-for="(events, type) in { saved: savedEvents, upcoming: upcomingEvents, past: pastEvents }" :key="type"
+            class="tab-pane fade" :class="{ 'show active': openSection === type }">
             <div v-if="events.length" class="row g-4">
               <div v-for="event in events" :key="event.id" class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm hover-lift bg-secondary"
-                     @click="showEventDetails(event)"
-                     style="cursor: pointer;">
+                <div class="card h-100 border-0 shadow-sm hover-lift bg-secondary" @click="showEventDetails(event)"
+                  style="cursor: pointer;">
                   <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                      <span class="badge"
-                            :class="'text-white bg-primary'"
-                            >
+                      <span class="badge" :class="'text-white bg-primary'">
                         {{ type.charAt(0).toUpperCase() + type.slice(1) }}
                       </span>
                     </div>
-                    <h5 class="card-title fw-bold mb-3" style="color: #8257ff;">
-                      {{ event.event_name }}
-                    </h5>
-                    <div class="text-muted mb-2">
-                      <i class="bi bi-calendar3 me-2"></i>
-                      {{ event.start_date_time }}
+                    <div class="row justify-content-between">
+                    <div class="col-8">
+                      <h5 class="card-title fw-bold mb-3" style="color: #8257ff;">
+                        {{ event.event_name }}
+                      </h5>
                     </div>
-                    <div class="text-muted">
-                      <i class="bi bi-geo-alt me-2"></i>
-                      {{ event.venue }}
+
+                    <div class="col-1 me-4">
+                      <SaveButton :eventId="event.id" :eventName="event.event_name" />
                     </div>
+
+                  </div>
+                  <div class="text-muted mb-2">
+                    <i class="bi bi-calendar3 me-2"></i>
+                    {{ event.start_date_time }}
+                  </div>
+                  <div class="text-muted">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    {{ event.venue }}
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else class="text-center py-5">
-              <div class="mb-3">
-                <i class="bi bi-calendar-x display-1 text-muted"></i>
-              </div>
-              <h4 class="text-muted">No {{ type }} events</h4>
-              <p class="text-muted mb-0">Check back later for updates!</p>
+          </div>
+          <div v-else class="text-center py-5">
+            <div class="mb-3">
+              <i class="bi bi-calendar-x display-1 text-muted"></i>
             </div>
+            <h4 class="text-muted">No {{ type }} events</h4>
+            <p class="text-muted mb-0">Check back later for updates!</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
-    <!-- Event Detail Modal -->
-    <EventDetailModal
-      v-if="selectedEvent"
-      :event="selectedEvent"
-      @close="closeEventDetails"
-      @rsvp-cancelled="handleRSVPCancel"
-    />
+  <!-- Event Detail Modal -->
+  <EventDetailModal v-if="selectedEvent" :event="selectedEvent" @close="closeEventDetails"
+    @rsvp-cancelled="handleRSVPCancel" />
   </div>
 </template>
 
@@ -136,7 +124,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { db, auth } from '../../firebase';
 import { doc, onSnapshot, getDoc } from 'firebase/firestore';
 import EventDetailModal from '../General/EventDetailModal.vue';
-
+import SaveButton from '../General/SaveButton.vue';
 
 const openSection = ref('saved'); // Keeps track of the currently open section
 
@@ -245,10 +233,9 @@ const fetchUserEvents = () => {
           .filter(event => event.parsed_end_date < CURRENT_DATE)
           .sort((a, b) => b.parsed_end_date - a.parsed_end_date);
 
-
         // Fetch saved events
         let savedEventsList = await fetchEvents(savedEventIds);
-        savedEvents.value = savedEventsList.sort((a, b) =>
+        savedEvents.value = savedEventsList.filter(event => event.parsed_end_date > CURRENT_DATE).sort((a, b) =>
           a.parsed_start_date - b.parsed_start_date
         );
 
@@ -354,9 +341,6 @@ onUnmounted(() => {
 
 
 
-
-
-
 .accordion-button:not(.collapsed) {
   color: var(--purple-secondary);
   background-color: #f5f5ff;
@@ -366,7 +350,7 @@ onUnmounted(() => {
 .section-header {
   background: var(--purple-primary);
   color: white;
- 
+
   padding: 1rem;
   border: none;
   width: 100%;

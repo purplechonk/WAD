@@ -1,9 +1,8 @@
 <template>
-  <div class="scroll-container pb-6">
-  <div class="container mt-4 p-3 justify-content-between">
-    <div class="jumbotron jumbotron-fluid">
+  <div class="container my-4 p-3 justify-content-between">
+    <div class="jumbotron jumbotron-fluid animate__animated animate__fadeInLeft">
       <div class="container">
-        <h1 class="display-4">Welcome, {{ userData.name }}✨</h1>
+        <h1 class="display-4 fw-bold text-primary">Welcome, {{ userData.name }}✨</h1>
         <p class="lead">View and customize your weekly timetable and event preferences.</p>
       </div>
     </div>
@@ -12,12 +11,12 @@
     <div class="row justify-content-center">
       <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4 col-xl-4 p-3 d-flex">
         <div class="w-100 d-flex align-items-center justify-content-center">
-          <ProfileCard />
+          <ProfileCard/>
         </div>
       </div>
 
       <!-- Timetable Placeholder -->
-      <div class="col-xs-10 col-sm-10 col-md-6 col-lg-8 col-xl-8 p-3">
+      <div class="col-xs-10 col-sm-10 col-md-6 col-lg-8 col-xl-8 p-3 ">
         <Timetable/>
       </div>
     </div>
@@ -35,7 +34,6 @@
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 

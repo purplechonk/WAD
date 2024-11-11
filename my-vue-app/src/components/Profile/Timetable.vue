@@ -1,14 +1,20 @@
 <template>
-  <div class="container ">
+  <div class="container">
     <div class="d-flex justify-content-between align-items-center my-3">
       <h2>
         My Weekly Timetable
-        <i class="bi bi-info-circle text-primary fs-5 align-text-top" data-bs-toggle="tooltip" data-bs-placement="right"
-          title="Events are curated to match your schedule & academic focus.">
-        </i>
+        <i
+          class="bi bi-info-circle text-primary fs-5 align-text-top"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Events are curated to match your schedule & academic focus."
+        ></i>
       </h2>
-      <i @click="openAddModal" class="bi bi-calendar-plus text-primary ms-4" style="cursor: pointer; font-size: 24px;">
-      </i>
+      <i
+        @click="openAddModal"
+        class="bi bi-calendar-plus text-primary ms-4"
+        style="cursor: pointer; font-size: 24px;"
+      ></i>
     </div>
 
     <div class="rounded shadow bg-white">
@@ -33,8 +39,12 @@
         <!-- Day Selection Tabs -->
         <ul class="nav nav-pills nav-fill mb-4 gap-1" role="tablist">
           <li class="nav-item" v-for="day in days" :key="day">
-            <button class="nav-link px-4" :class="{ active: selectedDay === day }" @click="selectDay(day)"
-              type="button">
+            <button
+              class="nav-link px-4"
+              :class="{ active: selectedDay === day }"
+              @click="selectDay(day)"
+              type="button"
+            >
               {{ day }}
             </button>
           </li>
@@ -42,7 +52,11 @@
         <!-- Classes List -->
         <div class="list-group list-group-flush">
           <template v-if="paginatedClasses.length">
-            <div v-for="(classItem, index) in paginatedClasses" :key="index" class="list-group-item bg-white">
+            <div
+              v-for="(classItem, index) in paginatedClasses"
+              :key="classItem.id"
+              class="list-group-item bg-white"
+            >
               <div class="d-flex flex-wrap justify-content-between align-items-start mb-2">
                 <div class="badges-wrapper d-flex flex-wrap gap-2 flex-grow-1">
                   <span class="badge bg-secondary text-dark fw-normal">
@@ -52,24 +66,36 @@
                     {{ calculateDuration(classItem.start_time, classItem.end_time) }} minutes
                   </span>
                 </div>
-                <i @click="openEditModal(classItem)" class="bi bi-pencil ms-3 text-primary"
-                  style="cursor: pointer; font-size: 16px;">
-                </i>
+                <i
+                  @click="openEditModal(classItem)"
+                  class="bi bi-pencil ms-3 text-primary"
+                  style="cursor: pointer; font-size: 16px;"
+                ></i>
               </div>
               <div class="module-name"><u>{{ classItem.class_name }}</u></div>
               <div class="room-number">{{ classItem.location }}</div>
             </div>
 
             <!-- Pagination Controls -->
-            <div v-if="totalPages > 1"
-              class="pagination-controls d-flex justify-content-center align-items-center gap-3 mt-4 mb-3">
-              <button class="btn btn-outline-primary btn-sm ms-2" @click="previousPage" :disabled="currentPage === 1">
+            <div
+              v-if="totalPages > 1"
+              class="pagination-controls d-flex justify-content-center align-items-center gap-3 mt-4 mb-3"
+            >
+              <button
+                class="btn btn-outline-primary btn-sm ms-2"
+                @click="previousPage"
+                :disabled="currentPage === 1"
+              >
                 Previous
               </button>
               <span class="page-info">
                 Page {{ currentPage }} of {{ totalPages }}
               </span>
-              <button class="btn btn-outline-primary btn-sm me-2" @click="nextPage" :disabled="currentPage === totalPages">
+              <button
+                class="btn btn-outline-primary btn-sm me-2"
+                @click="nextPage"
+                :disabled="currentPage === totalPages"
+              >
                 Next
               </button>
             </div>
@@ -93,7 +119,7 @@
             <form @submit.prevent="saveClass">
               <div class="mb-3">
                 <label class="form-label">Class Name</label>
-                <input v-model="currentClass.class_name" type="text" class="form-control" required>
+                <input v-model="currentClass.class_name" type="text" class="form-control" required />
               </div>
               <div class="mb-3">
                 <label class="form-label">Day</label>
@@ -107,20 +133,25 @@
               <div class="row mb-3">
                 <div class="col">
                   <label class="form-label">Start Time</label>
-                  <input v-model="currentClass.start_time" type="time" class="form-control" required>
+                  <input v-model="currentClass.start_time" type="time" class="form-control" required />
                 </div>
                 <div class="col">
                   <label class="form-label">End Time</label>
-                  <input v-model="currentClass.end_time" type="time" class="form-control" required>
+                  <input v-model="currentClass.end_time" type="time" class="form-control" required />
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label">Location</label>
-                <input v-model="currentClass.location" type="text" class="form-control" required>
+                <input v-model="currentClass.location" type="text" class="form-control" required />
               </div>
               <div class="d-flex justify-content-between align-items-center">
                 <!-- Delete button (only shows in edit mode) -->
-                <button v-if="isEditing" type="button" @click="deleteClass" class="btn btn-outline-danger">
+                <button
+                  v-if="isEditing"
+                  type="button"
+                  @click="requestDeleteClass"
+                  class="btn btn-outline-danger"
+                >
                   Delete
                 </button>
                 <div class="ms-auto">
@@ -136,15 +167,43 @@
           </div>
         </div>
       </div>
+    </div><!-- Delete Confirmation Modal -->
+<div
+  class="modal fade bd-example-modal-sm"
+  id="deleteConfirmModal"
+  tabindex="-1"
+  ref="deleteConfirmModal"
+  aria-labelledby="deleteConfirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content shadow-lg"> <!-- Added shadow-lg class -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the class "<strong>{{ classToDelete?.class_name }}</strong>"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="cancelDelete">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" @click="confirmDelete">
+          Delete
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+
   </div>
 </template>
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import { Modal } from 'bootstrap';
+import { Modal, Tooltip } from 'bootstrap';
 import { getUserDataFromFirestore, saveScheduleToFirestore } from '../../composables/profile';
-import { Tooltip } from 'bootstrap';
 
 export default {
   name: 'Timetable',
@@ -154,8 +213,8 @@ export default {
     const userData = ref(null);
     const schedule = ref([]);
     const selectedDay = ref('Monday');
-    const modal = ref(null);
     const classModal = ref(null);
+    const deleteConfirmModal = ref(null);
     const isEditing = ref(false);
     const currentClass = ref({
       class_name: '',
@@ -165,6 +224,7 @@ export default {
       location: '',
       id: null
     });
+    const classToDelete = ref(null);
 
     // Pagination state
     const currentPage = ref(1);
@@ -200,7 +260,9 @@ export default {
         if (userData.value?.weekly_timetable) {
           schedule.value = userData.value.weekly_timetable.map(classItem => ({
             ...classItem,
-            id: classItem.id || Date.now().toString() + Math.random().toString(36).substr(2, 9)
+            id:
+              classItem.id ||
+              Date.now().toString() + Math.random().toString(36).substr(2, 9)
           }));
         } else {
           schedule.value = [];
@@ -226,32 +288,50 @@ export default {
     const openAddModal = () => {
       isEditing.value = false;
       resetCurrentClass();
-      modal.value.show();
+      classModalInstance.show();
     };
 
-    const openEditModal = (classItem) => {
+    const openEditModal = classItem => {
       isEditing.value = true;
       currentClass.value = { ...classItem };
-      modal.value.show();
+      classModalInstance.show();
     };
 
-    const deleteClass = async () => {
-      if (confirm('Are you sure you want to delete this class?')) {
-        try {
-          const updatedSchedule = schedule.value.filter(item => item.id !== currentClass.value.id);
-          await saveScheduleToFirestore(updatedSchedule);
-          schedule.value = updatedSchedule;
-          modal.value.hide();
+    const requestDeleteClass = () => {
+      classToDelete.value = { ...currentClass.value };
+      deleteConfirmModalInstance.show();
+    };
 
-          // Reset to page 1 if current page becomes empty
-          if (paginatedClasses.value.length === 0 && currentPage.value > 1) {
-            currentPage.value = 1;
-          }
-        } catch (error) {
-          console.error('Error deleting class:', error);
-          alert('Failed to delete class. Please try again.');
+    const confirmDelete = async () => {
+      if (!classToDelete.value) return;
+
+      try {
+        const updatedSchedule = schedule.value.filter(
+          item => item.id !== classToDelete.value.id
+        );
+        await saveScheduleToFirestore(updatedSchedule);
+        schedule.value = updatedSchedule;
+        deleteConfirmModalInstance.hide();
+        classModalInstance.hide();
+
+        // Reset to page 1 if current page becomes empty
+        if (
+          paginatedClasses.value.length === 0 &&
+          currentPage.value > 1
+        ) {
+          currentPage.value = 1;
         }
+      } catch (error) {
+        console.error('Error deleting class:', error);
+        alert('Failed to delete class. Please try again.');
+      } finally {
+        classToDelete.value = null;
       }
+    };
+
+    const cancelDelete = () => {
+      classToDelete.value = null;
+      deleteConfirmModalInstance.hide();
     };
 
     const saveClass = async () => {
@@ -266,14 +346,16 @@ export default {
           // Add new class with unique ID
           const newClass = {
             ...currentClass.value,
-            id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
+            id:
+              Date.now().toString() +
+              Math.random().toString(36).substr(2, 9)
           };
           updatedSchedule = [...schedule.value, newClass];
         }
 
         await saveScheduleToFirestore(updatedSchedule);
         schedule.value = updatedSchedule;
-        modal.value.hide();
+        classModalInstance.hide();
         resetCurrentClass();
       } catch (error) {
         console.error('Error saving class:', error);
@@ -282,7 +364,9 @@ export default {
     };
 
     const calculateDuration = (start, end) => {
-      const [startHours, startMinutes] = start.split(':').map(Number);
+      const [startHours, startMinutes] = start
+        .split(':')
+        .map(Number);
       const [endHours, endMinutes] = end.split(':').map(Number);
 
       const totalStartMinutes = startHours * 60 + startMinutes;
@@ -304,16 +388,24 @@ export default {
       }
     };
 
-    const selectDay = (day) => {
+    const selectDay = day => {
       selectedDay.value = day;
       currentPage.value = 1;
     };
 
     // Lifecycle Hooks
+    let classModalInstance;
+    let deleteConfirmModalInstance;
+
     onMounted(() => {
-      const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltips = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
       tooltips.forEach(tooltip => new Tooltip(tooltip));
-      modal.value = new Modal(classModal.value);
+
+      classModalInstance = new Modal(classModal.value);
+      deleteConfirmModalInstance = new Modal(deleteConfirmModal.value);
+
       initializeSchedule();
     });
 
@@ -328,19 +420,23 @@ export default {
       currentPage,
       totalPages,
       classModal,
+      deleteConfirmModal,
       currentClass,
       isEditing,
+      classToDelete,
       openAddModal,
       openEditModal,
+      requestDeleteClass,
+      confirmDelete,
+      cancelDelete,
       saveClass,
-      deleteClass,
       calculateDuration,
       nextPage,
       previousPage,
       selectDay
     };
   }
-}
+};
 </script>
 
 <style scoped>
@@ -348,7 +444,7 @@ export default {
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.5px;
-  background-color: #3EFEC9;
+  background-color: #3efec9;
 }
 
 .list-group-item {
@@ -381,8 +477,8 @@ export default {
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
   border: solid 1px;
-  border-color: #3EFEC9;
-  color: #3EFEC9;
+  border-color: #3efec9;
+  color: #3efec9;
 }
 
 .time-badge,

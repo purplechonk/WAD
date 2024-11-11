@@ -96,6 +96,9 @@
       <featurepage/>
     </section>
    
+    <section>
+      <feedbackpage/>
+    </section>
 
     <section>
       <div class="card-container" ref="containerRef">
@@ -149,7 +152,8 @@ import ReplaceMe from '../../utils/replaceMe';
 import Typed from 'typed.js';
 import { RevealFx } from '../../utils/revealFx';
 import anime from 'animejs/lib/anime.es.js';
-import featurepage from '../Home/featureShowcase.vue'
+import featurepage from '../Home/featureShowcase.vue';
+import feedbackpage from '../Home/FeedbackDisplay.vue';
 
 const recommendedEvents = ref([]);
 const isAuthenticated = ref(false);

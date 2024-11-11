@@ -1,7 +1,7 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <img 
-      src="../../assets/images/event_1.jpg" 
+      :src="event.image_url" 
       alt="image" 
       class="card__img_info"
     >
@@ -60,7 +60,7 @@
 
           <!-- Sign up area -->
           <div v-if="!loading" style="min-height: 50px;">
-            <p v-if="hasSignedUp" class="signed-up-message">You Have Signed Up</p>
+            <p v-if="hasSignedUp" class="signed-up-message">Signed Up</p>
             
             <div v-if="hasSignedUp">
               <button v-if="!isEventEnded" class="btn btn-danger mt-2" @click="openCancelRSVPModal">
