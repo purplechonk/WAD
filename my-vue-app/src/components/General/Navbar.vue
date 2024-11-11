@@ -13,11 +13,15 @@
           data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown"
           aria-expanded="false"
-          aria-label="Toggle navigation">
+          aria-label="Toggle navigation"
+          @click="toggleNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse z-7" id="navbarNavDropdown">
+        <div 
+        class="collapse navbar-collapse bg-light" 
+        id="navbarNavDropdown"
+        :class="{ 'show': isNavbarExpanded }">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <router-link to="/explore" class="nav-link">Explore</router-link>
@@ -43,22 +47,49 @@
     </nav>
   </template>
   
-  <script >
-    //User Scroll For Navbar
-function userScroll() {
-  const navbar = document.querySelector('.navbar');
+  <script setup>
+  import { ref, onMounted, onUnmounted } from 'vue';
+  import { navbarEventBus } from '../../utils/eventBus';
+  
+  const isNavbarExpanded = ref(false);
+  
+  // Simplified toggle function
+const toggleNavbar = () => {
+  isNavbarExpanded.value = !isNavbarExpanded.value;
+  navbarEventBus.setExpanded(isNavbarExpanded.value);
+  console.log('Navbar expanded:', isNavbarExpanded.value); // Debug log
+};
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      // navbar.classList.add('bg-dark');
-      navbar.classList.add('border-bottom');
-    } else {
-      // navbar.classList.remove('bg-dark');
-      navbar.classList.remove('border-bottom');
+onMounted(() => {
+  const handleClickOutside = (event) => {
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    const toggleButton = document.querySelector('.navbar-toggler');
+    if (isNavbarExpanded.value && 
+        !navbarCollapse.contains(event.target) && 
+        !toggleButton.contains(event.target)) {
+      isNavbarExpanded.value = false;
+      navbarEventBus.setExpanded(false);
+      console.log('Navbar collapsed by outside click'); // Debug log
     }
-  });
-}
+  };
 
-document.addEventListener('DOMContentLoaded', userScroll);
-</script>
+  document.addEventListener('click', handleClickOutside);
+
+  onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside);
+  });
+});
+  </script>
+  
+  <style scoped>
+  .navbar {
+    z-index: 1999;
+  }
+  
+  @media (max-width: 991px) {
+  .navbar-collapse.show {
+    z-index: 1999;
+  }
+}
+  </style>
   

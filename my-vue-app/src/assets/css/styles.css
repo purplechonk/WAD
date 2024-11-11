@@ -76,6 +76,22 @@ html, body {
   padding-top: 0;
 }
 
+@media (max-width: 991px) {
+  .navbar {
+    z-index: 1000;
+  }
+  .navbar-collapse {
+    z-index: 1001;
+  }
+  /* Ensure dropdown menu appears above filter */
+  .navbar-collapse.show,
+  .navbar-collapse.collapsing {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+}
 .navbar-dark .navbar-nav .nav-link:hover {
   color: #8c52ff;
   transition: color 0.3s ease;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Combined Filter Section -->
-    <div class="multisearchbar z-4" :class="{ scrolled: isScrolled }">
+    <div class="multisearchbar" :class="{ scrolled: isScrolled }">
       <!-- Expanded Filter -->
       <div 
         id="filter-expanded"  
@@ -148,6 +148,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import EventList from '../General/EventList.vue';
 import EventDetailModal from '../General/EventDetailModal.vue';
 import { fetchLiveEvents } from '../../composables/fetchEvents';
+import { navbarEventBus } from '../../utils/eventBus';
 
 // State variables
 const events = ref([]);
@@ -161,28 +162,70 @@ const searchQuery = ref('');
 const isTyping = ref(false);
 const showEventModal = ref(false);
 const selectedEvent = ref(null);
-// Add new state for tracking scroll direction
 const lastScrollTop = ref(0);
 const isScrollingUp = ref(true);
+const isNavbarExpanded = ref(false);
+const lastScrollState = ref(false); // Track scroll state before navbar expansion
 
 // Visibility states for filters
-const expandedFilterStyle = computed(() => ({
-  transform: isScrolled.value 
-    ? 'translate(-50%, -100%)' 
-    : 'translate(-50%, 0)',
-  opacity: isScrolled.value ? '0' : '1',
-  pointerEvents: isScrolled.value ? 'none' : 'auto',
-}));
+const expandedFilterStyle = computed(() => {
+  if (window.innerWidth < 992 && isNavbarExpanded.value) {
+    return {
+      transform: 'translate(-50%, -100%)', // Hide it up
+      opacity: '0',
+      pointerEvents: 'none',
+      position: 'fixed',
+      zIndex: '1998',
+      visibility: 'hidden'
+    };
+  }
+  
+  return {
+    transform: isScrolled.value ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
+    opacity: isScrolled.value ? '0' : '1',
+    pointerEvents: isScrolled.value ? 'none' : 'auto',
+    position: 'fixed',
+    zIndex: '1999',
+    visibility: 'visible'
+  };
+});
 
-const collapsedFilterStyle = computed(() => ({
-  transform: isScrolled.value 
-    ? 'translate(-50%, 0)' 
-    : 'translate(-50%, 100%)',
-  opacity: isScrolled.value ? '1' : '0',
-  pointerEvents: isScrolled.value ? 'auto' : 'none',
-}));
+const collapsedFilterStyle = computed(() => {
+  if (window.innerWidth < 992 && isNavbarExpanded.value) {
+    return {
+      transform: 'translate(-50%, -100%)', // Hide it up
+      opacity: '0',
+      pointerEvents: 'none',
+      position: 'fixed',
+      zIndex: '1998',
+      visibility: 'hidden'
+    };
+  }
 
-// Display text computeds
+  else if (window.innerWidth < 992 && !isNavbarExpanded) {
+    return {
+      transform: 'translate(-50%, -100%)', // Hide it up
+      opacity: '0',
+      pointerEvents: 'none',
+      position: 'fixed',
+      zIndex: '1999',
+      visibility: 'hidden'
+    };
+  }
+
+  else {
+    return {
+      transform: isScrolled.value ? 'translate(-50%, 0)' : 'translate(-50%, 100%)',
+      opacity: isScrolled.value ? '1' : '0',
+      pointerEvents: isScrolled.value ? 'auto' : 'none',
+      position: 'fixed',
+      zIndex: '2000',
+      visibility: 'visible'
+    };
+  }
+  
+});
+
 const categoryDisplayText = computed(() => {
   if (selectedCategories.value.size === 0) return 'All categories';
   return `${selectedCategories.value.size} ${
@@ -192,7 +235,9 @@ const categoryDisplayText = computed(() => {
 
 const collapsedCategoryText = computed(() => {
   if (selectedCategories.value.size === 0) return 'All Categories';
-  return `${selectedCategories.value.size} Categories`;
+  return `${selectedCategories.value.size} ${
+    selectedCategories.value.size === 1 ? 'Category' : 'Categories'
+  }`;
 });
 
 const collapsedEventText = computed(() => {
@@ -382,18 +427,8 @@ const closeEventDetails = () => {
 
 // Scroll handlers
 const handleScroll = () => {
-  const scrollTop = window.scrollY;
-  
-  // Add threshold for smoother transition
-  if (scrollTop > 50) {
-    if (!isScrolled.value) {
-      isScrolled.value = true;
-    }
-  } else {
-    if (isScrolled.value) {
-      isScrolled.value = false;
-    }
-  }
+  isScrolled.value = window.scrollY > 50;
+  console.log('Scroll state:', isScrolled.value); // Debug log
 };
 
 const handleClickOutside = (event) => {
@@ -428,15 +463,25 @@ const clearSearch = () => {
 // Lifecycle hooks
 onMounted(() => {
   fetchEvents();
-  // Use window scroll event instead of container
   window.addEventListener('scroll', handleScroll);
   document.addEventListener('click', handleClickOutside);
+  
+  window.addEventListener('scroll', handleScroll);
+  
+  const unsubscribe = navbarEventBus.onExpanded((expanded) => {
+    isNavbarExpanded.value = expanded;
+    console.log('Navbar state in filter:', expanded); // Debug log
+  });
+  
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+    unsubscribe();
+  });
+
+  
 });
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-  document.removeEventListener('click', handleClickOutside);
-});
+
 </script>
 
 <style scoped>
@@ -461,9 +506,18 @@ onUnmounted(() => {
   align-items: center;
   position: relative;
   transition: height 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: visible;
+  opacity: 1;
   z-index: 2000;
   margin-bottom: 0;
   height: auto;
+}
+
+.multisearchbar.navbar-expanded {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .multisearchbar.scrolled {
@@ -495,8 +549,8 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   will-change: transform, opacity, visibility;
   backface-visibility: hidden;
-  /* z-index: 10; */
   margin-bottom: 1rem; /* Add small margin only to filter */
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .filter-expanded.filter-hidden {
@@ -520,8 +574,8 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   will-change: transform, opacity, visibility;
   backface-visibility: hidden;
-  /* z-index: 10; */
   cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .filter-collapsed.filter-visible {
@@ -539,19 +593,6 @@ onUnmounted(() => {
   perspective: 1000px;
   transform-style: preserve-3d;
 } */
-
-.filter-expanded {
-  /* top: 80px; */
-  z-index: 1000000000000;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.filter-collapsed {
-  z-index: 1000000000000;
-  cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-
-}
 
 /* Add this class for when collapsed is active */
 .filter-collapsed.scrolled {
@@ -1205,17 +1246,31 @@ onUnmounted(() => {
   }
 }
 
-/* Height-based adjustments */
-
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .filter-expanded {
-    top: 60px;
+@media (max-width: 991px) {
+  .multisearchbar {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  .filter-expanded,
   .filter-collapsed {
-    top: 38px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity, visibility;
   }
+}
+
+/* Optional: Add transition for smoother visual change */
+.filter-expanded, .filter-collapsed {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Remove any visibility: hidden properties */
+.filter-expanded.filter-hidden {
+  pointer-events: none;
+}
+
+.filter-collapsed.filter-visible {
+  pointer-events: auto;
 }
 
 .search-input-container {
