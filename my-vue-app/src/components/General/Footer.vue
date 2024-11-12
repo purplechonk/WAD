@@ -100,6 +100,7 @@
 import { ref, onMounted } from 'vue'
 import { Toast } from 'bootstrap'
 import { storeFeedback } from "../../composables/footer";
+import { eventBus } from '../../composables/eventBus';
 
 export default {
   name: 'Footer',
@@ -130,6 +131,7 @@ export default {
     async submitFeedback() {
       try {
         await storeFeedback(this.feedbackText);
+        eventBus.emit('feedback-submitted');
 
         if (this.toastInstance) {
           this.toastInstance.show();
