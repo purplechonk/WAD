@@ -14,7 +14,7 @@
         <div class="col-12 position-relative">
           <!-- Navigation Buttons -->
           <button 
-            class="btn btn-outline-primary carousel-nav-btn start-0 ms-3" 
+            class="btn btn-outline-primary carousel-nav-btn start-0 ms-3 shadow" 
             @click="scroll('left')"
             :class="{ 'opacity-0': isScrollStart }"
           >
@@ -22,7 +22,7 @@
           </button>
           
           <button 
-            class="btn btn-outline-primary carousel-nav-btn end-0 me-3" 
+            class="btn btn-outline-primary carousel-nav-btn end-0 me-3 shadow" 
             @click="scroll('right')"
             :class="{ 'opacity-0': isScrollEnd }"
           >
@@ -248,7 +248,7 @@ onMounted(() => {
 .event-card-wrapper {
   flex: 0 0 auto;
   width: 100vw;
-  max-width: 500px;
+  max-width: 28rem;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s ease-out;
@@ -329,7 +329,7 @@ onMounted(() => {
   scroll-snap-align: center;
   flex: 0 0 auto;
   width: 100vw;
-  max-width: 500px;
+  max-width: 30rem;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s ease-out;

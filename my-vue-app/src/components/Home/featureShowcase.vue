@@ -8,8 +8,8 @@
 
     <div class="content-container">
       <div class="header-section">
-        <h1 class="main-title text-dark">SMU Events</h1>
-        <p class="subtitle">Stay in the LOOP with sLOOP</p>
+        <h1 class="display-4 fw-bold text-dark">SMU Events</h1>
+        <p class="lead text-muted">Stay in the LOOP with sLOOP</p>
       </div>
 
       <div class="features-grid">
@@ -281,16 +281,6 @@ export default {
   padding: 1rem;
 }
 
-.main-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #666;
-}
 
 .features-grid {
   display: grid;
@@ -326,12 +316,12 @@ export default {
 }
 
 .feature-card:hover .icon-wrapper {
-  background: #4338ca;
+  background: var(--bs-dark);
 }
 
 .icon-wrapper i {
   font-size: 1.5rem;
-  color: #4338ca;
+  color: var(--bs-dark);
   transition: color 0.3s ease;
 }
 
