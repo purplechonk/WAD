@@ -1,7 +1,7 @@
 <!-- components/General/Toast.vue -->
 <template>
     <teleport to="body">
-      <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 1100;">
+      <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 2006;">
         <TransitionGroup name="fade" class="toast-group">
           <div
             v-for="toast in toasts"
