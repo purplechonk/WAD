@@ -1,10 +1,10 @@
 <!-- components/ViewportFeatures.vue -->
 <template>
   <div class="features-wrapper">
-    <div class="background-effects">
+    <!-- <div class="background-effects">
       <div class="gradient-circle circle-1"></div>
       <div class="gradient-circle circle-2"></div>
-    </div>
+    </div> -->
 
     <div class="content-container">
       <div class="header-section">
@@ -256,55 +256,22 @@ export default {
 
 /* Keep all previous styles as well */
 .features-wrapper {
-  height: 100vh;
+  min-height: calc(100vh - 50px);
   width: 100%;
   position: relative;
-  background: #f5f3ff;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.background-effects {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
-
-.gradient-circle {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.2;
-}
-
-.circle-1 {
-  width: 300px;
-  height: 300px;
-  background: #8c52ff;
-  top: -100px;
-  left: -100px;
-}
-
-.circle-2 {
-  width: 250px;
-  height: 250px;
-  background: #8c52ff;
-  bottom: -50px;
-  right: -50px;
-}
-
 .content-container {
   width: 90%;
   max-width: 1000px;
-  height: 90vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 2rem 0;
 }
@@ -331,7 +298,7 @@ export default {
   gap: 1.5rem;
   width: 100%;
   max-width: 600px;
-  padding: 0 1rem;
+  padding: 1rem;
 }
 
 .feature-card {
