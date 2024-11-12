@@ -134,6 +134,7 @@
                 </div>
                 <p>{{ event.description }}</p>
             </div>
+            <Map :location="event.Geocode"/>
           </div>
         </div>
       </div>
