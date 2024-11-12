@@ -20,7 +20,7 @@
                       <div class="quote-icon">
                         <i class="fas fa-quote-left text-primary"></i>
                       </div>
-                      <div class="feedback-content">
+                      <div class="feedback-content text-break">
                         <p class="feedback-text">{{ feedback.comment }}</p>
                       </div>
                       <div class="feedback-author">
@@ -244,6 +244,7 @@ export default {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .feedback-text {
