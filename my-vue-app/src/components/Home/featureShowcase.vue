@@ -52,8 +52,8 @@ export default {
 
     const features = [
       {
-        id: 'browse',
-        title: 'Browse',
+        id: 'explore',
+        title: 'Explore',
         icon: 'fas fa-compass',
         route: '/explore',
         requiresAuth: false
