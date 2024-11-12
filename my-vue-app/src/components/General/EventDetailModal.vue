@@ -1,6 +1,6 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
-
+    <button class="close-button" @click="closeModal">&times;</button>
     <div class="forms-modals">
       <!-- Sign-Up Form Modal -->
         <SignUpFormModal
@@ -55,7 +55,6 @@
       <!-- Sticky Header -->
       <div class="modal-header">
           <div class="header-content">
-            <button class="close-button" @click="closeModal">&times;</button>
             <div class="title-row">
               <h2>{{ event.event_name }}</h2>
               <SaveButton :eventId="event.id" :eventName="event.event_name" />
@@ -133,6 +132,8 @@
                     </div>
                 </div>
                 <p>{{ event.description }}</p>
+                <br>
+                <Map :location="event.Geocode"/>
             </div>
           </div>
         </div>
@@ -367,12 +368,8 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2001;
   backdrop-filter: blur(8px);
-}
-
-.forms-modals {
-  z-index: 2005;
+  z-index: 1025;
 }
 
 .card__img_info {
@@ -429,11 +426,11 @@ onMounted(async () => {
   height: 80vh;
   max-width: 850px;
   position: relative;
-  z-index: 2002;
   box-shadow: 5px 0 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 1026;
 }
 
 /* .modal-content::-webkit-scrollbar {
@@ -487,8 +484,12 @@ onMounted(async () => {
   top: 0;
   background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
   padding: 20px 40px 5px;
-  z-index: 2003;
   border-bottom: 1px solid rgba(140, 82, 255, 0.1);
+  z-index: 1027;
+}
+
+.forms-modals {
+  z-index: 1028;
 }
 
 .header-content {
@@ -715,8 +716,8 @@ p.venue-value {
 /* Close button */
 .close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 2rem;
+  right: 3rem;
   font-size: 28px;
   background: white;
   border: none;
@@ -826,7 +827,7 @@ p.venue-value {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2005;
+  z-index: 1028;
 }
 
 /* Small Modal */
@@ -840,7 +841,7 @@ p.venue-value {
   box-shadow: 0 10px 30px rgba(140, 82, 255, 0.2);
   border: 1px solid rgba(140, 82, 255, 0.1);
   animation: modalAppear 0.3s ease-out;
-  z-index: 2005;
+  z-index: 1028;
 }
 
 /* Success modal specific styles */
@@ -872,8 +873,115 @@ p.venue-value {
   line-height: 1.5;
 }
 
-/* Large screens (1201px - 1400px) */
-@media screen and (min-width: 1201px) and (max-width: 1400px) {
+/* super large screens with shhorttt  heights */
+/* super large screens with shhorttt  heights */
+@media screen and (min-width: 1441px) and (max-height: 749px) {
+  .modal-content {
+    width: 55vw;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-scroll-content {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    position: relative;
+  }
+
+  .card__img_info {
+    height: 70vh;
+    width: auto;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .left-column {
+    order: -1;
+    gap: 1rem;
+    position: relative;
+    height: auto;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .right-column {
+    padding-left: 0;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .description-box {
+    margin-bottom: 2rem;
+  }
+
+  /* Make scrolling smooth */
+  .modal-scroll-content {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Update scrollbar styles */
+  .modal-scroll-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-track {
+    background: #DEDCF4;
+    border-radius: 4px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-thumb {
+    background: #8c52ff;
+    border-radius: 4px;
+  }
+
+  /* Ensure proper spacing at the bottom */
+  .modal-scroll-content > *:last-child {
+    margin-bottom: 2rem;
+  }
+
+  /* Timeline adjustments */
+  .timeline-container {
+    padding: 1.5rem 0.4rem 0.05rem 0;
+  }
+
+  .timeline-container::before {
+    left: 3rem;
+  }
+
+  .timeline-entry {
+    padding-left: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-entry::before {
+    left: 2.05rem;
+    margin-left: 0.55rem;
+  }
+
+  .timeline-date .date-label,
+  .timeline-date .date-value {
+    padding-left: 2rem;
+  }
+
+  p.venue-value {
+    padding: 0 1rem 0.8rem 2.5rem;
+  }
+}
+
+/* super large screens with tallll heights */
+@media screen and (min-width: 1441px) and (min-height: 750px) {
   .modal-content {
     width: 55vw;
     height: 70vh;
@@ -881,6 +989,7 @@ p.venue-value {
 
   .card__img_info {
     height: 70vh;
+    width: auto;
   }
 
   .modal-body {
@@ -888,16 +997,269 @@ p.venue-value {
   }
 }
 
-/* Medium-large screens (993px - 1200px) */
-@media screen and (min-width: 993px) and (max-width: 1200px) {
+/* Large screens (1201px - 1400px) AND SHORTTTT HEIGHTS */
+@media screen and (min-width: 1201px) and (max-width: 1440px) and (max-height: 950px) { 
   .modal-content {
     width: 50vw;
-    height: 65vh;
+    height: 80vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-scroll-content {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    position: relative;
+  }
+
+  .modal-header {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
+    padding: 20px 30px 10px;
+    min-height: 80px;
+    border-bottom: 1px solid rgba(140, 82, 255, 0.1);
   }
 
   .card__img_info {
+    width: 35vw;
+    height: 80vh;
+    object-fit: cover;
+  }
+
+  .modal-body {
+    grid-template-columns: 100%;
+    gap: 0rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .left-column {
+    order: -1;
+    gap: 1rem;
+    position: relative;
+    height: auto;
+    padding-right: 0;
+    width: 100%;
+    margin-bottom: 0rem;
+  }
+
+  .right-column {
+    padding-left: 0;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .description-box {
+    margin-bottom: 2rem;
+  }
+
+  /* Make scrolling smooth */
+  .modal-scroll-content {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Update scrollbar styles */
+  .modal-scroll-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-track {
+    background: #DEDCF4;
+    border-radius: 4px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-thumb {
+    background: #8c52ff;
+    border-radius: 4px;
+  }
+
+  /* Ensure proper spacing at the bottom */
+  .modal-scroll-content > *:last-child {
+    margin-bottom: 2rem;
+  }
+
+  /* Timeline adjustments */
+  .timeline-container {
+    padding: 1.5rem 0.4rem 0.05rem 0;
+  }
+
+  .timeline-container::before {
+    left: 3rem;
+  }
+
+  .timeline-entry {
+    padding-left: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-entry::before {
+    left: 2.05rem;
+    margin-left: 0.55rem;
+  }
+
+  .timeline-date .date-label,
+  .timeline-date .date-value {
+    padding-left: 2rem;
+  }
+
+  p.venue-value {
+    padding: 0 1rem 0.8rem 2.5rem;
+  }
+}
+
+/* Large screens (1201px - 1400px) AND TALL HEIGHTS */
+@media screen and (min-width: 1201px) and (max-width: 1440px) and (min-height: 951px) {
+  .modal-content {
+    width: 55vw;
+    height: 60vh;
+  }
+
+  .card__img_info {
+    background: #DEDCF4;
+    height: 60vh;
     width: auto;
-    height: 65vh;
+  }
+
+  .modal-body {
+    grid-template-columns: 40% 60%;
+  }
+}
+
+/* Medium-large screens (993px - 1200px) AND SHORT SCREENS */
+@media screen and (min-width: 993px) and (max-width: 1200px) and (max-height: 1050px) {
+  .modal-content {
+    width: 50vw;
+    height: 80vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-scroll-content {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    position: relative;
+  }
+
+  .modal-header {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
+    padding: 20px 30px 10px;
+    min-height: 80px;
+    border-bottom: 1px solid rgba(140, 82, 255, 0.1);
+  }
+
+  .card__img_info {
+    background: #DEDCF4;
+    width: 35vw;
+    height: 80vh;
+    object-fit: cover;
+  }
+
+  .modal-body {
+    grid-template-columns: 100%;
+    gap: 0rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .left-column {
+    order: -1;
+    gap: 1rem;
+    position: relative;
+    height: auto;
+    padding-right: 0;
+    width: 100%;
+    margin-bottom: 0rem;
+  }
+
+  .right-column {
+    padding-left: 0;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .description-box {
+    margin-bottom: 2rem;
+  }
+
+  /* Make scrolling smooth */
+  .modal-scroll-content {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Update scrollbar styles */
+  .modal-scroll-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-track {
+    background: #DEDCF4;
+    border-radius: 4px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-thumb {
+    background: #8c52ff;
+    border-radius: 4px;
+  }
+
+  /* Timeline adjustments */
+  .timeline-container {
+    padding: 1.5rem 0.4rem 0.05rem 0;
+  }
+
+  .timeline-container::before {
+    left: 3rem;
+  }
+
+  .timeline-entry {
+    padding-left: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-entry::before {
+    left: 2.05rem;
+    margin-left: 0.55rem;
+  }
+
+  .timeline-date .date-label,
+  .timeline-date .date-value {
+    padding-left: 2rem;
+  }
+
+  p.venue-value {
+    padding: 0 1rem 0.8rem 2.5rem;
+  }
+
+  /* Ensure proper spacing at the bottom */
+  .modal-scroll-content > *:last-child {
+    margin-bottom: 2rem;
+  }
+
+}
+
+/* Medium-large screens (993px - 1200px) AND TALL SCREENS */
+@media screen and (min-width: 993px) and (max-width: 1200px) and (min-height: 1050px) {
+  .modal-content {
+    width: 50vw;
+    height: 50vh;
+  }
+
+  .card__img_info {
+    background: #DEDCF4;
+    width: 40vw;
+    height: 50vh;
   }
 
   .modal-body {
@@ -941,7 +1303,6 @@ p.venue-value {
   border: 2px solid #8c52ff;
   transform: translateY(-50%);
   box-shadow: 0 0 0 4px rgba(140, 82, 255, 0.1);
-  z-index: 2; /* just to put the circle above the connecting line*/
 }
 
 .timeline-date .date-label {
@@ -1027,12 +1388,128 @@ p.venue-value {
 .signed-up-message {
   font-size: 0.8rem;
 }
+}
 
+/* medium screen with short height */
+@media screen and (min-width: 769px) and (max-width: 992px) and (max-height: 949px) {
+  .modal-content {
+    width: 50vw;
+    height: 75vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-scroll-content {
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    position: relative;
+  }
+
+  .modal-header {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
+    padding: 20px 30px 10px;
+    min-height: 80px;
+    border-bottom: 1px solid rgba(140, 82, 255, 0.1);
+  }
+
+  .card__img_info {
+    background: #DEDCF4;
+    width: 35vw;
+    height: 75vh;
+    object-fit: cover;
+  }
+
+  .modal-body {
+    grid-template-columns: 100%;
+    gap: 0rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .left-column {
+    order: -1;
+    gap: 1rem;
+    position: relative;
+    height: auto;
+    padding-right: 0;
+    width: 100%;
+    margin-bottom: 0rem;
+  }
+
+  .right-column {
+    padding-left: 0;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .description-box {
+    margin-bottom: 2rem;
+  }
+
+  /* Make scrolling smooth */
+  .modal-scroll-content {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Update scrollbar styles */
+  .modal-scroll-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-track {
+    background: #DEDCF4;
+    border-radius: 4px;
+  }
+
+  .modal-scroll-content::-webkit-scrollbar-thumb {
+    background: #8c52ff;
+    border-radius: 4px;
+  }
+
+  /* Timeline adjustments */
+  .timeline-container {
+    padding: 1.5rem 0.4rem 0.05rem 0;
+  }
+
+  .timeline-container::before {
+    left: 3rem;
+  }
+
+  .timeline-entry {
+    padding-left: 2.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-entry::before {
+    left: 2.05rem;
+    margin-left: 0.55rem;
+  }
+
+  .timeline-date .date-label,
+  .timeline-date .date-value {
+    padding-left: 2rem;
+  }
+
+  p.venue-value {
+    padding: 0 1rem 0.8rem 2.5rem;
+  }
+
+  /* Ensure proper spacing at the bottom */
+  .modal-scroll-content > *:last-child {
+    margin-bottom: 2rem;
+  }
 
 }
 
-/* Medium screens (769px - 992px) */
-@media screen and (min-width: 769px) and (max-width: 992px) {
+/* MEDIUM SCREEN WITH TALL HEIGHT */
+@media screen and (min-width: 769px) and (max-width: 992px) and (min-height: 950px) {
   .modal-content {
     width: 50vw;
     height: 50vh;
@@ -1048,7 +1525,6 @@ p.venue-value {
   top: 0;
   background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
   padding: 10px 30px 10px;
-  z-index: 2003;
   border-bottom: 1px solid rgba(140, 82, 255, 0.1);
 }
 
@@ -1109,7 +1585,6 @@ p.venue-value {
   border: 2px solid #8c52ff;
   transform: translateY(-50%);
   box-shadow: 0 0 0 4px rgba(140, 82, 255, 0.1);
-  z-index: 2; /* just to put the circle above the connecting line*/
 }
 
 .timeline-date .date-label {
@@ -1198,13 +1673,6 @@ p.venue-value {
   font-size: 0.7rem;
 }
 
-.close-button {
-  top: 10px;
-  right: 10px;
-  font-size: 28px;
-  width: 30px;
-  height: 30px;
-}
 }
 
 /* Small screens (577px - 768px) */
@@ -1212,19 +1680,25 @@ p.venue-value {
   .modal-content {
     width: 50vw;
     height: 60vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+   overflow: hidden; /* Changed from overflow: hidden */
   }
 
   .modal-scroll-content {
   /* overflow-y: auto; */
-  padding: 0 30px 30px;
+  padding: 0 20px 50px 30px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: calc(100% - 80px); /* Subtract header height */
+  position: relative;
 }
 
 .modal-header {
   position: sticky;
   top: 0;
   background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
-  padding: 10px 30px 10px;
-  z-index: 2003;
+  padding: 20px 30px 0px;
   border-bottom: 1px solid rgba(140, 82, 255, 0.1);
 }
 
@@ -1235,25 +1709,49 @@ p.venue-value {
   }
 
   .modal-body {
-    grid-template-columns: 45% 55%;
+    grid-template-columns: 100%; /* Change to single column */
+    gap: 0rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
   }
 
+  /* Adjust columns for stacked layout */
   .left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;  /* Vertical spacing between categories and time+venue */
-  position: sticky; /* Add this */
-  top: 0; /* Add this */
-  height: fit-content; /* Add this */
-  padding-right: 0.1rem; /* Add some padding */
-}
+    order: -1; /* Ensure left column appears first */
+    gap: 1rem;
+    position: relative;
+    height: auto;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .right-column {
+    padding-left: 0;
+    padding-bottom: 1rem;
+    width: 100%;
+    overflow-y: visible;
+  }
 
 .badge {
   font-size: 0.7rem;
 }
 
+ /* Event details styling */
+ .event-details-section {
+    margin-bottom: 0.5rem;
+  }
+
+  .description-box {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .description-box p {
+    font-size: 0.9rem;
+  }
+
   .timeline-container {
-  padding: 1rem 1rem 0rem 0rem ;
+  padding: 1.5rem 0.4rem 0.05rem 0rem ;
   position: relative;
 }
 
@@ -1261,65 +1759,60 @@ p.venue-value {
 .timeline-container::before {
   content: "";
   position: absolute;
-  left: 1.2rem;
-  top: 2rem;
+  left: 3rem;
+  top: 1.3rem;
   bottom: 2.5rem;
-  width: 2px;
+  width: 2.5px;
   background: linear-gradient(to bottom, #8c52ff 0%, #DEDCF4 100%);
   transform: translateX(-50%);
 }
 
 .timeline-entry {
   position: relative;
-  margin-bottom: 0.2rem;
-  padding-left: 0.1rem;
+  margin-bottom: 0.5rem;
+  padding-left: 2.4rem;
 }
 
 /* circle */
 .timeline-entry::before {
   content: "";
   position: absolute;
-  left: -1.5rem;
-  margin-left: 2.4rem;
+  left: 2.05rem;
+  margin-left: 0.55rem;
   top: 50%;
-  width: 10px;
-  height: 10px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background-color: #DEDCF4;
   border: 2px solid #8c52ff;
   transform: translateY(-50%);
   box-shadow: 0 0 0 4px rgba(140, 82, 255, 0.1);
-  z-index: 2; /* just to put the circle above the connecting line*/
 }
 
 .timeline-date .date-label {
-  font-size: 0.65rem !important; /* Using !important to override */
+  font-size: 0.8rem !important; /* Using !important to override */
   font-weight: 550;
   color: #8c52ff;
   text-transform: uppercase;
   margin: 0;
-  padding-left: 1.8rem;
+  padding-left: 2rem;
 }
 
 .timeline-date .date-value {
   font-size: 0.8rem !important; /* Using !important to override */
   color: #333;
-  padding-left: 1.8rem;
+  padding-left: 2rem;
 }
 
-.venue-value img {
-  width: 0.9rem;
-}
+  /* Venue styling */
+  .venue-value img {
+    width: 0.9rem;
+  }
 
-p.venue-value {
-  padding: 0 1rem 0.2rem 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  font-size: 0.8rem;
-  color: #333;
-  font-weight: 600;
-} 
+  p.venue-value {
+    font-size: 0.8rem;
+    padding: 0 1rem 0.8rem 2.5rem;
+  }
 
 .title-row h2 {
   font-size: 1.25rem;
@@ -1327,12 +1820,7 @@ p.venue-value {
 
 /* Description Box */
 .description-box {
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  padding: 1.2rem;
-  box-shadow: 0 4px 15px rgba(140, 82, 255, 0.1);
-  border: 1px solid rgba(140, 82, 255, 0.1);
-  transition: all 0.3s ease;
+    margin-top: -0.5rem;
 }
 
 .description-box p {
@@ -1378,13 +1866,33 @@ p.venue-value {
   font-size: 0.7rem;
 }
 
-.close-button {
-  top: 5px;
-  right: 0;
-  font-size: 25px;
-  width: 25px;
-  height: 25px;
+
+/* Add smooth scrolling to the content */
+.modal-scroll-content {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
+
+/* Update scrollbar styles for the entire modal content */
+.modal-scroll-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scroll-content::-webkit-scrollbar-track {
+  background: #DEDCF4;
+  border-radius: 4px;
+}
+
+.modal-scroll-content::-webkit-scrollbar-thumb {
+  background: #8c52ff;
+  border-radius: 4px;
+}
+
+/* Button styling */
+.btn {
+    font-size: 0.8rem;
+    padding: 10px 10px;
+  }
 
 }
 
@@ -1401,9 +1909,18 @@ p.venue-value {
     overflow: hidden;
   }
 
+  /* Update the right column to remove scroll */
+.right-column {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  overflow-y: visible; /* Changed from auto */
+  max-height: none; /* Remove max height */
+}
+
   .card__img_info {
+    background: #DEDCF4;
     display: block;
-    width: 95vw;
+    width: 90vw;
     height: 40vh; /* Fixed height for image */
     object-fit: cover;
     border-radius: 15px 15px 0 0;
@@ -1413,7 +1930,7 @@ p.venue-value {
   }
 
   .modal-content {
-    width: 95vw;
+    width: 90vw;
     height: 55vh; /* Remaining height for content */
     border-radius: 0 0 15px 15px;
     margin: 0;
@@ -1422,10 +1939,11 @@ p.venue-value {
 
   /* Make the content area scrollable */
   .modal-scroll-content {
-    height: calc(55vh - 80px); /* Subtract header height */
-    overflow-y: auto;
-    padding: 0 15px 15px;
-  }
+  padding: 0 40px 40px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: calc(100% - 80px); /* Subtract header height */
+  position: relative;
+}
 
   /* Header adjustments */
   .modal-header {
@@ -1434,9 +1952,29 @@ p.venue-value {
     padding: 20px 20px;
     position: sticky;
     top: 0;
-    z-index: 10;
     background: linear-gradient(145deg, #DEDCF4, #f0f0f8);
   }
+
+  /* Add smooth scrolling to the content */
+.modal-scroll-content {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Update scrollbar styles for the entire modal content */
+.modal-scroll-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scroll-content::-webkit-scrollbar-track {
+  background: #DEDCF4;
+  border-radius: 4px;
+}
+
+.modal-scroll-content::-webkit-scrollbar-thumb {
+  background: #8c52ff;
+  border-radius: 4px;
+}
 
   .header-content {
     width: 100%;
@@ -1536,7 +2074,6 @@ p.venue-value {
   border: 2px solid #8c52ff;
   transform: translateY(-50%);
   box-shadow: 0 0 0 4px rgba(140, 82, 255, 0.1);
-  z-index: 2; /* just to put the circle above the connecting line*/
 }
 
 .timeline-date .date-label {
@@ -1621,8 +2158,6 @@ p.venue-value {
     margin-top: 0.6rem;
   }
 }
-
-
 
 /* High DPI screens */
 @media screen and (-webkit-min-device-pixel-ratio: 2), 

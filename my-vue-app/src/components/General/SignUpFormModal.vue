@@ -1,17 +1,17 @@
 <template>
   <div>
     <!-- Sign-Up Form Modal -->
-    <div class="signup-modal-overlay" v-if="!showSuccessModal" @click.self="closeForm">
+    <div class="signup-modal-overlay" v-if="!showSuccessModal" @click.self="closeForm" >
       <div class="signup-modal-dialog">
         <div class="signup-modal-content">
 
           <h3>Sign Up Form</h3>
-          <p>Please fill in the following details</p>
+          <p>All input fields are optional. Click "Confirm Sign Up" to skip filling them out.</p>
 
           <!-- Input fields for sign-up questions -->
           <div class="form-group">
-            <label for="friendsNames">Did you sign up with any friends?</label>
-            <p class="form-hint">If yes, list down their full names.</p>
+            <label for="friendsNames">Did you sign up with any friends? If yes, list down their full names.</label>
+            <!-- <p class="form-hint">If yes, list down their full names.</p> -->
             <input 
               type="text" 
               v-model="friendsNames" 
@@ -21,8 +21,8 @@
           </div>
 
           <div class="form-group">
-            <label for="availability">What is your availability?</label>
-            <p class="form-hint">If you will not be staying for the whole duration of the event, list the timing that you are available.</p>
+            <label for="availability">If you will not be staying for the whole duration of the event, list the timing that you are available.</label>
+            <!-- <p class="form-hint">If you will not be staying for the whole duration of the event, list the timing that you are available.</p> -->
             <input 
               type="text" 
               v-model="availability" 
@@ -125,8 +125,8 @@ const viewMyEvents = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2010;
   backdrop-filter: blur(8px);
+  z-index: 1029;
 }
 
 .signup-modal-dialog {
