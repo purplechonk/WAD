@@ -363,14 +363,14 @@ export default {
 <style scoped>
 .notifications-wrapper {
   position: relative;
-  z-index: 1022;
+  z-index: 1023;
 }
 
 .notifications-panel {
   width: 450px;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
-  z-index: 1023;
+  z-index: 1024;
 }
 
 .panel-open {
@@ -380,7 +380,7 @@ export default {
 .overlay {
   background-color: rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s;
-  z-index: 1022;
+  z-index: 1023;
 }
 
 .notification-list {

@@ -81,8 +81,13 @@ onMounted(() => {
 });
   </script>
   
-  <!-- <style scoped>
-  .navbar {
+  <style scoped>
+  
+  .navbar-collapse {
+    padding-left: 2rem;
+  }
+  
+  /* .navbar {
     z-index: 1999;
   }
   
@@ -90,6 +95,6 @@ onMounted(() => {
   .navbar-collapse.show {
     z-index: 1999;
   }
-}
-  </style> -->
+} */
+  </style>
   
