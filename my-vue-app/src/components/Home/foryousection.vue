@@ -66,7 +66,7 @@
   </template>
   
   <script setup>
-  import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+  import { ref, onMounted, onBeforeUnmount, computed, nextTick} from 'vue';
   import { onAuthStateChanged } from 'firebase/auth';
   import { auth } from '../../firebase';
   import { fetchRecommendedEvents } from '../../composables/fetchEvents';

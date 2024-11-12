@@ -44,28 +44,25 @@
                   {{ characterCount }}/{{ maxCharacters }}
                 </span>
               </label>
-              <textarea 
-                class="form-control" 
-                id="commentTextarea" 
-                rows="2" 
+              <textarea
+                class="form-control"
+                id="commentTextarea"
+                rows="2"
                 v-model="feedbackText"
                 @input="handleInput"
-                placeholder="Leave a comment here" 
+                placeholder="Leave a comment here"
                 required
                 :maxlength="maxCharacters"
               ></textarea>
             </div>
             <div class="d-flex justify-content-between align-items-start">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" v-model="consent" id="consentCheck" required>
+                <input class="form-check-input" type="checkbox" v-model="consent" id="consentCheck" required />
                 <label class="form-check-label small pe-3" for="consentCheck">
                   By checking this box, you consent to sharing your contact with us.
                 </label>
               </div>
-              <button 
-                type="submit" 
-                class="btn btn-sm btn-light"
-              >Send</button>
+              <button type="submit" class="btn btn-sm btn-light">Send</button>
             </div>
           </form>
         </div>
@@ -74,7 +71,7 @@
       <!-- Copyright -->
       <div class="row my-2">
         <div class="col-12">
-          <hr>
+          <hr />
           <p class="text-light small mb-0">
             &copy; {{ currentYear }} sLoop. All rights reserved.
           </p>
@@ -83,23 +80,36 @@
     </div>
 
     <!-- Toast Notification -->
-    <div class="toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert"
-      aria-live="assertive" aria-atomic="true" ref="feedbackToast" data-bs-delay="3000">
-      <div class="d-flex">
-        <div class="toast-body">
-          Thank you for your feedback!
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-          aria-label="Close"></button>
+    <Teleport to="body">
+      <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 2006;">
+        <TransitionGroup name="fade" class="toast-group">
+          <div
+            v-for="toast in toasts"
+            :key="toast.id"
+            class="toast show text-white bg-primary"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            style="min-width: 250px"
+          >
+            <div class="toast-header text-white bg-dark">
+              <img src="../../assets/favicon-16x16.png" class="rounded me-2" alt="..." />
+              <strong class="me-auto">sLoop</strong>
+              <small class="text-white-50">just now</small>
+              <button type="button" class="btn-close btn-close-white" @click="removeToast(toast.id)" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">{{ toast.message }}</div>
+          </div>
+        </TransitionGroup>
       </div>
-    </div>
+    </Teleport>
   </footer>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { Toast } from 'bootstrap'
-import { storeFeedback } from "../../composables/footer";
+import { ref, onMounted } from 'vue';
+import { useToast } from '../../composables/useToast';
+import { storeFeedback } from '../../composables/footer';
 
 export default {
   name: 'Footer',
@@ -108,10 +118,9 @@ export default {
       feedbackText: '',
       consent: false,
       currentYear: new Date().getFullYear(),
-      toastInstance: null,
       maxCharacters: 150,
       characterCount: 0
-    }
+    };
   },
   computed: {
     isHomepage() {
@@ -122,7 +131,7 @@ export default {
     handleInput(event) {
       const text = event.target.value;
       this.characterCount = text.length;
-      
+
       if (text.length > this.maxCharacters) {
         this.feedbackText = text.slice(0, this.maxCharacters);
       }
@@ -130,34 +139,25 @@ export default {
     async submitFeedback() {
       try {
         await storeFeedback(this.feedbackText);
-
-        if (this.toastInstance) {
-          this.toastInstance.show();
-        }
+        this.addToast('Thank you for your feedback!');
 
         // Clear the form fields
-        this.feedbackText = "";
+        this.feedbackText = '';
         this.consent = false;
         this.characterCount = 0;
       } catch (error) {
-        console.error("Error submitting feedback:", error);
+        console.error('Error submitting feedback:', error);
+        this.addToast('Error submitting feedback. Please try again later.', 'danger');
       }
     },
-  },
-  mounted() {
-    const toastEl = this.$refs.feedbackToast;
-    this.toastInstance = new Toast(toastEl);
-  },
-}
+    ...useToast()
+  }
+};
 </script>
 
 <style scoped>
 .snap-footer {
   scroll-snap-align: end;
-}
-
-.toast {
-  z-index: 1055;
 }
 
 textarea {
