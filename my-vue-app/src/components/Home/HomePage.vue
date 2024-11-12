@@ -65,6 +65,10 @@
         </div>
       </div>
     </section>
+    
+    <section>
+      <foryousection/>
+    </section>
 
     <section>
       <featurepage/>
@@ -74,9 +78,7 @@
       <feedbackpage/>
     </section>
 
-    <section>
-      <foryousection/>
-    </section>
+
 
     <div class="progress"></div>
   </div>
