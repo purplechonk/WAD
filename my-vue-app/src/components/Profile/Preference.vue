@@ -201,7 +201,7 @@ const saveAndClose = async () => {
 }
 
 .preference-pill.categories:hover {
-  background-color: rgba(254, 62, 115, 0.7); 
+  background-color: #2b0f62; 
 }
 
 .preference-pill.cca:hover {
@@ -209,8 +209,8 @@ const saveAndClose = async () => {
 }
 
 .preference-pill.categories.selected {
-  background-color: #FE3E73;
-  border-color: #FE3E73;
+  background-color: #2b0f62;
+  border-color: #2b0f62;
   color: white;
 }
 

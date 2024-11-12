@@ -28,7 +28,7 @@ export default {
       pillStyles: {
         category: {
           height: 50,
-          color: '#FE3E73', // Categories Pills Color
+          color: '#2b0f62', // Categories Pills Color
           minWidth: 100,
           padding: 40,
           textColor: 'white', // White text for Categories
