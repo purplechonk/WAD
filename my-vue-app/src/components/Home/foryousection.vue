@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="events-viewport" ref="containerRef">
         <div class="header-section">
             <h1 class="main-title text-dark">Featured Events</h1>
@@ -161,10 +160,11 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column; /* Stack children vertically */
   justify-content: center; /* Center everything vertically */
-  padding: 2rem 0;
+  padding: 4rem 0 8rem 0;
 }
 
 .header-section {
+    margin-top: 2rem; 
   text-align: center;
   padding: 1rem;
 }
@@ -268,10 +268,4 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Optional: Large Desktop view: 4 cards per row */
-@media (min-width: 1440px) {
-  .card-wrapper {
-    width: calc((100% - 6rem) / 4);
-  }
-}
 </style>
