@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div ref="matterContainer" class="matter-container" style="border-radius: 5rem;">
+    <div ref="matterContainer" class="matter-container bg-secondary" style="border-radius: 5rem;">
       <p v-if="!hasInitialized">Loading...</p>
     </div>
   </div>
@@ -36,10 +36,10 @@ export default {
         },
         cca: {
           height: 50,
-          color: '#D3FE3E', // CCA Pills Color
+          color: '#8c52ff', // CCA Pills Color
           minWidth: 100,
           padding: 40,
-          textColor: 'black', // Black text for CCAs
+          textColor: 'white', // Black text for CCAs
           fontWeight: '700',   // 
         }
       },
@@ -508,7 +508,6 @@ export default {
   height: 50vh;
   overflow: hidden;
   position: relative;
-  background-color: #693EFE;
   cursor: grab;
 }
 </style>
