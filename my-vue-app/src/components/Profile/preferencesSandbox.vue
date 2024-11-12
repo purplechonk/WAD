@@ -1,7 +1,14 @@
 <template>
   <div class="container">
     <div ref="matterContainer" class="matter-container bg-secondary" style="border-radius: 5rem;">
-      <p v-if="!hasInitialized">Loading...</p>
+      <!-- <p v-if="!hasInitialized">Loading...</p> -->
+      <!-- Loading State -->
+      <div v-if="!hasInitialized" class="text-center py-5">
+        <div class="spinner-grow" style="color: #8257ff;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-3">Loading your preferences...</p>
+      </div>
     </div>
   </div>
 </template>

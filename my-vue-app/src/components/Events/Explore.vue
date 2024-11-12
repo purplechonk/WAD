@@ -116,7 +116,7 @@
         <div class="spinner-grow" style="color: #8257ff;" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <p class="text-muted mt-3">Loading your events...</p>
+        <p class="text-muted mt-3">Loading events...</p>
       </div>
 
     <!-- Error Message -->
