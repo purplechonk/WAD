@@ -50,7 +50,7 @@ export default {
 <style scoped>
 .map-container {
   width: 100%;
-  height: 400px;
+  height: 18rem;
   /* Adjust the height as needed */
 }
 </style>

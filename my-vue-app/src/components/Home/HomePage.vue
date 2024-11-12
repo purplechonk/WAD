@@ -65,6 +65,10 @@
         </div>
       </div>
     </section>
+    
+    <section>
+      <foryousection/>
+    </section>
 
     <section>
       <featurepage/>
@@ -74,9 +78,7 @@
       <feedbackpage/>
     </section>
 
-    <section>
-      <foryousection/>
-    </section>
+
 
     <div class="progress"></div>
   </div>
@@ -416,7 +418,6 @@ body {
 
 /* Section styles with navbar adjustment */
 section {
-  height: 100vh;
   scroll-snap-align: start;
   display: flex;
   justify-content: center;
@@ -424,17 +425,163 @@ section {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  padding-top: 108px;
-  /* navbar (78px) + banner (30px) */
+  padding-top: 78px;
 }
 
 /* Special style for first section */
 .first-section {
-  margin-top: -108px;
+  margin-top: -78px;
 }
 
 .bento-section-1 {
   height: 100%;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height:100%;
+}
+
+.bento-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  min-height:100%;
+}
+
+.bento-box {
+  background-color: #f8f9fa;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Image container styles */
+.image-box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Make images responsive while maintaining aspect ratio */
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* This is key for maintaining aspect ratio */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Background image box */
+.bento-box.bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+}
+
+.span-2-cols{
+  justify-content: center;
+}
+
+@media (min-width: 1400px) { /* xxl and above */
+  .bento-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(200px, auto);
+  }
+  .span-2-rows {
+      grid-row: span 2;
+  }
+  .span-2-cols {
+      grid-column: span 2;
+      font-size: 25px;
+      h3{
+        font-size: 35px;
+      };
+      h1{
+        font-size: 50px;
+      }
+  }
+  .span-3-cols {
+    grid-column: span 3;
+}
+}
+/* Grid layout for different screen sizes */
+@media (min-width: 992px) { /* lg - xxl */
+  .bento-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(200px, auto);
+  }
+  .span-2-rows {
+      grid-row: span 2;
+  }
+  .span-2-cols {
+      grid-column: span 2;
+  }
+  .span-3-cols {
+    grid-column: span 3;
+}
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { /* md only */
+  .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+  }
+  .span-2-rows {
+      grid-row: span 2;
+  }
+  .span-2-cols {
+      grid-column: span 2;
+  }
+  .span-3-cols {
+    grid-column: span 3;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { /* sm only */
+  .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: minmax(160px, auto);
+  }
+  .span-2-cols {
+      grid-column: span 2;
+  }
+  .span-2-rows {
+      grid-column: span 2;
+  }
+}
+
+@media (max-width: 575.98px) { /* xs */
+  .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: minmax(140px, auto);
+  }
+  .bento-box {
+      grid-column: span 1;
+  }
+  .span-2-rows {
+    grid-column: span 2;
+}
+.span-2-cols {
+      font-size: 10px;
+      padding: 10px;
+      h3{
+        font-size: 15px;
+      };
+      h1{
+        font-size: 20px;
+      };
+  }
+
 }
 
 .flip-card {

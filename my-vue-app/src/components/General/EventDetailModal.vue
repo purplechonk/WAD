@@ -135,6 +135,7 @@
                 <br>
                 <Map :location="event.Geocode"/>
             </div>
+
           </div>
         </div>
       </div>

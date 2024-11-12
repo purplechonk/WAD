@@ -1,5 +1,5 @@
 <template>
-  <div class="feedback-carousel-container w-full py-12">
+  <div class="feedback-carousel-container w-full">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <!-- Title Section -->
@@ -20,7 +20,7 @@
                       <div class="quote-icon">
                         <i class="fas fa-quote-left text-primary"></i>
                       </div>
-                      <div class="feedback-content">
+                      <div class="feedback-content text-break">
                         <p class="feedback-text">{{ feedback.comment }}</p>
                       </div>
                       <div class="feedback-author">
@@ -167,7 +167,6 @@ export default {
 
 <style scoped>
 .feedback-carousel-container {
-  background-color: #f8f9fa;
   width: 100%;
   overflow: hidden;
 }
@@ -245,6 +244,7 @@ export default {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .feedback-text {
@@ -334,8 +334,13 @@ export default {
 
   .carousel-control-prev,
   .carousel-control-next {
-    display: none;
+    width: 2rem;  /* smaller size */
+    height: 2rem;
+    /* Adjust position to not overlap content */
+    transform: translateY(-50%);
+    background-color: rgba(140, 82, 255, 0.8); /* slightly more transparent */
   }
+  
 }
 
 @media (max-width: 480px) {

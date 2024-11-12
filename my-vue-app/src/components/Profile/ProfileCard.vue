@@ -13,7 +13,7 @@
         <img class="img-fluid" src="../../assets/images/smuLogo.png" alt="SMU Logo">
       </div>
     </div>
-    <hr style="color: #FE3E73; opacity: 1;">
+    <hr style="color: #8c52ff;; opacity: 1;">
     <!-- PFP + Student -->
     <div class="row mt-2 mb-2">
       <div class="col-6">

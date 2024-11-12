@@ -1,277 +1,326 @@
 <template>
-
-
-    <div class="events-viewport" ref="containerRef">
-        <div class="header-section">
-            <h1 class="main-title text-dark">Featured Events</h1>
-            <p class="subtitle">We guessed you may like these</p>
+    <section class="featured-events py-5">
+      <div class="container-fluid px-4">
+        <!-- Header Section -->
+        <div class="row mb-5 text-center" ref="titleRef">
+          <div class="col-12">
+            <h2 class="display-4 fw-bold mb-2">Featured Events</h2>
+            <p class="lead text-muted">We guessed you may like these</p>
+          </div>
         </div>
-
-        <div class="card-area" ref="cardAreaRef" @mouseenter="enableHorizontalScroll"
-            @mouseleave="disableHorizontalScroll">
-            <div v-for="(event, index) in featuredEvents" :key="event.id" class="card-wrapper"
-                :ref="el => cardRefs[index] = el" :class="{ 'visible': visibleCards[index] }">
-                <EventCard :event="event" @show-details="openEventDetails" />
+  
+        <!-- Events Carousel -->
+        <div class="row">
+          <div class="col-12 position-relative">
+            <!-- Navigation Buttons -->
+            <button 
+              class="btn btn-outline-primary carousel-nav-btn start-0" 
+              @click="scroll('left')"
+              :class="{ 'opacity-0': isScrollStart }"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <button 
+              class="btn btn-outline-primary carousel-nav-btn end-0" 
+              @click="scroll('right')"
+              :class="{ 'opacity-0': isScrollEnd }"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+  
+            <!-- Events Container -->
+            <div 
+              class="events-container" 
+              ref="cardAreaRef"
+              @scroll="checkScrollPosition"
+            >
+              <div class="events-track d-flex">
+                <div 
+                  v-for="(event, index) in featuredEvents" 
+                  :key="event.id"
+                  class="event-card-wrapper"
+                  :ref="el => cardRefs[index] = el"
+                  :class="{ 'fade-in': visibleCards[index] }"
+                >
+                  <EventCard 
+                    :event="event" 
+                    @show-details="openEventDetails"
+                    class="h-100"
+                  />
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-
-        <EventDetailModal v-if="showModal" :event="selectedEvent" @close="handleModalClose"
-            @login-success="handleLoginSuccess" />
-    </div>
-</template>
-
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase';
-import { fetchRecommendedEvents } from '../../composables/fetchEvents';
-import EventCard from '../General/EventCard.vue';
-import EventDetailModal from '../General/EventDetailModal.vue';
-import anime from 'animejs';
-
-// State
-const featuredEvents = ref([]);
-const isAuthenticated = ref(false);
-const showModal = ref(false);
-const selectedEvent = ref(null);
-
-// Refs
-const containerRef = ref(null);
-const cardAreaRef = ref(null);
-const cardRefs = ref([]);
-const visibleCards = ref([]);
-
-// Scroll state
-const isHoveringCards = ref(false);
-let scrollDistance = 0;
-let scrollInterval = null;
-
-// Load events
-const loadRecommendedEvents = async () => {
+      </div>
+  
+      <!-- Event Details Modal -->
+      <EventDetailModal 
+        v-if="showModal" 
+        :event="selectedEvent" 
+        @close="handleModalClose"
+        @login-success="handleLoginSuccess" 
+      />
+    </section>
+  </template>
+  
+  <script setup>
+  import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+  import { onAuthStateChanged } from 'firebase/auth';
+  import { auth } from '../../firebase';
+  import { fetchRecommendedEvents } from '../../composables/fetchEvents';
+  import EventCard from '../General/EventCard.vue';
+  import EventDetailModal from '../General/EventDetailModal.vue';
+  
+  // State
+  const featuredEvents = ref([]);
+  const isAuthenticated = ref(false);
+  const showModal = ref(false);
+  const selectedEvent = ref(null);
+  const cardAreaRef = ref(null);
+  const titleRef = ref(null);
+  const cardRefs = ref([]);
+  const visibleCards = ref([]);
+  const isScrollStart = ref(true);
+  const isScrollEnd = ref(false);
+  
+  // Scroll position tracking
+  const checkScrollPosition = () => {
+    if (!cardAreaRef.value) return;
+    
+    const container = cardAreaRef.value;
+    isScrollStart.value = container.scrollLeft <= 10;
+    isScrollEnd.value = 
+      Math.ceil(container.scrollLeft + container.clientWidth) >= 
+      container.scrollWidth - 10;
+  };
+  
+// Scroll handling
+const scroll = (direction) => {
+  if (!cardAreaRef.value) return;
+  
+  const container = cardAreaRef.value;
+  const cardWidth = container.querySelector('.event-card-wrapper')?.offsetWidth || 500;
+  
+  container.scrollTo({
+    left: container.scrollLeft + (direction === 'left' ? -cardWidth : cardWidth),
+    behavior: 'smooth'
+  });
+};
+  
+  // Card visibility handling
+  const handleScroll = () => {
+    if (!cardAreaRef.value) return;
+  
+    const rect = cardAreaRef.value.getBoundingClientRect();
+    const isVisible = rect.top <= window.innerHeight * 0.8;
+  
+    if (isVisible) {
+      cardRefs.value.forEach((card, index) => {
+        if (!card || visibleCards.value[index]) return;
+        
+        setTimeout(() => {
+          visibleCards.value[index] = true;
+        }, index * 100);
+      });
+  
+      window.removeEventListener('scroll', handleScroll);
+    }
+  };
+  
+  // Event loading
+  const loadRecommendedEvents = async () => {
     featuredEvents.value = await fetchRecommendedEvents();
     visibleCards.value = Array(featuredEvents.value.length).fill(false);
     cardRefs.value = [];
-};
-
-// Vertical scroll handler for initial animation
-const handleScroll = () => {
-    if (!cardAreaRef.value) return;
-
-    const rect = cardAreaRef.value.getBoundingClientRect();
-    const isVisible = rect.top <= window.innerHeight * 0.8;
-
-    if (isVisible) {
-        cardRefs.value.forEach((card, index) => {
-            if (!card || visibleCards.value[index]) return;
-
-            // Simple timeout for staggered fade-in
-            setTimeout(() => {
-                visibleCards.value[index] = true;
-            }, index * 100); // 100ms delay between each card
-        });
-
-        // Remove scroll listener once animated
-        window.removeEventListener('scroll', handleScroll);
-    }
-};
-
-// Horizontal scroll on hover
-const enableHorizontalScroll = () => {
-    isHoveringCards.value = true;
-};
-
-const disableHorizontalScroll = () => {
-    isHoveringCards.value = false;
-    scrollDistance = 0;
-    if (scrollInterval) {
-        clearInterval(scrollInterval);
-        scrollInterval = null;
-    }
-};
-
-// Handle wheel event for horizontal scrolling
-const handleWheel = (e) => {
-    if (!isHoveringCards.value) return;
-
-    e.preventDefault();
-    const container = cardAreaRef.value;
-    if (!container) return;
-
-    // Increased multiplier for more sensitive scrolling
-    anime({
-        targets: container,
-        scrollLeft: container.scrollLeft + (e.deltaY * 5), // Increased from 2 to 3.5
-        duration: 250, // Reduced duration for snappier response
-        easing: 'easeOutCubic'
-    });
-};
-
-// Modal handlers
-const openEventDetails = (event) => {
+    
+    // Check scroll position after events load
+    nextTick(() => checkScrollPosition());
+  };
+  
+  // Modal handlers
+  const openEventDetails = (event) => {
     selectedEvent.value = event;
     showModal.value = true;
-};
-
-const closeModal = () => {
+  };
+  
+  const handleModalClose = () => {
     showModal.value = false;
     selectedEvent.value = null;
-};
-
-const handleModalClose = () => {
-    closeModal();
-};
-
-const handleLoginSuccess = async () => {
+  };
+  
+  const handleLoginSuccess = async () => {
     isAuthenticated.value = true;
     await loadRecommendedEvents();
-    closeModal();
-};
-
-// Lifecycle hooks
-onMounted(() => {
+    handleModalClose();
+  };
+  
+  // Lifecycle hooks
+  onMounted(() => {
     window.addEventListener('scroll', handleScroll);
-    cardAreaRef.value?.addEventListener('wheel', handleWheel, { passive: false });
-
     loadRecommendedEvents();
-
+    
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-            isAuthenticated.value = true;
-            loadRecommendedEvents();
-        } else {
-            isAuthenticated.value = false;
-            featuredEvents.value = [];
-            visibleCards.value = [];
-        }
+      isAuthenticated.value = !!user;
+      if (user) {
+        loadRecommendedEvents();
+      } else {
+        featuredEvents.value = [];
+        visibleCards.value = [];
+      }
     });
-});
-
-onBeforeUnmount(() => {
+  });
+  
+  onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll);
-    cardAreaRef.value?.removeEventListener('wheel', handleWheel);
-    disableHorizontalScroll();
-});
-</script>
+  });
+  </script>
+  
+  <style scoped>
+  .container-fluid {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
-<style scoped>
-.events-viewport {
+.row {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.col-12 {
+  padding: 0 !important;
+}
+
+  .featured-events {
+    background-color: #fbfbfe;
     min-height: 100vh;
-    position: relative;
-    overflow: hidden;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center everything vertically */
-  padding: 2rem 0;
-}
-
-.header-section {
-  text-align: center;
-  padding: 1rem;
-}
-
-.main-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #666;
-}
-
-.card-area {
-    display: flex;
-    padding:0 1rem;
-    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+  
+  .events-container {
     width: 100%;
     overflow-x: auto;
-    overflow-y: hidden;
-    align-items: center;
-    gap: 1rem;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    /* Hide scrollbar */
-    scrollbar-width: none;
     -ms-overflow-style: none;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-.card-area::-webkit-scrollbar {
+    scrollbar-width: none;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .events-container::-webkit-scrollbar {
     display: none;
-}
-
-.card-wrapper {
+  }
+  
+  .events-track {
+    display: inline-flex;
+    gap: 0rem; /* Increased gap between cards */
+    padding: 0 !important; /* Added horizontal padding */
+    margin: 0 !important;
+  }
+  
+  .event-card-wrapper {
     flex: 0 0 auto;
-    width: 100%;
-    max-width: 350px;
+    width: 100vw; /* Full viewport width minus padding */
+    max-width: 500px; /* Maximum width for larger screens */
     opacity: 0;
-    will-change: opacity;
-    scroll-snap-align: start;
-    margin: 0 auto;
-}
-
-.card-wrapper.visible {
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+  }
+  
+  .event-card-wrapper.fade-in {
     opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-/* Preserve card hover effects */
-:deep(.event-card) {
-    transition: transform 0.2s;
-}
-
-:deep(.event-card:hover) {
-    transform: translateY(-5px);
-}
-
-/* Optional scroll indicator */
-.card-area::after {
-    content: '';
+    transform: translateY(0);
+  }
+  
+  .carousel-nav-btn {
     position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 50px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
-    pointer-events: none;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background-color: var(--bs-white);
+    border-color: var(--bs-primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .carousel-nav-btn:hover {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  /* Responsive margin adjustments */
+  @media (max-width: 768px) {
+    .events-track {
+      padding: 0;
+    }
+    
+    .event-card-wrapper {
+      width: 100vw; /* Adjusted for smaller screens */
+    }
+    
+    .carousel-nav-btn {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  /* Enhanced card hover effect */
+  :deep(.event-card) {
+    transition: all 0.3s ease;
+    height: 100%;
+    aspect-ratio: 2/3; /* Maintain consistent card proportions */
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 0.5rem 0;
+  }
+  
+  :deep(.event-card:hover) {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  
+  /* Smooth scroll behavior */
+  .events-container {
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    width: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 2rem 0 !important; /* Increased vertical padding */
+  margin: 0 !important;
+  min-height: calc(100% + 4rem);
+  }
+  
+  .event-card-wrapper {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+  width: 100vw;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+  padding: 1rem 0;
+  }
+  
+  /* Animation classes */
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+  
+  .fade-enter-from,
+  .fade-leave-to {
     opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.card-area:hover::after {
-    opacity: 1;
-}
-
-/* Tablet view: 2 cards per row */
-@media (min-width: 768px) {
-  .card-area {
-    padding: 0 2rem;
-    gap: 1.5rem;
   }
-  
-  .card-wrapper {
-    width: calc((100% - 1.5rem) / 2);
-  }
-}
-
-/* Desktop view: 3 cards per row */
-@media (min-width: 1024px) {
-  .card-area {
-    padding: 0 max(2rem, calc((100vw - (350px * 3) - 4rem) / 2));
-    gap: 2rem;
-  }
-  
-  .card-wrapper {
-    width: calc((100% - 4rem) / 3);
-  }
-}
-
-/* Optional: Large Desktop view: 4 cards per row */
-@media (min-width: 1440px) {
-  .card-wrapper {
-    width: calc((100% - 6rem) / 4);
-  }
-}
-</style>
+  </style>

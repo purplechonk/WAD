@@ -201,23 +201,23 @@ const saveAndClose = async () => {
 }
 
 .preference-pill.categories:hover {
-  background-color: rgba(254, 62, 115, 0.7); 
+  background-color: #2b0f62; 
 }
 
 .preference-pill.cca:hover {
-  background-color: rgba(211, 254, 62, 0.7); 
+  background-color: #8c52ff;
 }
 
 .preference-pill.categories.selected {
-  background-color: #FE3E73;
-  border-color: #FE3E73;
+  background-color: #2b0f62;
+  border-color: #2b0f62;
   color: white;
 }
 
 .preference-pill.cca.selected {
-  background-color: #D3FE3E;
-  border-color: #D3FE3E;
-  color: black;
+  background-color: #8c52ff;
+  border-color: #8c52ff;
+  color: white;
 }
 
 .preference-pill i {
