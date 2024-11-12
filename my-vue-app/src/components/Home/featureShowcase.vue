@@ -13,69 +13,116 @@
       </div>
 
       <div class="features-grid">
-        <div 
-          v-for="(feature, index) in features" 
-          :key="feature.id"
-          class="feature-card"
-          :ref="el => featureRefs[index] = el"
-          @click="navigateTo(feature.route)"
-          @mouseenter="onHover($event.currentTarget)"
-          @mouseleave="onLeave($event.currentTarget)"
-        >
+        <div v-for="(feature, index) in features" :key="feature.id" class="feature-card"
+          :ref="el => featureRefs[index] = el" @click="handleFeatureClick(feature)"
+          @mouseenter="onHover($event.currentTarget)" @mouseleave="onLeave($event.currentTarget)">
           <div class="icon-wrapper">
             <i :class="feature.icon"></i>
           </div>
           <span class="feature-title">{{ feature.title }}</span>
         </div>
       </div>
-
-      <button 
-        class="get-started-btn"
-        ref="ctaButton" 
-        @click="navigateTo('/signup')"
-      >
-        Get Started
-      </button>
     </div>
+
+    <!-- Login Modal -->
+
+    <LoginForm v-if="showLoginModal" @login-success="handleLoginSuccess" @close="closeModal" />
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
 import { animate, stagger, spring } from 'motion'
+import { useRouter } from 'vue-router'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import LoginForm from '../Login/Login.vue'
 
 export default {
   name: 'ViewportFeatures',
+  components: {
+    LoginForm
+  },
   setup() {
+    const router = useRouter()
     const featureRefs = ref([])
     const ctaButton = ref(null)
+    const showLoginModal = ref(false)
+    const isAuthenticated = ref(false)
+    const pendingRoute = ref(null)
 
     const features = [
       {
         id: 'browse',
         title: 'Browse',
         icon: 'fas fa-compass',
-        route: '/browse'
+        route: '/explore',
+        requiresAuth: false
       },
       {
         id: 'myevents',
         title: 'My Events',
         icon: 'fas fa-calendar-alt',
-        route: '/my-events'
+        route: '/my-events',
+        requiresAuth: true
       },
       {
-        id: 'statistics',
-        title: 'Statistics',
+        id: 'analytics',
+        title: 'Analytics',
         icon: 'fas fa-chart-bar',
-        route: '/statistics'
+        route: '/analytics',
+        requiresAuth: true
       },
       {
         id: 'profile',
         title: 'Profile',
         icon: 'fas fa-user',
-        route: '/profile'
+        route: '/profile',
+        requiresAuth: true
       }
     ]
+
+    // Set up authentication listener
+    onMounted(() => {
+      const auth = getAuth()
+      onAuthStateChanged(auth, (user) => {
+        isAuthenticated.value = !!user
+        if (user && pendingRoute.value) {
+          router.push(pendingRoute.value)
+          pendingRoute.value = null
+          showLoginModal.value = false
+        }
+      })
+    })
+
+    const handleFeatureClick = (feature) => {
+      if (feature.requiresAuth && !isAuthenticated.value) {
+        pendingRoute.value = feature.route
+        showLoginModal.value = true
+      } else {
+        navigateTo(feature.route)
+      }
+    }
+
+    const navigateTo = async (route) => {
+      try {
+        await router.push(route)
+      } catch (error) {
+        console.error('Navigation failed:', error)
+      }
+    }
+
+    const handleLoginSuccess = () => {
+      showLoginModal.value = false
+      if (pendingRoute.value) {
+        navigateTo(pendingRoute.value)
+        pendingRoute.value = null
+      }
+    }
+
+    const closeModal = () => {
+      showLoginModal.value = false
+      pendingRoute.value = null
+    }
 
     const onHover = (element) => {
       animate(element, {
@@ -103,7 +150,7 @@ export default {
         card.style.opacity = '0'
         card.style.transform = 'scale(0.8) translateY(40px)'
       })
-      
+
       if (ctaButton.value) {
         ctaButton.value.style.opacity = '0'
         ctaButton.value.style.transform = 'translateY(20px)'
@@ -114,7 +161,7 @@ export default {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             // Animate cards
-            animate(featureRefs.value, 
+            animate(featureRefs.value,
               {
                 opacity: [0, 1],
                 scale: [0.8, 1],
@@ -158,9 +205,11 @@ export default {
       ctaButton,
       onHover,
       onLeave,
-      navigateTo: (route) => {
-        // Your router navigation logic here
-      }
+      handleFeatureClick,
+      showLoginModal,
+      closeModal,
+      handleLoginSuccess,
+      isAuthenticated
     }
   }
 }
@@ -168,6 +217,44 @@ export default {
 
 <style scoped>
 /* Previous styles remain the same */
+/* ... (keep all the previous styles) ... */
+
+/* Add Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+}
+
+/* Keep all previous styles as well */
 .features-wrapper {
   height: 100vh;
   width: 100%;
@@ -290,24 +377,6 @@ export default {
   color: #1f2937;
   text-align: center;
   font-size: clamp(0.875rem, 1.5vw, 1rem);
-}
-
-.get-started-btn {
-  background: linear-gradient(45deg, #4338ca, #8c52ff);
-  color: white;
-  padding: 0.875rem 2rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(67, 56, 202, 0.25);
-  margin-top: 2rem;
-  will-change: transform;
-}
-
-.get-started-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(67, 56, 202, 0.3);
 }
 
 @media (max-width: 480px) {
