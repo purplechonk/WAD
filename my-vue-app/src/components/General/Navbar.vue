@@ -81,7 +81,7 @@ onMounted(() => {
 });
   </script>
   
-  <style scoped>
+  <!-- <style scoped>
   .navbar {
     z-index: 1999;
   }
@@ -91,5 +91,5 @@ onMounted(() => {
     z-index: 1999;
   }
 }
-  </style>
+  </style> -->
   

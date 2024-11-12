@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 0.5rem;
+    z-index: 1024;
   }
   
   .toast-group {

@@ -6,7 +6,7 @@
     </main>
     <Notifications />
     <Toast />
-    <Footer />
+    <Footer @feedback-submitted="refreshFeedbackDisplay" />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Combined Filter Section -->
-    <div class="multisearchbar" :class="{ scrolled: isScrolled }">
+    <div class="multisearchbar sticky-top" :class="{ scrolled: isScrolled }">
       <!-- Expanded Filter -->
       <div 
         id="filter-expanded"  
@@ -178,7 +178,7 @@ const expandedFilterStyle = computed(() => {
       opacity: '0',
       pointerEvents: 'none',
       position: 'fixed',
-      zIndex: '1998',
+      zIndex: '1019',
       visibility: 'hidden'
     };
   }
@@ -188,7 +188,7 @@ const expandedFilterStyle = computed(() => {
     opacity: isScrolled.value ? '0' : '1',
     pointerEvents: isScrolled.value ? 'none' : 'auto',
     position: 'fixed',
-    zIndex: '1999',
+    zIndex: '1019',
     visibility: 'visible'
   };
 });
@@ -200,10 +200,10 @@ const collapsedFilterStyle = computed(() => {
       opacity: '0',
       pointerEvents: 'none',
       position: 'fixed',
-      zIndex: '1998',
+      zIndex: '1019',
       visibility: 'hidden'
     };
-  }
+  } 
 
   else if (window.innerWidth < 992 && !isNavbarExpanded) {
     return {
@@ -211,7 +211,7 @@ const collapsedFilterStyle = computed(() => {
       opacity: '0',
       pointerEvents: 'none',
       position: 'fixed',
-      zIndex: '1999',
+      zIndex: '1020',
       visibility: 'hidden'
     };
   }
@@ -222,7 +222,7 @@ const collapsedFilterStyle = computed(() => {
       opacity: isScrolled.value ? '1' : '0',
       pointerEvents: isScrolled.value ? 'auto' : 'none',
       position: 'fixed',
-      zIndex: '2000',
+      zIndex: '1021',
       visibility: 'visible'
     };
   }
@@ -512,9 +512,9 @@ onMounted(() => {
   transition: opacity 0.3s ease, visibility 0.3s ease;
   visibility: visible;
   opacity: 1;
-  z-index: 2000;
   margin-bottom: 0;
   height: auto;
+
 }
 
 .multisearchbar.navbar-expanded {
@@ -773,7 +773,7 @@ onMounted(() => {
   margin-top: 12px;
   box-shadow: 0px 0px 13px 1px #e3dada;
   display: none;
-  z-index: 1000;
+  z-index: 1021;
 }
 
 .categories-dropdown.active {

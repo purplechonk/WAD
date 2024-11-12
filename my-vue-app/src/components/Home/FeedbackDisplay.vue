@@ -60,109 +60,106 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { fetchFeedback } from '../../composables/footer'
 import { animate, inView, spring } from 'motion'
+import { eventBus } from '../../composables/eventBus'
 
 export default {
   name: 'FeedbackDisplay',
   setup() {
-    const feedbackList = ref([])
-    const itemsPerSlide = 2 // Enforcing 2 items per slide
-    const containerRef = ref(null)
-    const titleRef = ref(null)
-    const carouselRef = ref(null)
+    const feedbackList = ref([]);
+    const itemsPerSlide = 2;
+    const containerRef = ref(null);
+    const titleRef = ref(null);
+    const carouselRef = ref(null);
 
     const initializeAnimations = () => {
-      // Set initial states
+      // Animation setup
       if (titleRef.value) {
-        titleRef.value.style.opacity = '0'
-        titleRef.value.style.transform = 'translateY(20px)'
+        titleRef.value.style.opacity = '0';
+        titleRef.value.style.transform = 'translateY(20px)';
       }
 
       if (carouselRef.value) {
-        carouselRef.value.style.opacity = '0'
-        carouselRef.value.style.transform = 'translateY(40px)'
+        carouselRef.value.style.opacity = '0';
+        carouselRef.value.style.transform = 'translateY(40px)';
       }
 
-      // Initialize fade-in animation for title
+      // Fade-in animations
       inView(titleRef.value, () => {
         animate(
           titleRef.value,
-          {
-            opacity: [0, 1],
-            y: [20, 0]
-          },
-          {
-            duration: 0.8,
-            easing: spring({ damping: 15 })
-          }
-        )
-      })
+          { opacity: [0, 1], y: [20, 0] },
+          { duration: 0.8, easing: spring({ damping: 15 }) }
+        );
+      });
 
-      // Initialize fade-in animation for carousel
       inView(carouselRef.value, () => {
         animate(
           carouselRef.value,
-          {
-            opacity: [0, 1],
-            y: [40, 0]
-          },
-          {
-            duration: 1,
-            delay: 0.3,
-            easing: spring({ damping: 15 })
-          }
-        )
-      }, { margin: "-10%" })
-    }
-    onMounted(async () => {
+          { opacity: [0, 1], y: [40, 0] },
+          { duration: 1, delay: 0.3, easing: spring({ damping: 15 }) }
+        );
+      });
+    };
+
+    const refreshFeedback = async () => {
       try {
-        feedbackList.value = await fetchFeedback()
-        initializeAnimations()
+        feedbackList.value = await fetchFeedback();
       } catch (error) {
-        console.error('Error loading feedback:', error)
+        console.error('Error refreshing feedback:', error);
       }
-    })
+    };
+
+    onMounted(async () => {
+      eventBus.on('feedback-submitted', refreshFeedback);
+      refreshFeedback();
+      initializeAnimations();
+    });
+
+    onUnmounted(() => {
+      eventBus.off('feedback-submitted', refreshFeedback);
+    });
 
     const feedbackChunks = computed(() => {
-      const chunks = []
+      const chunks = [];
       for (let i = 0; i < feedbackList.value.length; i += itemsPerSlide) {
-        // Ensure exactly 2 items per chunk
-        const chunk = feedbackList.value.slice(i, i + itemsPerSlide)
-        // If chunk has less than 2 items, pad with empty feedback
+        const chunk = feedbackList.value.slice(i, i + itemsPerSlide);
         while (chunk.length < itemsPerSlide) {
           chunk.push({
             id: `empty-${chunk.length}`,
             comment: '',
-            name: ''
-          })
+            name: '',
+          });
         }
-        chunks.push(chunk)
+        chunks.push(chunk);
       }
-      return chunks
-    })
+      return chunks;
+    });
 
     const getInitials = (name) => {
       return name
         ? name
-          .split(' ')
-          .map(word => word[0])
-          .join('')
-          .toUpperCase()
-          .slice(0, 2)
-        : ''
-    }
+            .split(' ')
+            .map((word) => word[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2)
+        : '';
+    };
 
     return {
       feedbackChunks,
       getInitials,
       containerRef,
-      titleRef,    
-      carouselRef  
-    }
-  }
-}
+      titleRef,
+      carouselRef,
+      refreshFeedback, // Expose this method for external triggers
+    };
+  },
+};
+
 </script>
 
 <style scoped>

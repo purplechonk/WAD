@@ -107,9 +107,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useToast } from '../../composables/useToast';
-import { storeFeedback } from '../../composables/footer';
+import { ref, onMounted } from 'vue'
+import { Toast } from 'bootstrap'
+import { storeFeedback } from "../../composables/footer";
+import { eventBus } from '../../composables/eventBus';
 
 export default {
   name: 'Footer',
@@ -139,7 +140,11 @@ export default {
     async submitFeedback() {
       try {
         await storeFeedback(this.feedbackText);
-        this.addToast('Thank you for your feedback!');
+        eventBus.emit('feedback-submitted');
+
+        if (this.toastInstance) {
+          this.toastInstance.show();
+        }
 
         // Clear the form fields
         this.feedbackText = '';
