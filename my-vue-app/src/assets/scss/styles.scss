@@ -1,0 +1,138 @@
+:root {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  //overflow: hidden; /* Prevents double scrollbars */
+}
+
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+  position: relative;
+  max-height: 100vh;
+}
+
+.xl-text {
+  font-size: 65px;
+}
+
+.header {
+  position: relative;
+  height: 600px;
+  margin-top: 0px;
+  padding-top: 0px;
+
+  .header-img {
+    object-fit: cover;  // Ensures the image is cropped and doesn't stretch
+    object-position: top center;  // Focus the crop on the top center of the image
+    width: 100%;
+    height: 100%;  // Ensures the height is standardized
+    border-radius: 10px;
+  }
+
+  .carousel-inner {
+    height: 400px;  // Adjust height to make image squarish (optional)
+  }
+
+  .header-content {
+    color: #fff;
+    // background-color: rgba(0, 0, 0, 0.7);  // Black background for the text
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    max-width: 90%;
+    h1 {
+      font-size: 50px;
+    }
+  }
+
+  .carousel-item img {
+    height: 400px;  // Fixed height for squarish images
+    object-fit: cover;  // Ensures image is cropped correctly
+    object-position: top center;  // Crop image to focus on the top middle
+  }
+}
+
+.vertical-decoration {
+  top: 12%;
+  width: 24px;
+}
+
+.hr-heading {
+  display: inline-block;
+  width: 3.5rem;
+  height: 0.125rem;
+  margin-top: 0.625rem;
+  border: none;
+  background-color: var(--bs-primary);
+  opacity: 1;
+}
+
+.navbar {
+  transition: all 0.5s ease-in-out;
+  margin-top:0;
+  margin-bottom: 0;  // Remove margin under navbar
+  padding-bottom: 0; // Remove padding under navbar
+  padding-top:0;
+}
+
+// @media (max-width: 991px) {
+//   .navbar {
+//     z-index: 1000;
+//   }
+  
+//   .navbar-collapse {
+//     z-index: 1001;
+//   }
+  
+//   /* Ensure dropdown menu appears above filter */
+//   .navbar-collapse.show,
+//   .navbar-collapse.collapsing {
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     right: 0;
+//   }
+// }
+
+// Ensure more specific CSS in case of conflicts
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #8c52ff;
+  transition: color 0.3s ease;
+}
+
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+@keyframes pulse-border {
+  0% {
+    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+    opacity: 0;
+  }
+}
+
+
+
+
+
