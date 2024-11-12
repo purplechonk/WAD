@@ -1,7 +1,7 @@
 <!-- components/General/Toast.vue -->
 <template>
     <teleport to="body">
-      <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 2006;">
+      <div class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 2006;">
         <TransitionGroup name="fade" class="toast-group">
           <div
             v-for="toast in toasts"
@@ -61,14 +61,14 @@
   }
   
   .fade-enter-active {
-    animation: toast-in-left 0.7s ease-in-out;
+    animation: toast-in-right 0.7s ease-in-out;
   }
   
   .fade-leave-active {
     animation: toast-out 0.7s ease-in-out both;
   }
   
-  @keyframes toast-in-left {
+  @keyframes toast-in-right {
     0% {
       transform: translateX(-100%);
       opacity: 0;
