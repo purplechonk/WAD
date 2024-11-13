@@ -854,7 +854,7 @@ p.venue-value {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.8rem;
 }
 
 .small-modal-content h3 {
