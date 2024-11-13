@@ -235,9 +235,10 @@ const fetchUserEvents = () => {
 
         // Fetch saved events
         let savedEventsList = await fetchEvents(savedEventIds);
-        savedEvents.value = savedEventsList.filter(event => event.parsed_end_date > CURRENT_DATE).sort((a, b) =>
+        savedEvents.value = savedEventsList.sort((a, b) =>
           a.parsed_start_date - b.parsed_start_date
         );
+
 
 
       } else {
