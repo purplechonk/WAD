@@ -48,7 +48,7 @@
     display: flex;
     flex-direction: column-reverse;
     gap: 0.5rem;
-    z-index: 1024;
+    z-index: 1022;
   }
   
   .toast-group {
@@ -59,6 +59,7 @@
   
   .toast {
     margin: 0 !important; 
+    z-index: 1022;
   }
   
   .fade-enter-active {
