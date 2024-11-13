@@ -30,15 +30,6 @@
     <div class="row justify-content-center mh-25">
         <Preference/>
     </div>
-
-    <!-- Logout Button Row -->
-    <div class="row mt-4">
-      <div class="col-12 d-flex justify-content-center">
-        <div class="p-2">
-          <LogoutButton/>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
