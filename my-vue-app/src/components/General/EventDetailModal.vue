@@ -894,6 +894,7 @@ p.venue-value {
   }
 
   .card__img_info {
+    background: #DEDCF4;
     height: 70vh;
     width: auto;
   }
@@ -984,12 +985,13 @@ p.venue-value {
 /* super large screens with tallll heights */
 @media screen and (min-width: 1441px) and (min-height: 750px) {
   .modal-content {
-    width: 55vw;
-    height: 70vh;
+    width: 50vw;
+    height: 80vh;
   }
 
   .card__img_info {
-    height: 70vh;
+    background: #DEDCF4;
+    height: 80vh;
     width: auto;
   }
 
@@ -1026,6 +1028,7 @@ p.venue-value {
   }
 
   .card__img_info {
+    background: #DEDCF4;
     width: 35vw;
     height: 80vh;
     object-fit: cover;
@@ -1117,13 +1120,13 @@ p.venue-value {
 /* Large screens (1201px - 1400px) AND TALL HEIGHTS */
 @media screen and (min-width: 1201px) and (max-width: 1440px) and (min-height: 951px) {
   .modal-content {
-    width: 55vw;
-    height: 60vh;
+    width: 50vw;
+    height: 70vh;
   }
 
   .card__img_info {
     background: #DEDCF4;
-    height: 60vh;
+    height: 70vh;
     width: auto;
   }
 
@@ -1254,13 +1257,13 @@ p.venue-value {
 @media screen and (min-width: 993px) and (max-width: 1200px) and (min-height: 1050px) {
   .modal-content {
     width: 50vw;
-    height: 50vh;
+    height: 70vh;
   }
 
   .card__img_info {
     background: #DEDCF4;
     width: 40vw;
-    height: 50vh;
+    height: 70vh;
   }
 
   .modal-body {
