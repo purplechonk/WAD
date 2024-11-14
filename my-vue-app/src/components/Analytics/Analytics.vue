@@ -6,13 +6,13 @@
         <div class="row g-4">
           <div class="col-12">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <div class="col-lg-8 col-12 mb-2">
+              <div class="col-lg-8 col-12 mb-2 animate__animated animate__fadeInDown">
                 <h1 class="display-4 fw-bold text-primary">Event Analytics</h1>
                 <p class="text-muted lead mb-0">Gain insights into SMU events, track your participation, and celebrate
                   your achievements with detailed analytics.</p>
               </div>
               <!-- Category Filter Dropdown -->
-              <div class="bg-white rounded shadow-sm p-3 col-lg-3 col-12" style="min-width: 250px;">
+              <div class="bg-white rounded shadow-sm p-3 col-lg-3 col-12 enterRight" style="min-width: 250px;">
                 <label for="category" class="form-label text-muted small mb-1">Filter by Category:</label>
                 <select id="category" class="form-select" v-model="selectedCategory" @change="filterEventsByCategory"
                   aria-label="Filter events by category">
@@ -26,7 +26,7 @@
           </div>
 
           <!-- Charts Row -->
-          <div class="col-12 col-lg-7 order-2 order-lg-1">
+          <div class="col-12 col-lg-7 order-2 order-lg-1 enterLeft">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h3 class="h4 fw-bold mb-4">Number of Events Monthly</h3>
@@ -40,7 +40,7 @@
           </div>
 
           <!-- Top 5 CCAs Column -->
-          <div class="col-12 col-lg-5 order-1 order-lg-2">
+          <div class="col-12 col-lg-5 order-1 order-lg-2 enterRight">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h3 class="h4 fw-bold mb-4">Top 5 CCAs</h3>
@@ -90,17 +90,17 @@
         <!-- Stats Cards Row -->
         <div class="row g-4 mb-4">
 
-          <h1 class="display-6 fw-bold mb-2 text-primary">Personal Insights</h1>
+          <h1 class="display-6 fw-bold mb-2 text-primary animate__animated animate__fadeIn">Personal Insights</h1>
 
-          <div class="col-12 col-md-4">
-            <div class="card border-0 rounded shadow bg-white h-100">
+          <div class="col-12 col-md-4 enterLeft">
+            <div class="card border-0 rounded shadow bg-white h-100 ">
               <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
                   <i class="fas fa-calendar-check fs-4" style="color: #8257ff;"></i>
                   <span class="text-muted">Total events attended</span>
                 </div>
 
-                <div class="d-flex flex-column align-items-start justify-content-center flex-grow-1 my-4">
+                <div class="d-flex flex-column align-items-start justify-content-center flex-grow-1 my-4 ">
                   <h2 class="display-3 fw-bold mb-0 text-dark">
                     <animated-counter :value="userStats.totalEvents" :duration="3000" />
                   </h2>
@@ -110,7 +110,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 animate__animated animate__fadeIn">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
@@ -129,7 +129,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 enterRight">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4 d-flex flex-column h-100">
                 <div class="d-flex align-items-center gap-2">
@@ -150,7 +150,7 @@
         <!-- Analytics Charts Row -->
         <div class="row g-4">
           <!-- Top CCAs Chart -->
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-6 enterLeft">
             <div class="card border-0 rounded shadow bg-white h-100">
               <div class="card-body p-4">
                 <h4 class="fw-bold mb-4">My Top CCAs</h4>
@@ -163,7 +163,7 @@
 
           <!-- Favorite Categories Chart -->
           <div class="col-12 col-lg-6">
-            <div class="card border-0 rounded shadow bg-white h-100">
+            <div class="card border-0 rounded shadow bg-white h-100 enterRight">
               <div class="card-body p-4">
                 <h4 class="fw-bold mb-4">My Top Categories</h4>
                 <div class="ratio ratio-16x9">
@@ -307,4 +307,37 @@ export default {
 .list-group-item {
   cursor: pointer;
 }
+
+@keyframes enterLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes enterRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.enterLeft {
+  animation: enterLeft 1.0s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.enterRight {
+  animation: enterRight 1.0s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
 </style>
