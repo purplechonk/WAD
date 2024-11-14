@@ -29,11 +29,15 @@ sLoop is a web application built using Vue 3 and Vite.
 ## Dummy Google Account for Access:
 1. **Sign in via Google**
     You will be prompted with the Google Sign In pop-up upon login. Please use the following account:
+    ```
     chonkyisnotchonky@gmail.com
     Chonky_Is_A_cutie_PIE
+    ```
 
 ## Usage Notes:
 3D Map Pop-up Notice: When accessing the 3D Map feature for the first time, a banner will appear indicating that it is an experimental feature.
 This pop-up is for development purposes only and appears in the following files:
+    ```
     ./components/General/Map.vue
     ./composables/googleMapHelper
+    ```
