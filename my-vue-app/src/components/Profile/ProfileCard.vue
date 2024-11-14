@@ -17,7 +17,7 @@
     <!-- PFP + Student -->
     <div class="row mt-2 mb-2">
       <div class="col-6">
-        <img class="img-fluid" src="../../assets/images/chonky.jpg" alt="Profile Picture">
+        <img class="img-fluid" src="../../assets/images/profile.png" alt="Profile Picture">
       </div>
       <div class="col-6">
         <h4 class="text-primary font-monospace">STUDENT</h4>
