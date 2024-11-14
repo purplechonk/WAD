@@ -985,14 +985,14 @@ p.venue-value {
 /* super large screens with tallll heights */
 @media screen and (min-width: 1441px) and (min-height: 750px) {
   .modal-content {
-    width: 50vw;
+    width: auto;
     height: 80vh;
   }
 
   .card__img_info {
     background: #DEDCF4;
     height: 80vh;
-    width: auto;
+    width: 40vw;
   }
 
   .modal-body {
@@ -1120,7 +1120,7 @@ p.venue-value {
 /* Large screens (1201px - 1400px) AND TALL HEIGHTS */
 @media screen and (min-width: 1201px) and (max-width: 1440px) and (min-height: 951px) {
   .modal-content {
-    width: 50vw;
+    width: 40vw;
     height: 70vh;
   }
 
