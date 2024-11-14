@@ -1,6 +1,6 @@
 <template>
   <div class="container my-4 p-3 justify-content-between">
-    <div class="jumbotron jumbotron-fluid animate__animated animate__fadeInLeft">
+    <div class="jumbotron jumbotron-fluid animate__animated animate__fadeInDown">
       <div class="container">
         <div class="d-flex">
           <h1 class="display-4 fw-bold text-primary mb-0">Welcome, {{ userData.name }}✨</h1>
@@ -14,14 +14,14 @@
         
     <!-- First Row: Student Card and Timetable Placeholder -->
     <div class="row justify-content-center">
-      <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4 col-xl-4 p-3 d-flex">
+      <div class="col-xs-10 col-sm-8 col-md-5 col-lg-4 col-xl-4 p-3 d-flex enterLeft">
         <div class="w-100 d-flex align-items-center justify-content-center">
           <ProfileCard/>
         </div>
       </div>
 
       <!-- Timetable Placeholder -->
-      <div class="col-xs-10 col-sm-10 col-md-6 col-lg-8 col-xl-8 p-3 ">
+      <div class="col-xs-10 col-sm-10 col-md-6 col-lg-8 col-xl-8 p-3 enterRight">
         <Timetable/>
       </div>
     </div>
@@ -29,15 +29,6 @@
     <!-- Second Row: Additional Bento Box -->
     <div class="row justify-content-center mh-25">
         <Preference/>
-    </div>
-
-    <!-- Logout Button Row -->
-    <div class="row mt-4">
-      <div class="col-12 d-flex justify-content-center">
-        <div class="p-2">
-          <LogoutButton/>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -58,3 +49,37 @@ onMounted(async () => {
   userData.value = await getUserDataFromFirestore();
 });
 </script>
+
+<style>
+@keyframes enterLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes enterRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.enterLeft {
+  animation: enterLeft 1.0s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.enterRight {
+  animation: enterRight 1.0s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+</style>

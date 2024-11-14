@@ -110,6 +110,7 @@
 import { ref, onMounted } from 'vue';
 import { useToast } from '../../composables/useToast';
 import { storeFeedback } from '../../composables/footer';
+import { eventBus } from '../../composables/eventBus';
 
 export default {
   name: 'Footer',
@@ -140,6 +141,7 @@ export default {
       try {
         await storeFeedback(this.feedbackText);
         this.addToast('Thank you for your feedback!');
+        eventBus.emit('feedback-submitted');
 
         // Clear the form fields
         this.feedbackText = '';

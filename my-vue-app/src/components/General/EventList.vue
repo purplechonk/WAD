@@ -2,7 +2,7 @@
   <div class="event-list mb-1">
     <div class="card-container">
       <div class="card__container card-base">
-        <EventCard v-for="event in events" :key="event.id" :event="event" @show-details="openEventDetails"/>
+        <EventCard class="fadeInCard" v-for="event in events" :key="event.id" :event="event" @show-details="openEventDetails"/>
       </div>
     </div>
     
@@ -38,7 +38,7 @@ const closeModal = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .event-list {
   margin-top: 0;
   width: 100%;
@@ -64,6 +64,29 @@ const closeModal = () => {
   justify-content: center;
   width: 100%;
   max-width: 1400px; /* Increased to accommodate wider cards */
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInCard {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@for $i from 0 through 40 {
+  .fadeInCard:nth-child(#{$i + 1}) {
+    animation-delay: #{$i * 0.1}s;
+  }
 }
 
 p {

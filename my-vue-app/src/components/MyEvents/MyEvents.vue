@@ -4,7 +4,7 @@ myevents.vue
     <!-- Hero Section with Gradient Background -->
     <div class="mt-5">
       <div class="container">
-        <div class="text-center">
+        <div class="text-center animate__animated animate__fadeInDown animate__fast">
           <h1 class="display-4 fw-bold" style="color: #8257ff;">Your Events</h1>
           <p class="text-muted lead">Manage your saved, upcoming, and past events effortlessly.</p>
         </div>
@@ -32,7 +32,7 @@ myevents.vue
       <!-- Events Content -->
       <div v-if="!loading && !error">
         <!-- Event Type Tabs -->
-        <ul class="nav nav-tabs nav-fill mb-4 gap-2 fw-bold h4" role="tablist">
+        <ul class="nav nav-tabs nav-fill mb-4 gap-2 fw-bold h4 animate__animated animate__fadeIn animate__fast" role="tablist">
           <li class="nav-item" id="saved_events">
             <button class="nav-link rounded-3 px-4" :class="{ active: openSection === 'saved' }"
               @click="toggleSection('saved')" style="color: #8257ff;">
@@ -63,7 +63,7 @@ myevents.vue
             class="tab-pane fade" :class="{ 'show active': openSection === type }">
             <div v-if="events.length" class="row g-4">
               <div v-for="event in events" :key="event.id" class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm hover-lift bg-secondary" @click="showEventDetails(event)"
+                <div class="card h-100 border-0 shadow-sm hover-lift bg-secondary flipIn" @click="showEventDetails(event)"
                   style="cursor: pointer;">
                   <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -113,10 +113,6 @@ myevents.vue
     @rsvp-cancelled="handleRSVPCancel" />
   </div>
 </template>
-
-
-
-
 
 
 <script setup>
@@ -235,9 +231,10 @@ const fetchUserEvents = () => {
 
         // Fetch saved events
         let savedEventsList = await fetchEvents(savedEventIds);
-        savedEvents.value = savedEventsList.filter(event => event.parsed_end_date > CURRENT_DATE).sort((a, b) =>
+        savedEvents.value = savedEventsList.sort((a, b) =>
           a.parsed_start_date - b.parsed_start_date
         );
+
 
 
       } else {
@@ -462,6 +459,39 @@ onUnmounted(() => {
   height: 20px;
 }
 
+@keyframes flipIn {
+  from {
+    transform: perspective(120rem) rotate3d(1, 0, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  35% {
+    transform: perspective(120rem) rotate3d(1, 0, 0, -30deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: perspective(120rem) rotate3d(1, 0, 0, 15deg);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+
+  75% {
+    transform: perspective(120rem) rotate3d(1, 0, 0, -10deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  to {
+    transform: perspective(120rem);
+    opacity: 1;
+  }
+}
+
+.flipIn {
+  backface-visibility: visible !important;
+  animation: flipIn 0.8s;
+}
 
 @media (max-width: 768px) {
   .event-row {
